@@ -2,11 +2,35 @@
 <!-- DO NOT EDIT!! - Auto generated file->
 <!-- To add modifications, create a separate file and include in theme.liquid after {% include swymSnippet %}-->
 {% endcomment %}
-<link rel="dns-prefetch" href="https://swymstore-v3premium-01.swymrelay.com" crossorigin>
-<link rel="dns-prefetch" href="//swymv3premium-01.azureedge.net/code/swym-shopify.js">
-<link rel="preconnect" href="//swymv3premium-01.azureedge.net/code/swym-shopify.js">
+<link rel="dns-prefetch" href="https://store.swymrelay.com" crossorigin>
+<link rel="dns-prefetch" href="//swymprod.azureedge.net/code/swym-shopify.js">
+<link rel="preconnect" href="//swymprod.azureedge.net/code/swym-shopify.js">
 <script id="swym-snippet">
+
   window.swymLandingURL = document.URL;
+  (function loadSwymFaster(){
+    var elScripts = document.querySelectorAll("script:not([src]):not([class]):not([id])"), scriptLoadScript, scriptLoadScriptText;
+    for(var i = 0; i < elScripts.length; i++){
+      var elScript = elScripts[i];
+      // TODO change swym- check to script metafield
+      if(elScript.innerText.indexOf('swym-shopify.js') > -1){
+        scriptLoadScriptText = elScript.innerText;
+        break;
+      }
+    }
+    if(scriptLoadScriptText) {
+      var startStr = 'var urls =';
+      var startIdx = scriptLoadScriptText.indexOf(startStr);
+      var endStr = '"];';
+      var endIdx = scriptLoadScriptText.indexOf(endStr,startIdx);
+      var listOfUrlsText = scriptLoadScriptText.slice(startIdx + startStr.length, endIdx + endStr.length);
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = ({{ shop.metafields.swym.js_path | json }} || "//swymprod.azureedge.net/code/swym-shopify.js") + "?shop={{shop.permanent_domain | url_encode}}";
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+  })();
   window.swymCart = {{ cart | json }};
   window.swymPageLoad = function(){
     window.SwymProductVariants = window.SwymProductVariants || {};
@@ -86,8 +110,6 @@
     })();
   }
   window.swymCustomerId = {% if customer %}"{{ customer.id }}"{% else %}null{% endif %};
-  window.swymCustomerExtraCheck = {% if customer and customer.tags.size > 0 %}true{% else %}null{% endif %};
-
   var swappName = ({{ shop.metafields.swym.app | json }} || "Wishlist");
   var swymJSObject = {
     pid: {{ shop.metafields.swym.pid | json }} || "cl2Ww35r/wv8GUTJC+dUYnwndWdyi5j2LN33YpCVGpQ=",
@@ -142,20 +164,6 @@
     {% endif %}
   }
 </script>
-{% if customer %}
-<script id="swym-wrap-login-handler">
-window.SwymCallbacks = window.SwymCallbacks || [];
-window.SwymCallbacks.push(function(swat) {
-  if(swat.isAlreadyAuth()) {
-    var postLoginRedirect = swat.storage.get(swat.key.POSTLOGINRD);
-    if(postLoginRedirect && postLoginRedirect != window.location) {
-      swat.storage.remove(swat.key.POSTLOGINRD);
-      window.location = postLoginRedirect;
-    }
-  }
-});
-</script>
-{% endif %}
 <style id="safari-flasher-pre"></style>
 <script>
   if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
@@ -194,6 +202,6 @@ window.SwymCallbacks.push(function(swat) {
 <style id="swym-product-view-defaults">
   /* Hide when not loaded */
   .swym-button.swym-add-to-wishlist-view-product:not(.swym-loaded){
-    display: none;
+    display: block;
   }
 </style>

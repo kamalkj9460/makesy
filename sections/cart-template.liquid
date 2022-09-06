@@ -45,7 +45,7 @@
       </header>
 
       <div class="PageContent">
-        <form action="/checkout" method="POST" class="Cart Cart--expanded" novalidate>
+        <form action="{{ routes.cart_url }}" method="POST" class="Cart Cart--expanded" novalidate>
           <input type="hidden" name="attributes[collection_mobile_items_per_row]" value="">
           <input type="hidden" name="attributes[collection_desktop_items_per_row]" value="">
 

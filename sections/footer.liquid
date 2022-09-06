@@ -54,7 +54,7 @@
             {%- for menus in linklists.footer.links -%}
             {%- assign menu_title = menus.title | strip -%}
                 <div class="accordian__menu_items">
-                    <h3 class="menu_item">{{ menus.title}}</h3>
+                    <h3 class="menu_item --open">{{ menus.title}}</h3>
                     <ul>
                         {%- for l in menus.links -%}
                         <a href="{{ l.url}}">
@@ -74,7 +74,9 @@
             <div class="bottombar-center-items">
                 <a href="/pages/the-privacy-policy">policies</a>
                 <a href="/pages/shipping-returns">shipping & returns</a>
-                <a href="https://www.trustpilot.com/review/woodenwick.com?utm_medium=trustbox&utm_source=Mini">trustpilot</a>
+                <!-- <a href="/pages/the-privacy-policy">cookie policy</a> -->
+                <a
+                    href="https://www.trustpilot.com/review/woodenwick.com?utm_medium=trustbox&utm_source=Mini">trustpilot</a>
             </div>
             <p class="bottombar-right-para">&copy; makesy 2022</p>
         </div>

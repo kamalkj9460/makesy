@@ -1,0 +1,178 @@
+{% assign tier_data = shop.metafields.discount-calc.discount-tiers | json %}
+{% assign bulk_data = shop.metafields.global.bulk_discount_msg | json %}
+
+<script>
+  var tier_data = '{{tier_data}}';
+  //// GET selector from metafield to show the msg bulk discount
+  function get_selector_from_metafield() {
+    var product_type = $('.ProductMeta').attr("data-product-type");
+    var pack_size = $("#pack-size") ? $("#pack-size").html() : "";
+    var tags = "";
+    if ($('[CurrentWickTags]').length)
+      tags = $('[CurrentWickTags]').attr("CurrentWickTags");
+    else
+      tags = $('.ProductMeta').attr("data-product-tags");
+
+    var packSize_regularProduct = $('option[selected="selected"]').attr("data_title") ? $('option[selected="selected"]').attr("data_title") : "";
+    var packsizeVessels = packSize_regularProduct.includes('Single unit') ? true : false;
+    packSize_regularProduct = packSize_regularProduct.substring(packSize_regularProduct.length - 5)
+    var variant_id = $('option[selected="selected"]').val();
+    var variant_title = $('option[selected="selected"]').attr("data_title");
+    var variant_title_wicks = $('option[selected="selected"]').attr("data_title");
+    var is_in_collection = $('.ProductMeta').attr("data-product-collection-bulk-discount");
+
+    if (product_type == 'lids' || product_type == 'bottles' || product_type == 'reeds') {
+      return "vessels_lids_bottles_reeds";
+    } else if (variant_id == "35792567238810" || variant_id == "35792567238810") {
+      return "35792567238810_35792567369882";
+    }
+    else if (tags.includes('ready-made-custom-wick-t1')) {
+      return "ready_made_custom_wick_t1";
+    }
+    else if ((tags.includes('wick-discount') && pack_size == '1000') || (tags.includes('wick-discount') && packSize_regularProduct.includes('1000'))) {
+      return "wick-discount";
+    }
+    else if ((tags.includes('posh-vessels') && pack_size == '6') || (tags.includes('posh-vessels') && packSize_regularProduct.includes('6'))) {
+      return "posh-vessels";
+    }
+    else if ((tags.includes('8oz-auras') && pack_size == '12') || (tags.includes('8oz-auras') && packSize_regularProduct.includes('12'))) {
+      return "8oz-auras";
+    }
+    else if ((tags.includes('apothecary_jar') && pack_size == '12') || (tags.includes('apothecary_jar') && packSize_regularProduct.includes('12'))) {
+      return "apothecary_jar";
+    }
+    else if ((tags.includes('double_glass') && pack_size == '12') || (tags.includes('double_glass') && packSize_regularProduct.includes('12'))) {
+      return "double_glass";
+    }
+
+    else if (product_type == 'packaging') {
+        console.log(variant_id)
+        if(['41892070916250', '41937269489818', '9380845584538', '33744304570522', '33744304668826', '41892872257690', '9368354193562', '41893458837658', '9368461115546'].includes(variant_id)) {
+            return "new_packaging";
+        }
+      return "packaging";
+    }
+    else if (variant_id == "35791309701274" || variant_id == "35791309602970") {
+      return "35791309701274_35791309602970";
+    }
+    else if (product_type == 'scentables') {
+      return "scentables";
+    }
+    else if (variant_title == 'Single Unit' || variant_title == 'Single unit' || packsizeVessels) {
+      return "none";
+    }
+    else if (is_in_collection != "") {
+      return is_in_collection;
+    }
+
+
+    else {
+      return "none";
+    }
+  }
+
+
+  function get_msg_discountbulk_tabs(tag) {
+    var json = JSON.parse('{{bulk_data}}');
+    return json['bulk_discount']['0'][tag];
+  }
+
+
+  function get_msg_text(qty) {
+
+
+    var product_type = $('.ProductMeta').attr("data-product-type");
+    var list = ["Onyx", "marble", "Refill", "cloche", "Matte Aura", "Iridescent Aura", "Metallic Aura", "Translucent Aura", "Matte Glam", "Metallic Glam", "Matte Metal", "Metallic Metal", "18oz apothecary", "9oz apothecary", "8oz apothecary", "8oz matte auras", "8oz metallic auras", "double glass", "unicorn posh", "clear posh", "posh"];
+    var tags = $('.ProductMeta') ? $('.ProductMeta').attr("data-product-tags") : $('[CurrentWickTags]').attr("CurrentWickTags");
+
+    for (i = 0; i < list.length; i++) {
+      if (tags.includes(list[i])) {
+        var cont = get_msg_discountbulk_tabs(list[i]);
+
+        cont = cont.replaceAll("*", "<br>");
+        $('.Content_bulk_discount_msg').html(cont);
+        $('.Content_bulk_discount').css({ display: "block" });
+        break;
+      }
+    }
+
+    selector = get_selector_from_metafield();
+    console.log('selector:', selector)
+    if (selector == 'new_packaging') {
+        return document.getElementById('msg_to_show').textContent = "Cart will reflect any bulk discount";
+    }
+    console.log(JSON.parse(tier_data))
+
+    if (selector == 'none') {
+      $('#msg_to_show').html('');
+      return 0;
+    }
+    qty = Number(qty);
+    var rounded_qty;
+    var json = JSON.parse(tier_data);
+    var tiers = json[selector].tiers;
+    var tierQTYs = Object.keys(tiers);
+    for (var i = 0; i < tierQTYs.length; i++) {
+      var qnt = qty;
+      rounded_qty = Number(tierQTYs[i]); var dsc = "";
+      if (!json.hasOwnProperty(selector) || !json[selector].tiers.hasOwnProperty(rounded_qty)) {
+      } else {
+        dsc = Number(json[selector].tiers[rounded_qty].discount) * 100;
+        dsc = Math.trunc(dsc);
+      }
+      if (qnt < Number(tierQTYs[i])) {
+        var n = Number(tierQTYs[i]) - qnt;
+        $('#msg_to_show').html("Add " + n + " more for " + dsc + "% bulk discount");
+        return false;
+      }
+      else {
+
+        $('#msg_to_show').html(" " + dsc + "% bulk discount");
+      }
+
+    }
+  }
+
+  function getDiscountAmount(selector, qty) {
+
+    if (selector == 'none') {
+      return 0.00;
+    }
+    qty = Number(qty);
+    var rounded_qty;
+    var json = JSON.parse(tier_data);
+    var tiers = json[selector].tiers;
+    var tierQTYs = Object.keys(tiers);
+    for (var i = 0; i < tierQTYs.length; i++) {
+      if (qty >= tierQTYs[i]) {
+        rounded_qty = Number(tierQTYs[i]);
+      }
+    }
+    if (!json.hasOwnProperty(selector) || !json[selector].tiers.hasOwnProperty(rounded_qty)) {
+      return 0.00;
+    } else {
+      return json[selector].tiers[rounded_qty].discount;
+    }
+  }
+  function update_msg_discount_bulk() {
+    qty_selector = document.querySelector('div.QuantitySelector.QuantitySelector--large input');
+    qty = qty_selector.value;
+    get_msg_text(qty);
+    var discountSelector = get_selector_from_metafield();
+    if (window.wickDiscountTag) {
+      discountSelector = window.wickDiscountTag;
+    }
+    qty = qty_selector.value;
+    var discount = getDiscountAmount(discountSelector, qty);
+
+    window.discount = discount;
+
+  }
+
+
+  /////ON QTY CHANGE UPDATE MSGS (discount bulk in red + tabs discount bulk if exist)  
+  $('.QuantitySelector__CurrentQuantity').change(function () {
+    update_msg_discount_bulk();
+  });
+
+</script>

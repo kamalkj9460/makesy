@@ -13,16 +13,8 @@
 {%for product in collections[collection.handle].products%}
 <div class="wishl_icon_{{product.id}}" style="display:none;">
   {% render 'swym-product-view', product: product %}
-  <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
-    <button 
-        data-with-epi="true" 
-        class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
-        data-swaction="addToWishlist" 
-        data-product-id="{{product.id | json}}" 
-        data-variant-id="{{product.variants[0].id}}" 
-        data-product-url="{{ shop.url }}{{ product.url }}">
-    </button>
-</div> 
+  <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button>
+  </div> 
 {%endfor%}
 {% endpaginate %}
 {% section 'hero-makesy-category' %}

@@ -101,7 +101,7 @@ https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
 {% if itemFor == "right_column" and hasBulkDiscounts %}
     <accordian-nav class="c-accordian__menu PDP__desktop">
         <div class="accordian__menu_items">
-            <h3 class="menu_item">bulk discounts</h3>
+            <h3 class="menu_item --open">bulk discounts</h3>
             <div>
                 {% if product.handle contains 'wick' %}
                     <p>Buy 10, Receive 10% off for 10 Packs of 1000</p>
@@ -123,7 +123,7 @@ https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
 {% endif %}
 <!-- Left Column of PDP product page shows bulk discounts menu -->
 {% if itemFor != "right_column" %}
-    <accordian-nav class="c-accordian__menu"> 
+    <accordian-nav class="c-accordian__menu">
         {%- if product.metafields.product.details -%}
             <div class="accordian__menu_items">
                 <h3 class="menu_item --open">more information</h3>
@@ -139,7 +139,7 @@ https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
         <!-- Bulk Discounts -->
         {% if hasBulkDiscounts %}
             <div class="accordian__menu_items  PDP__mobile">
-                <h3 class="menu_item">bulk discounts</h3>
+                <h3 class="menu_item --open">bulk discounts</h3>
                 <div>
                     <p>
                         {% if product.handle contains 'wick' %}
@@ -163,7 +163,7 @@ https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
         <!-- Helpful rescources -->
         {%- if tabs[resources_key] -%}
             <div class="accordian__menu_items">
-                <h3 class="menu_item">helpful resources</h3>
+                <h3 class="menu_item --open">helpful resources</h3>
                 <div class="PDP-helpful_resources">
                     {{ tabs[resources_key] | newline_to_br }}
                 </div>
@@ -177,7 +177,7 @@ https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
         {% if product.tags contains "functional-fragrance" %}
             {% assign index = 0 %}
             <div class="accordian__menu_items">
-                <h3 class="menu_item">functional fragrance</h3>
+                <h3 class="menu_item --open">functional fragrance</h3>
                 <div>
                     {% for src in function_fragrances %}
                         {% for tag in product.tags %}
@@ -203,7 +203,7 @@ https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
         <!-- Made Better -->
         {% if imgs.size > 0 %}
             <div class="accordian__menu_items">
-                <h3 class="menu_item">made better</h3>
+                <h3 class="menu_item --open">made better</h3>
                 <div class="PDP-made-better">
                     {% for link in imgs %}
                         <div class="PDP-icon-content">

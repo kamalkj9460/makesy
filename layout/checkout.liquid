@@ -118,6 +118,9 @@
                         </div>
                     </div>
                     {% endunless %}
+                    <script>
+                        console.log('content for layout:', {{content_for_layout | json}})
+                    </script>
 
                     {%- comment -%}END DEMO{%- endcomment -%}
 

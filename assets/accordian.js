@@ -1,40 +1,23 @@
-// @ts-nocheck
 class AccordianNav extends HTMLElement {
     constructor() {
         super();
         this.current = null
-        this.oldHeight = 0
-        this.openOnPageLoad = this.querySelector('.--open')
         this.h3 = this.querySelectorAll('.menu_item');
- 
         if(!this.h3.length) return;
         for(let h3 of this.h3) h3.addEventListener('click', (event) => {
             this.showNav(event.target)
         });
-
         // Open nav on page load 
-        this.openOnPageLoad && this.showNav(this.openOnPageLoad)
-        this.onMutation()
+        this.showNav(this.h3[0])
     }
 
-    onMutation() {
-        const that = this
-        const observer = new MutationObserver(function(mutationList) {
-            const target = mutationList[0].target
-            if(window.innerWidth < 767) {
-                if(target.nodeName == "LI") {
-                    const accordianMenuItem = target.parentNode.parentNode
-                    const h3 = accordianMenuItem.children[0]
-     
-                    /* If menu item is open then allow the item to adjust height */
-                    if (that.current === accordianMenuItem) 
-                    accordianMenuItem.style.height = that.getTotalHeight(h3) + 'px'
-                }
-            }
-        });
-        observer.observe(this, {childList: true, subtree: true, characterDataOldValue: true});
+    getTotalHeight(target) {
+        this.startHeight = target.getBoundingClientRect().height
+        const styles = window.getComputedStyle(target.nextElementSibling)
+        const margin = parseFloat(styles['marginTop']) +
+                       parseFloat(styles['marginBottom']);
+        return Math.ceil(target.nextElementSibling.offsetHeight + margin + this.startHeight)
     }
-    
 
     /**
      * 
@@ -61,35 +44,19 @@ class AccordianNav extends HTMLElement {
 
     /**
      * 
-     * @param {HTMLElement} target element height to open nav to
-     */
-    getTotalHeight(target) {
-        this.startHeight = target.getBoundingClientRect().height
-        const styles = window.getComputedStyle(target.nextElementSibling)
-        const margin = parseFloat(styles['marginTop']) +
-                       parseFloat(styles['marginBottom']);
-        return Math.ceil(target.nextElementSibling.offsetHeight + margin + this.startHeight)
-    }
-
-    /**
-     * 
-     * @param {HTMLElement|Boolean} target target element either clicked on to open or close or element to have automatically open on page load
+     * @param {ClickEvent} event 
      * @type {(event: Event) => void}
      */
-    showNav(target=false) {
-
-        if(!target) return;
+    showNav(target) {
         const totalHeight = this.getTotalHeight(target)
         const nav = target.parentNode;
         
         if(target.tagName === "H3") {
-            
             // Nav open
             if(!this.current) {
                 this.rotateCross(nav, false, true)
                 this.current = nav
                 return nav.style.height = totalHeight + 'px'
-
             /* Nav open
             *  Current open nav closes
             */

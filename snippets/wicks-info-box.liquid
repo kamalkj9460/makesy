@@ -1,0 +1,91 @@
+<style>
+  .bl-card {
+    padding: 10px 28px 10px 18px;
+    margin-top: 10px;
+    background: #f9efe3;
+    {%- if product.type contains 'virtual-' -%}
+    display: none;
+    {%- endif -%}
+    
+  }
+
+  .bl-card .ProductForm__Label {
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+  .bl-card p,
+  .bl-card span {
+    font-size: 11.8px;
+    line-height: 20px;
+    letter-spacing: 0.1em;
+  }
+  .bl-card .bl-space {
+    padding-left: 19px;
+    padding-right: 2px;
+  }
+  .bl-card .bl3-5,
+  .bl-card .bl1-2,
+  .bl-card .bl1-3 {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 4px 6px 1px 0px;
+  }
+  .bl-card .bl3-5 span:first-child,
+  .bl-card .bl1-2 span:first-child,
+  .bl-card .bl1-3 span:first-child {
+    padding-left: 9px;
+    margin-left: 8px;
+  }
+  .bl-card .bl3-5 span:last-child,
+  .bl-card .bl1-2 span:last-child,
+  .bl-card .bl1-3 span:last-child {
+    padding-right: 9px;
+  }
+
+  @media screen and (min-width: 1290px) {
+    .bl-card {
+      width: 275px;
+      height: 322px;
+      padding: 28px;
+      margin: 43px 0 43px 43px;
+      position: relative;
+    }
+
+    .bl-card:after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border: rgb(221, 221, 221) 1px solid;
+    }
+
+    .bl-card .ProductForm__Label {
+      font-size: 16px;
+    }
+
+    .bl-card p,
+    .bl-card span {
+      font-size: 13px;
+    }
+
+  }
+
+  @media screen and (max-width: 1290px) {
+    .bl-card {
+      margin: 1.5em 0 1em 0;
+      -webkit-box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.28);
+      -moz-box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.28);
+      box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.28);
+    }
+  }
+</style>
+
+{% assign info = product.metafields.info-block %}
+{% assign key = 'content' %}
+{%if info[key] != "" %}
+  <div class="bl-card">
+    {{ info[key] }}
+  </div>
+{%endif%}

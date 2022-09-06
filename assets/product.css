@@ -44,7 +44,7 @@
 .PDP .accordian__menu_items a {
   color: #b8695b;
   text-decoration: underline;
-  /* display: block; */
+  display: block;
   -webkit-transition: color .2s ease-in-out,-webkit-text-decoration-color .2s ease-in-out;
   transition: color .2s ease-in-out,-webkit-text-decoration-color .2s ease-in-out;
   transition: color .2s ease-in-out,text-decoration-color .2s ease-in-out;

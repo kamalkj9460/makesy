@@ -71,15 +71,7 @@
                                             {% render 'swym-product-view', product: product %}
                               
                                             <h2 class="ProductItem__Title Heading">{{ product.title }}</h2>
-                                                <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
-                                                <button 
-                                                    data-with-epi="true" 
-                                                    class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
-                                                    data-swaction="addToWishlist" 
-                                                    data-product-id="{{product.id | json}}" 
-                                                    data-variant-id="{{product.variants[0].id}}" 
-                                                    data-product-url="{{ shop.url }}{{ product.url }}">
-                                                </button>
+                                                <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button>
                                             
                                         </div> 
                                         <div class="Product__price-stock">
@@ -345,7 +337,7 @@
                                 {% assign nowTimestamp = 'now' | date: '%s' %}
                                 {% assign diffSeconds = nowTimestamp | minus: dateStart %}
                                 {% assign diffDays = diffSeconds | divided_by: 3600 | divided_by: 24 %}
-                                {%- if diffDays<30 -%}
+                                {%- if diffDays<90 -%}
                                     <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued">NEW</span>
                                 {%- endif -%}
                             {%- endif -%}
@@ -382,15 +374,7 @@
                         </h2>
                         <div class="wishl-grid" data-id="{{product.id}}">
                             {% render 'swym-product-view', product: product %}
-                            <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
-                            <button 
-                                data-with-epi="true" 
-                                class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
-                                data-swaction="addToWishlist" 
-                                data-product-id="{{product.id | json}}" 
-                                data-variant-id="{{product.variants[0].id}}" 
-                                data-product-url="{{ shop.url }}{{ product.url }}">
-                            </button>
+                            <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button>
                         </div>
                     </div>
                     

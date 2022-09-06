@@ -1,0 +1,314 @@
+
+
+<div>
+  {%- for block in section.blocks -%}
+    {%- capture banner_content -%}
+      {%- comment -%}
+        Implementation note: this is an art driven image selection so it would have been better to be able to use the "picture" tag instead. However,
+        as the mobile and desktop image could have different aspect ratio, the image allocation space would not have work properly without explicitly
+        distinguishing the two images, hence the two containers.
+      {%- endcomment -%}
+
+      {%- if block.settings.image -%}
+
+        <div style="background-image: url('{{ block.settings.image | img_url: '1000x' }}');" class="Banner__ImageContainer ">
+          </div>
+
+          {% comment %} <img class="Banner__Image Image--lazyLoad hide-no-js"
+                data-src="{{ image_url }}"
+                data-optimumx="1.2"
+                data-widths="[400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200]"
+                data-sizes="auto"
+                alt="{{ block.settings.image.alt | escape }}"> {% endcomment %}
+
+          <noscript>
+            <img class="Banner__Image" src="{{ block.settings.image | img_url: '1000x' }}" alt="{{ block.settings.image.alt | escape }}">
+          </noscript>
+        </div>
+      {%- else -%}
+        <div class="Banner__ImageContainer {% if block.settings.apply_overlay %}Image--contrast{% endif %} {% if section.settings.show_fullscreen %}PlaceholderBackground{% endif %} PlaceholderSvg--dark">
+          {%- capture placeholder -%}{% cycle 'lifestyle-1', 'lifestyle-2' %}{%- endcapture -%}
+          {{ placeholder | placeholder_svg_tag: 'Banner__Image PlaceholderBackground__Svg' }}
+        </div>
+      {%- endif -%}
+
+      {%- capture Banner_content -%}
+
+        {%- if block.settings.subtitle != blank -%}
+          <h2 class="SectionHeader__SubHeading Heading u-h6">{{ block.settings.subtitle | escape }}</h2>
+        {%- endif -%}
+        
+        {%- if block.settings.title != blank -%}
+          <h2 class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{ block.settings.title | escape }}</h2>
+        {%- endif -%}
+        
+        {%- if block.settings.content != blank -%}
+          <div class="textblock">{{ block.settings.content }}</div>
+        {%- endif -%}
+
+        {%- if block.settings.button_1_text != blank and block.settings.button_2_text != blank -%}
+          {%- assign has_two_buttons = true -%}
+        {%- else -%}
+          {%- assign has_two_buttons = false -%}
+        {%- endif -%}
+
+        {%- if block.settings.button_1_text != blank or block.settings.button_2_text != blank -%}
+          <div class="SectionHeader__ButtonWrapper">
+                <a href="{{ block.settings.button_1_link }}" class="ButtonGroup__Item Button">{{ block.settings.button_1_text | escape }}</a>
+          </div>
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- if Banner_content != blank -%}
+        <div class="Banner__Content Banner__Content--{{ block.settings.content_position }}">
+            {{ Banner_content }}
+        </div>
+      {%- endif -%}
+    {%- endcapture -%}
+
+    {%- comment -%}This code allows to cover a common use case where merchant would like to have a clickable image{%- endcomment -%}
+
+    {%- if block.settings.button_1_text == blank and block.settings.button_1_link != blank -%}
+      <a href="{{ block.settings.button_1_link }}" id="Slide{{ block.id }}" class="Banner__Slide Carousel__Cell {% if forloop.first %}is-selected{% endif %}" {% if forloop.first %}style="visibility: visible"{% endif %} data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        {{- banner_content -}}
+      </a>
+    {%- else -%}
+      <div id="Slide{{ block.id }}" class="Banner__Slide Carousel__Cell {% if forloop.first %}is-selected{% endif %}" {% if forloop.first %}style="visibility: visible"{% endif %} data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        {{- banner_content -}}
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+<style>
+
+  .Banner__ImageContainer {
+    border: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 400px;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .Banner__Content--middleCenter {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50% !important;
+      transform: translate(-50%, -50%);
+  }
+
+  .textblock p {
+    text-align: center;
+    max-width: 840px;
+    padding: 0 20px;
+    margin: 10px auto 5px;
+    color: #000;
+    line-height: 20px;
+    font-size: 12pt;
+    font-family: 'Avenir', serif;
+    letter-spacing: .1em;
+    text-transform: initial;
+  }
+
+  .Banner__Content--middleCenter .SectionHeader__Heading {
+    word-spacing: 0;
+  }
+
+  h2.SectionHeader__Heading.SectionHeader__Heading--emphasize.Heading.u-h1 {
+      color: #000;
+      font-size: 38px;
+      margin-bottom: 0;
+      text-align: center;
+      padding: 0 20px;
+      line-height: 50px;
+      width: calc(100vw - 40px);
+      font-family: Sackers Gothic Std;
+      text-transform: lowercase;
+          font-weight: 300;
+  }
+
+    @media (max-width: 750px) { 
+      h2.SectionHeader__Heading.SectionHeader__Heading--emphasize.Heading.u-h1 {
+      line-height: 32px;
+      padding-top: 0px;
+      margin-bottom: 0;
+      letter-spacing: .2em;
+      font-weight: 300;
+      }
+
+      .textblock p {
+        display: none;
+      }
+  }
+
+  #section-{{ section.id }} .Heading,
+    #section-{{ section.id }} .flickity-page-dots {
+    color: {{ section.settings.text_color }};
+  }
+
+  #section-{{ section.id }} .Banner__Content {
+    background-color: {{ section.settings.text_box_background_color }};
+  }
+
+  #section-{{ section.id }} .textblock p {
+    color: {{ section.settings.text_color }};
+  }
+
+  #section-{{ section.id }} .Button {
+    color: {{ section.settings.button_color }};
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Wicks Banner",
+  "class": "shopify-section--slideshow",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_fullscreen",
+      "label": "Show full-screen images",
+      "info": "If enabled, images will be resized to fit the entire screen.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrow",
+      "label": "Show bottom arrow",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto rotate between slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "cycle_speed",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "unit": "sec",
+      "label": "Change slides every",
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "text_box_background_color",
+      "label": "Text / Link Background Color",
+      "default": "#FBC59D"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Link Text",
+      "default": "#111111"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1500 x 655px .jpg recommended"
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_overlay",
+          "label": "Apply overlay on image",
+          "info": "This can improve text visibility.",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "middleLeft",
+              "label": "Middle left"
+            },
+            {
+              "value": "middleCenter",
+              "label": "Middle center"
+            },
+            {
+              "value": "bottomLeft",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottomRight",
+              "label": "Bottom right"
+            }
+          ],
+          "default": "bottomLeft"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sub-Heading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Tell your story"
+        },
+        {
+		  "type": "richtext",
+		  "id": "content",
+		  "label": "Text",
+		  "default": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+		},
+        {
+          "type": "header",
+          "content": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_1_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "button_1_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Slideshow",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

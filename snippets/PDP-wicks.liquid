@@ -6,18 +6,13 @@
 {% assign clips_val = ""  %}
 {% assign type = product.type | downcase  %}  
 
-{% if type contains "custom-wicks" %}
-    {% assign hasInsertedClips = true %}
-    {% if product.handle contains 'x-wick' %}
-        {% assign hasInsertedClips = false %}
-    {% endif %}
-{% endif %}
+<script>console.log('product.handle ' ,{{ product.handle | json}})</script>
 
 <!-- Wick Clips Logic -->
-{% if type contains "custom" and hasInsertedClips%}
+{% if type contains "custom" %}
     {% assign clips_val = "40711737475226,41290185670810" %}
 {% comment %} X Wick Clips {% endcomment %}
-{% elsif type contains "x" or hasInsertedClips == false%}
+{% elsif type contains "x" %}
     {% assign clips_val = "41292246876314,41292246909082" %}
 {% comment %} Flat Wick Clips {% endcomment %}
 {% elsif product.handle == "the-tube-wick-01" %}
@@ -32,11 +27,12 @@
     {% assign clips_val = "41047750049946,41290176528538" %}
 {% endif %} 
 
+
 {% assign is_type = false %}
 {%for item in handle_collection  %}
     {% if item.type == product.type %}
-        {% assign is_type = true  %}
-    {% endif %}
+    {% assign is_type = true  %}
+    {%endif%}
 {% endfor %}
 
 <!-- Make the handle_collection array with just one item if is_type is true so it only loops once -->
@@ -112,6 +108,7 @@
             {% render 'wicks-flyout', products: products, size: size, type: type %}
             <!-- First Dropdown Wick Products if no parent collection -->
             <div class="product-form-size">
+                <script>console.log('firstProduct ' ,{{ firstProduct.variants[0] | json}})</script>
                 <button type="button" class="wick-variant-select btn-dropdown radios">
                     <input 
                         data-collection-id="{{collectionID}}"
@@ -194,13 +191,12 @@
                             type="radio" 
                             name="clips"
                             title="Separate"
-                            value="{% if hasInsertedClips %}41047750049946,41290176528538{% else %}{{- clips_val -}}{% endif %}"
+                            value="{% if type contains "custom-wicks" %}41047750049946,41290176528538{% else %}{{- clips_val -}}{% endif %}"
                             data-variant-price="7,60"
                             data-index="3"
                         > 
                         {% if type contains "custom-wicks" %}
                             <input 
-                                {% if product.handle contains 'x-wick' %}style="display: none;"{% endif %}
                                 id="Pre-Inserted"
                                 type="radio" 
                                 name="clips"
@@ -223,9 +219,7 @@
                                 <label for=true>Separate</label>
                             </li>
                             {% if type contains "custom-wicks" %}
-                                <li data-index="3" class="Pre-Inserted"
-                                    {% if product.handle contains 'x-wick' %}style="display: none;"{% endif %}
-                                >
+                                <li data-index="3" class="Pre-Inserted">
                                     <!-- for value has to match input id value above -->
                                     <label for="Pre-Inserted">Pre-Inserted</label>
                                 </li>

@@ -1,17 +1,17 @@
+
 <header class="header" id="section-{{ section.id }}">
     {% if section.settings.show_top_bar %}
-    <div class="header__countdown" style="background: {{section.settings.topbar_background}}">
-        <p style="color: {{section.settings.topbar_color}}">
-            {{ section.settings.anouncement_text }}
-            {% if section.settings.show_countdown %}
-            <span
-                class="header__count">{{section.settings.end_year}}:{{section.settings.end_month}}:{{section.settings.end_day}}:{{section.settings.end_hours}}</span>
-            {% endif %}
-            {% if section.settings.show_anouncement_link %}
-            <a href="{{ section.settings.link_url}}" class="header__link">{{ section.settings.link_text}}</a>
-            {% endif %}
-        </p>
-    </div>
+        <div class="header__countdown" style="background: {{section.settings.topbar_background}}">
+            <p style="color: {{section.settings.topbar_color}}">
+                {{ section.settings.anouncement_text }}
+                {% if section.settings.show_countdown %}
+                    <span class="header__count">{{section.settings.end_year}}:{{section.settings.end_month}}:{{section.settings.end_day}}:{{section.settings.end_hours}}</span>
+                {% endif %}
+                {% if section.settings.show_anouncement_link %}
+                    <a href="{{ section.settings.link_url}}" class="header__link">{{ section.settings.link_text}}</a>
+                {% endif %}
+            </p>
+        </div>
     {% endif %}
     <div class="header__top-bar" style="background: {{section.settings.middlebar_background}}">
         <p style="color: {{section.settings.middlebar_color}}">{{ section.settings.middle_bar_content }}</p>
@@ -22,35 +22,50 @@
                 <predictive-search>
                     <form class="header__search-form" action="{{ routes.search_url }}" method="get" role="search">
                         <img src="{{ "search-icon-nav.svg" | asset_url}}" alt="question icon" />
-                        <input type="hidden" name="type" value="product,page,article" />
-                        <input type="hidden" name="options[prefix]" value="last">
-                        <input type="hidden" name="sort_by" value="price-ascending" />
-                        <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" role="combobox"
-                            aria-expanded="false" aria-owns="predictive-search-results-list"
-                            aria-controls="predictive-search-results-list" aria-haspopup="listbox"
-                            aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off"
-                            spellcheck="true">
+                        <input id="Search" type="search" name="q" placeholder="{{section.settings.search_input_label}}"
+                            value="{{ search.terms | escape }}" role="combobox" aria-expanded="false"
+                            aria-owns="predictive-search-results-list" aria-controls="predictive-search-results-list"
+                            aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off"
+                            autocapitalize="off" spellcheck="false">
+                        <input name="options[prefix]" type="hidden" value="last">
                         <div id="shopify-section-predictive-search">
                             <div id="predictive-search-results">
-                                {% render 'predective-search-desktop' %}
+                                <h3>Products</h3>
+                                <ul id="search-items" class="search-items"></ul>
                             </div>
                         </div>
-                    </form> 
+                    </form>
                 </predictive-search>
             </div>
             <div class="nav__hamburger --mobile">
                 <span></span>
-                <span></span> 
+                <span></span>
                 <span></span>
             </div>
             <div class="header__logo">
                 <a href="/">
-                    <img src="{{ " makesy-logo.svg" | asset_url}}" alt="Company Logo" />
+                    <img src="{{ "makesy-logo.svg" | asset_url}}" alt="Company Logo" />
                 </a>
+            </div>
+            <div class="header__predictive-search mobile-nav-bar--mobile">
+                <predictive-search>
+                    <form class="header__search-form" action="{{ routes.search_url }}" method="get" role="search">
+                        <img src="{{ " search-icon-nav.svg" | asset_url}}" alt="question icon" />
+                        <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" {%- if
+                            settings.predictive_search_enabled -%} role="combobox" aria-expanded="false"
+                            aria-owns="predictive-search-results-list" aria-controls="predictive-search-results-list"
+                            aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off"
+                            autocapitalize="off" spellcheck="false" {%- endif -%}>
+                        <input name="options[prefix]" type="hidden" value="last">
+                        {%- if settings.predictive_search_enabled -%}
+                        <div id="predictive-search" tabindex="-1"></div>
+                        {%- endif -%}
+                    </form>
+                </predictive-search>
             </div>
             <div class="header__icon-group">
                 <div class="header__support-icon --desktop">
-                    <img src="{{ " support-nav.svg" | asset_url}}" alt="support icon" />
+                    <img src="{{ "support-nav.svg" | asset_url}}" alt="support icon" />
                     <span>expert support</span>
                     {% include 'expert-support' %}
                 </div>
@@ -61,9 +76,9 @@
                     <img src="{{ " profile-icon-nav.svg" | asset_url}}" alt="account icon" />
                 </a>
                 <a href="#swym-wishlist">
-                    <img class="--desktop swym-button" src="{{ " heart-icon-nav.svg" | asset_url}}" alt="heart icon" />
+                    <img class="--desktop swym-button" src="{{ "heart-icon-nav.svg" | asset_url}}" alt="heart icon" />
                 </a>
-                <img class="--mobile" id="search-mobile" src="{{ " search-icon-nav.svg" | asset_url}}"
+                <img class="--mobile" id="search-mobile" src="{{ "search-icon-nav.svg" | asset_url}}"
                     alt="question icon" />
                 <a class="--desktop" href="/pages/makesy-perks">
                     <img class="loyalty-star"
@@ -89,11 +104,11 @@
             </div>
         </div>
     </div>
-    <div class="header__navigation">
+    <div class="header__navigation" style="background: {{section.settings.navigationbar_background}}">
         <div class="header__icon-group --mobile">
-            <a href="/account"><img src="{{ " profile-icon-nav.svg" | asset_url}}" alt="profile icon" loading="lazy" />
+            <a href="/account"><img src="{{ "profile-icon-nav.svg" | asset_url}}" alt="profile icon" loading="lazy" />
                 account</a>
-            <a href="/cart"><img src="{{ " cart-icon-nav.svg" | asset_url}}" alt="cart icon" loading="lazy" /> cart</a>
+            <a href="/cart"><img src="{{ "cart-icon-nav.svg" | asset_url}}" alt="cart icon" loading="lazy" /> cart</a>
             <a href="/pages/makesy-perks">
                 <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/loyalty_star.svg" alt="Makesy Perks">
                 rewards
@@ -106,37 +121,33 @@
         </div>
         <div class="header__navItems-layout">
             <div class="header__container">
-                {% render 'search-filter-mobile' %}
-                <div class="header__predictive-search --Mobile">
+                <div class="header__predictive-search --mobile">
                     <predictive-search>
                         <form class="header__search-form" action="{{ routes.search_url }}" method="get" role="search">
-                            <img src="{{ "search-icon-nav.svg" | asset_url}}" alt="question icon" />
-                            <input type="hidden" name="type" value="product,page,article" />
-                        <input type="hidden" name="options[prefix]" value="last">
-                        <input type="hidden" name="sort_by" value="price-ascending" />
-                        <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" role="combobox"
-                            aria-expanded="false" aria-owns="predictive-search-results-list"
-                            aria-controls="predictive-search-results-list" aria-haspopup="listbox"
-                            aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off"
-                            spellcheck="true">
-                            <div id="shopify-section-predictive-search">
-                                <div id="predictive-search-results">
-                                    {% render 'predective-search-mobile' %}
-                                </div>
-                            </div>
+                            <img src="{{ " search-icon-nav.svg" | asset_url}}" alt="question icon" />
+                            <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" {%- if
+                                settings.predictive_search_enabled -%} role="combobox" aria-expanded="false"
+                                aria-owns="predictive-search-results-list"
+                                aria-controls="predictive-search-results-list" aria-haspopup="listbox"
+                                aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off"
+                                spellcheck="false" {%- endif -%}>
+                            <input name="options[prefix]" type="hidden" value="last">
+                            {%- if settings.predictive_search_enabled -%}
+                            <div id="predictive-search" tabindex="-1"></div>
+                            {%- endif -%}
                         </form>
                     </predictive-search>
                 </div>
                 <ul data-step='0' class="header__list" style="color: {{section.settings.navigationbar_color}}">
                     {% for menus in linklists.top-bar-nav.links %}
-                        {% assign menu_title = menus.title | handleize | downcase | strip  %}
+                        {% assign menu_title = menus.title | handleize | downcase | strip %}
                         {% if linklists[menu_title].links.size != 0%}
                             <li id="{{ menu_title }}" data-url-desk="{{menus.url}}">
                                 {{ menus.title }}
                                 <svg viewBox="0 0 700 700" xml:space="preserve">
                                     <path d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
-                                                c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
-                                                l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                                        c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                                        l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
                                 </svg>
                             </li>
                         {% else %}
@@ -165,98 +176,98 @@
                     </h1>
                 </div>
                 {% for menus in linklists.top-bar-nav.links %}
-                    {% assign menu_title = menus.title | handleize | downcase | strip %}
-                    
-                    {% if linklists[menu_title].links.size > 0 %}
-                        {% if linklists[menu_title].links.size < 16 %} 
-                            <div class="header__menus">
-                                <ul data-step='1' class="{{menu_title}}">
-                                    {% for parent in linklists[menu_title].links %}
-                                        {% assign parent_id = parent.title | handleize | downcase | strip %}
-                                        {% if parent.links.size > 0%}
-                                            <li id="{{parent_id}}" data-url-desk="{{parent.url}}">
-                                                {{- parent.title | strip -}}
-                                                <svg class="--mobile" viewBox="0 0 700 700" xml:space="preserve">
-                                                    <path fill="{{section.settings.navigationbar_color}}" d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
-                                                        c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
-                                                        l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
-                                                </svg>
-                                                <ul data-step='2' class="{{parent_id}}">
-                                                    {%- for child in parent.links -%}
-                                                    {%- assign child_id = child.title | handleize | downcase | strip -%}
-                                                    {% if child.links.size > 0 %}
-                                                    <li id="{{child_id}}-{{parent_id}}" data-url-desk="{{child.url}}">
-                                                        {{- child.title | strip -}}
-                                                        <svg class="--mobile" viewBox="0 0 700 700" xml:space="preserve">
-                                                            <path fill="{{section.settings.navigationbar_color}}" d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
-                                                                c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
-                                                                l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
-                                                        </svg>
-                                                        <ul data-step='3' class="{{child_id}}-{{parent_id}}">
-                                                            {% if child.links.size > 15 %}
-                                                                <!-- Menus that extend too long break into columns -->
-                                                                <div class="menus-extended-third-column">
-                                                                    {% assign size = child.links.size %}
-                                                                    <div class="grid-column-two">
-                                                                        {% for i in (0..size) %}
-                                                                        <li id="{{ child.links[i].title | handleize | downcase | strip }}"
-                                                                            data-url="{{child.links[i].url}}">
-                                                                            {{child.links[i].title}}
-                                                                        </li>
-                                                                        {% endfor %}
-                                                                    </div>
+                {% assign menu_title = menus.title | handleize | downcase | strip %}
+                {% if linklists[menu_title].links.size > 0 %}
+                {% if linklists[menu_title].links.size < 16 %}
+                <div class="header__menus">
+                    <ul data-step='1' class="{{menu_title}}">
+                        {% for parent in linklists[menu_title].links %}
+                        {% assign parent_id = parent.title | handleize | downcase | strip %}
+                        {% if parent.links.size > 0%}
+                        <li id="{{parent_id}}" data-url-desk="{{parent.url}}">
+                            {{- parent.title | strip -}}
+                            <svg class="--mobile" viewBox="0 0 700 700" xml:space="preserve">
+                                <path fill="{{section.settings.navigationbar_color}}"
+                                    d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
+                                    c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                                    l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                            </svg>
+                            <ul data-step='2' class="{{parent_id}}">
+                                {%- for child in parent.links -%}
+                                {%- assign child_id = child.title | handleize | downcase | strip -%}
+                                {% if child.links.size > 0 %}
+                                <li id="{{child_id}}-{{parent_id}}" data-url-desk="{{child.url}}">
+                                    {{- child.title | strip -}}
+                                    <svg class="--mobile" viewBox="0 0 700 700" xml:space="preserve">
+                                        <path fill="{{section.settings.navigationbar_color}}"
+                                            d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
+                                            c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                                            l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                                    </svg>
+                                    <ul data-step='3' class="{{child_id}}-{{parent_id}}">
+                                        {% if child.links.size > 15 %}
+                                        <!-- Menus that extend too long break into columns -->
+                                        <div class="menus-extended-third-column">
+                                            {% assign size = child.links.size %}
+                                            <div class="grid-column-two">
+                                                {% for i in (0..size) %}
+                                                <li id="{{ child.links[i].title | handleize | downcase | strip }}"
+                                                    data-url="{{child.links[i].url}}">
+                                                    {{child.links[i].title}}
+                                                </li>
+                                                {% endfor %}
+                                            </div>
 
-                                                                </div>
-                                                            {% else %}
-                                                                {% for grandChild in child.links %}
-                                                                    {% assign grandChild_id = grandChild.title | handleize | downcase | strip %}
-                                                                    <li id="{{grandChild_id}}" data-url="{{grandChild.url}}">
-                                                                        {{- grandChild.title | strip -}}
-                                                                    </li>
-                                                                {% endfor %}
-                                                            {% endif %}
-                                                        </ul>
-                                                    </li>
-                                                    {% else %}
-                                                        <li id="{{child_id}}-{{parent_id}}" data-url="{{child.url}}">
-                                                            {{- child.title | strip -}}
-                                                        </li>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </ul>
-                                            </li>
+                                        </div>
                                         {% else %}
-                                            <li id="{{parent_id}}" data-url="{{parent.url}}">
-                                                {{- parent.title | strip -}}
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% else %}
-                            <!-- Menus that extend too long break into columns -->
-                            <div class="header__menus menus-extended-length">
-                                <ul data-step='1' class="{{menu_title}}">
-                                    {% assign size = linklists[menu_title].links.size %}
-                                    <div class="grid-column-four">
-                                        {% for j in (0..size) %}
-                                        <li id="just-trying-to-be-unique-{{ linklists[menu_title].links[j].title | handleize | downcase | strip }}"
-                                            data-url="{{linklists[menu_title].links[j].url}}">
-                                            {{linklists[menu_title].links[j].title}}
+                                        {% for grandChild in child.links %}
+                                        {% assign grandChild_id = grandChild.title | handleize | downcase | strip %}
+                                        <li id="{{grandChild_id}}" data-url="{{grandChild.url}}">
+                                            {{- grandChild.title | strip -}}
                                         </li>
                                         {% endfor %}
-                                    </div>
-                                </ul>
-                            </div>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                                {% else %}
+                                <li id="{{child_id}}-{{parent_id}}" data-url="{{child.url}}">
+                                    {{- child.title | strip -}}
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li id="{{parent_id}}" data-url="{{parent.url}}">
+                            {{- parent.title | strip -}}
+                        </li>
                         {% endif %}
-                    {% endif %}
-            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <!-- Menus that extend too long break into columns -->
+                <div class="header__menus menus-extended-length">
+                    <ul data-step='1' class="{{menu_title}}">
+                        {% assign size = linklists[menu_title].links.size %}
+                        <div class="grid-column-four">
+                            {% for j in (0..size) %}
+                            <li id="just-trying-to-be-unique-{{ linklists[menu_title].links[j].title | handleize | downcase | strip }}"
+                                data-url="{{linklists[menu_title].links[j].url}}">
+                                {{linklists[menu_title].links[j].title}}
+                            </li>
+                            {% endfor %}
+                        </div>
+                    </ul>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
     </div>
     <!-- Closes Nav when hovered outside of navigation -->
     <div class="nav-underlay"></div>
-    <div class="search-underlay"></div>
 </header>
 
 {% schema %}
@@ -438,59 +449,6 @@
             "id": "navigationbar_color",
             "label": "Text",
             "default": "#9E9999"
-        }
-    ],
-    "blocks": [
-        {
-            "type": "trending-category",
-            "name": "Trending Category Search",
-            "settings": [
-                {
-                    "type": "text",
-                    "id": "trending_categories",
-                    "label": "Text for the collection link",
-                    "default": "candles"
-                },
-                {
-                    "type": "url",
-                    "id": "trending_category_url",
-                    "label": "Link for collection"
-                }
-            ]
-        },
-        {
-            "type": "trending-terms",
-            "name": "Trending Terms Search",
-            "settings": [
-                {
-                    "type": "text",
-                    "id": "trending_terms",
-                    "label": "Text for trending term",
-                    "default": "bug repellent"
-                }
-            ]
-        },
-        {
-            "type": "trending-products",
-            "name": "Trending Product Search",
-            "settings": [
-                {
-                    "type": "collection",
-                    "id": "trending_products",
-                    "label": "Collection of product"
-                }
-            ]
-        },
-        {
-            "type": "trending-article",
-            "name": "Trending Article Search",
-            "settings": [
-                {
-                    "type": "article",
-                    "id": "trending_article",
-                    "label": "Featured blog 1"
-                }
-            ]
         }
     ]
 }

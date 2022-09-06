@@ -1,0 +1,137 @@
+{% comment %} 
+///////////////////////////////////////////////////
+@DO - create an array of submenu titles & linklists
+///////////////////////////////////////////////////
+{% endcomment %}
+
+{%- for block in section.blocks -%}
+
+  {%- capture submenu_items -%}  
+
+    {%- if block.settings.dropdown_submenu_title_1 -%}
+      {{ block.settings.dropdown_submenu_title_1 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_1 -%}
+        {{ block.settings.dropdown_submenu_linklist_1 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_2 -%}
+      {{ block.settings.dropdown_submenu_title_2 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_2 -%}
+        {{ block.settings.dropdown_submenu_linklist_2 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_3 -%}
+      {{ block.settings.dropdown_submenu_title_3 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_3 -%}
+        {{ block.settings.dropdown_submenu_linklist_3 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_4 -%}
+      {{ block.settings.dropdown_submenu_title_4 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_4 -%}
+        {{ block.settings.dropdown_submenu_linklist_4 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_5 -%}
+      {{ block.settings.dropdown_submenu_title_5 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_5 -%}
+        {{ block.settings.dropdown_submenu_linklist_5 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_6 -%}
+      {{ block.settings.dropdown_submenu_title_6 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_6 -%}
+        {{ block.settings.dropdown_submenu_linklist_6 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_7 -%}
+      {{ block.settings.dropdown_submenu_title_7 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_7 -%}
+        {{ block.settings.dropdown_submenu_linklist_7 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_8 -%}
+      {{ block.settings.dropdown_submenu_title_8 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_8 -%}
+        {{ block.settings.dropdown_submenu_linklist_8 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_9 -%}
+      {{ block.settings.dropdown_submenu_title_9 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_9 -%}
+        {{ block.settings.dropdown_submenu_linklist_9 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_10 -%}
+      {{ block.settings.dropdown_submenu_title_10 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_10 -%}
+        {{ block.settings.dropdown_submenu_linklist_10 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_11 -%}
+      {{ block.settings.dropdown_submenu_title_11 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_11 -%}
+        {{ block.settings.dropdown_submenu_linklist_11 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if block.settings.dropdown_submenu_title_12 -%}
+      {{ block.settings.dropdown_submenu_title_12 | append: ':' }}
+      {%- if block.settings.dropdown_submenu_linklist_12 -%}
+        {{ block.settings.dropdown_submenu_linklist_12 | append: ',' }}
+      {%- endif -%}
+    {%- endif -%}
+
+  {%- endcapture -%}
+
+  {% assign submenus = submenu_items | split: "," %}
+
+  {%- for item in submenus -%}
+    {%- if item.size > 0 -%}
+      {%- assign dropdown_array = item | split: ':' -%}
+      {%- assign link_title = dropdown_array[0] | downcase -%}
+      {%- assign check_title = activator | downcase -%}
+      {%- assign check_item = item | downcase -%}
+      {%- assign menu_handle = dropdown_array[1] | strip -%}
+      
+      {%- if check_item contains check_title -%}
+        <div class="Collapsible__Inner">
+          <div class="Collapsible__Content">
+            {%- for top_item in linklists[menu_handle].links -%}
+              {%- for sub_sub_menu in top_item.links -%}
+                <div class="Collapsible">
+                  <button class="Collapsible__Button Heading Link--primary u-h7" data-action="toggle-collapsible" {% if sub_link.links != blank %}aria-expanded="false"{% endif %}>
+                    {{- sub_sub_menu.title | escape -}} <span class="Collapsible__Plus"></span>
+                  </button>
+                  <div class="Collapsible__Inner">
+                    <div class="Collapsible__Content">
+                      <ul class="Linklist Linklist--spacingLoose">
+                        {%- for sub_sub_item in sub_sub_menu.links -%}
+                          <li class="Linklist__Item">
+                            <a href="{{ sub_sub_item.url }}" class="Link Link--primary">{{ sub_sub_item.title | escape }}</a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+{%- endfor -%}

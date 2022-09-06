@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- test -->
 <html class="no-js" lang="{{ shop.locale }}">
     <head>
         <meta name="p:domain_verify" content="7951436aae5a4cc45a25457481c82136">
@@ -83,12 +84,11 @@
             <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
         {% endif %}
 
-        {{ 'swym-custom.css' | asset_url | stylesheet_tag }}
-
         <script>
             // This allows to expose several variables to the global scope, to be used in scripts
             window.theme = {
                 pageType: {{ request.page_type | json }},
+                {% comment %} moneyFormat: {{ shop.money_format | json }}, {% endcomment %}
                 moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
                 productImageSize: {{ settings.product_image_size | json }},
                 searchMode: {{ settings.search_mode | json }},
@@ -110,6 +110,9 @@
                 cartAddNote: {{ 'cart.general.add_note' | t | json }},
                 cartEditNote: {{ 'cart.general.edit_note' | t | json }},
                 productImageLoadingError: {{ 'product.slideshow.image_loading_error' | t | json }},
+                productFormAddToCart: {% if product.template_suffix == 'pre-order' %}{{ 'product.form.pre_order' | t | json }}{% else %}{{ 'product.form.add_to_cart' | t | json }}{% endif %},
+                productFormUnavailable: {{ 'product.form.unavailable' | t | json }},
+                productFormSoldOut: {{ 'product.form.sold_out' | t | json }},
                 shippingEstimatorOneResult: {{ 'cart.shipping_estimator.one_result_title' | t | json }},
                 shippingEstimatorMoreResults: {{ 'cart.shipping_estimator.more_results_title' | t | json }},
                 shippingEstimatorNoResults: {{ 'cart.shipping_estimator.no_results_title' | t | json }}
@@ -128,6 +131,8 @@
             document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
             document.documentElement.style.setProperty('--window-height', window.innerHeight + 'px');
 
+            // Removes old domain cart cookie
+            document.cookie = "cart=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=.woodenwick.com;path=/";
 
             // We do a quick detection of some features (we could use Modernizr but for so little...)
             (function() {
@@ -177,6 +182,8 @@
         })();
         </script>
 
+        
+
         {% render 'microdata-schema' %} 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
@@ -197,6 +204,7 @@
             async  
         ></script>
         <script type="lazyload2" data-src="https://js.crrnt.app/ls/cookie/CA_Y2xpZW50SWQ9OTE"></script>
+        {% render 'giftship' %}
         <script type="lazyload2" data-src="https://cdn-widgetsrepository.yotpo.com/v1/loader/q6wOPlTyW5qTMLVoo2kTKw"></script>
          <!-- YOTPO script -->
          <script type="lazyload2">
@@ -207,7 +215,7 @@
 	        })();
         </script>
         <!-- END YOTPO script -->
-
+{% include 'sca.freegifts' %}
 <img alt="icon" width="1400" height="1400" style="pointer-events: none; position: absolute; top: 0; left: 0; width: 99vw; height: 99vh; max-width: 99vw; max-height: 99vh;"  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSI5OTk5OXB4IiBoZWlnaHQ9Ijk5OTk5cHgiIHZpZXdCb3g9IjAgMCA5OTk5OSA5OTk5OSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48ZyBzdHJva2U9Im5vbmUiIGZpbGw9Im5vbmUiIGZpbGwtb3BhY2l0eT0iMCI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9Ijk5OTk5IiBoZWlnaHQ9Ijk5OTk5Ij48L3JlY3Q+IDwvZz4gPC9zdmc+">
 {% include 'yotpo-widgets-loader-script' %}
 
@@ -232,7 +240,10 @@
         <div class="PageOverlay2"></div>
         
         {% section 'popup' %}
-
+        {%- if template != 'index' -%}
+            {% section 'sidebar-menu' %}
+        {%- endif -%}
+        
         {%- if template != 'cart' -%}
             {% render 'cart-drawer' %}
         {%- endif -%}
@@ -253,6 +264,9 @@
         <!-- Klaviyo -->
         <script type="lazyload2" data-src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VWXH4C"></script>
         <!-- End Klaviyo -->    
+        <!-- Stripe Client -->
+        <script type="lazyload2" data-src="https://js.stripe.com/v3/"></script>
+        <!-- End Stripe -->
         
         {% if template == "index" %}
         <script src="{{ 'hero-carousel.js' | asset_url }}" defer></script>
@@ -339,19 +353,20 @@
         {% if template == "page.discovery-kit" %}
             <script src="{{ 'discoveryKit.js' | asset_url }}"></script>
         {% endif %}
-
-        <!-- SWYM start -->
+    
         {% include 'swymSnippet' %}
         {% include "swymWishlist" %}
-        {% include 'swym-custom-cart' %}
-
-        <!-- SWYM end -->
-        <script src="{{ 'search-api.js' | asset_url }}"></script>
+        <!--Back-In-Stock start-->
+        {%- comment -%}
+                {% include 'subscribe-it-helper' %}
+        {%- endcomment -%}
+        <!--Back-In-Stock end-->
         <script type="lazyload2" data-src="https://cdn.attn.tv/wwc/dtag.js"></script>
 
         {% render 'preorder-now' %}
         <script src="{{ 'carousel-slider.js' | asset_url }}" defer></script>
         
+        <script defer src="{{ 'search-api.js' | asset_url }}" defer></script>
         <script defer src="{{ 'accordian.js' | asset_url }}" defer></script>
         
   <script type="lazyload2"

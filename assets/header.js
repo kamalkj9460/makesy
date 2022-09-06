@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 function Navigations() {
     let isMobile = true
@@ -13,9 +12,7 @@ function Navigations() {
     const underlay = document.getElementsByClassName('nav-underlay')[0]
     const menu_wrapper = document.querySelector('.header__nav-transform')
     const allNavs = menu_wrapper.getElementsByTagName('ul')
-    const open_side_nav_elements = document.querySelectorAll('.nav__hamburger, #search-mobile, #search-mobile-filter')
-    const mobile_predective_search = document.querySelector('.--Mobile #shopify-section-predictive-search')
-    const mobile_results_filter = document.querySelector('.Search__filter-mobile')
+    const nav__hamburger = document.getElementsByClassName('nav__hamburger')[0]
     const menu_title = document.getElementsByClassName('mobile__menu-title')[0]
     const expert_support_menu = document.querySelector('.expert-support__menu')
     const nav_arrow = document.getElementsByClassName('nav_arrow')[0]
@@ -35,25 +32,13 @@ function Navigations() {
     this.addEventListeners = function () {
         window.addEventListener('resize', resize)
 
-
-        open_side_nav_elements.forEach( el => {
-            el.addEventListener('click', e => {
-                if(e.target.id == 'search-mobile') {
-                    mobile_predective_search.classList.add('show-search-mobile');
-                    top_menu.classList.add('hide-nav-mobile');
-                }
-                if(e.target.id == 'search-mobile-filter') {
-                    mobile_results_filter.classList.add('show-search-mobile');
-                    top_menu.classList.add('hide-nav-mobile');
-                }
-                e.preventDefault()
-                nav.style.transform = 'translateX(0)';
-                nav.style.boxShadow = '0 13px 27px -5px rgba(50, 50, 93, 25%), 0 8px 16px -8px rgba(0, 0, 0, 30%), 0 -6px 16px -6px rgba(0, 0, 0, 3%)';
-                underlay.style.pointerEvents = 'auto'
-                document.body.style.overflow = 'hidden'
-            })
+        nav__hamburger.addEventListener('click', (e) => {
+            e.preventDefault()
+            nav.style.transform = 'translateX(0)';
+            nav.style.boxShadow = '0 13px 27px -5px rgba(50, 50, 93, 25%), 0 8px 16px -8px rgba(0, 0, 0, 30%), 0 -6px 16px -6px rgba(0, 0, 0, 3%)';
+            underlay.style.pointerEvents = 'auto'
+            document.body.style.overflow = 'hidden'
         })
-        
 
         underlay.addEventListener('click', (e) => {
             removeMobileStyles()
@@ -86,7 +71,6 @@ function Navigations() {
                 resetAllStyles()
                 underlay.removeEventListener("mouseenter", resetDesktopStyles)
                 document.querySelector('.header__navigation').removeEventListener("mouseover", initNavDesktop)
-                
                 navMobile()
             }
             return;
@@ -96,8 +80,6 @@ function Navigations() {
             isMobile = true
             resetAllStyles()
             document.querySelector('.header__navigation').addEventListener("mouseover", initNavDesktop)
-            top_menu.classList.remove('hide-nav-mobile');
-            document.body.style = null
             navDesktop()
         }
     }
@@ -119,8 +101,6 @@ function Navigations() {
             height: null,
             width: null
         })
-        
-        
         // menu_wrapper.removeAttribute('style')
         top_menu.style.opacity = null
         top_menu.style.transform = null
@@ -132,6 +112,7 @@ function Navigations() {
 
 
     function navMobile() {
+
         group = {}
         removeMobileStyles()
 
@@ -187,14 +168,14 @@ function Navigations() {
         // menu_title.textContent = prev == 'all' ? title : prev
         menu_title.textContent = prev
         const collection = '/collections/' + title.replace(/\s/, '-');
+        // menu_title.setAttribute('data-url', collection)
 
         const x = isRight ? START_DIST + 100 : START_DIST - 100
 
 
         if (!STEP) {
             updateNavHeight(isRight ? parent : menu)
-            // parent.style.transform = 'translate(' + x + '%)'    TEMPORARY HIDE FOR SEARCH, TOTALLY REMOVE IS SEARCH WORKS PERFECT
-            parent.style.transform = isRight ? null : 'translate(' + x + '%)' 
+            parent.style.transform = 'translate(' + x + '%)'
             parent.style.opacity = isRight ? 1 : 0
             menu.style.transform = 'translate(' + x + '%)'
             menu.style.opacity = isRight ? 0 : 1
@@ -247,12 +228,6 @@ function Navigations() {
             prev.menu.removeAttribute('style')
         })
 
-        // Remove search & bring back menu 
-        mobile_predective_search.classList.remove('show-search-mobile');
-        mobile_results_filter.classList.remove('show-search-mobile');
-        top_menu.classList.remove('hide-nav-mobile');
-      
-
         PREV_ELEMENTS = []
         COUNT = 1
         START_DIST = 0
@@ -279,8 +254,7 @@ function Navigations() {
             const menus = Array.from(el)
             let m = menus.length
             while (m--) group[menus[m].className] = []
-            
-            
+
             const stepOne = Array.from(document.querySelectorAll('[data-step="1"]'))
 
             stepOne.map((parent, i) => {
@@ -410,13 +384,12 @@ function Navigations() {
     function resetDesktopStyles() {
         let i = allNavs.length
 
-        const offSetMenu = allNavs[0].getBoundingClientRect().x - 55
+        const offSetMenu = allNavs[0].getBoundingClientRect().x - 25
         menu_wrapper.style.opacity = 0
         menu_wrapper.style.transform = 'translateX(' + offSetMenu + 'px)'
         menu_wrapper.style.pointerEvents = null
         nav_arrow.style.transform = null
         nav_arrow.style.opacity = null
-
 
         while (i--) {
             allNavs[i].style.opacity = '0'
@@ -431,8 +404,11 @@ function Navigations() {
         underlay.style.pointerEvents = null
     }
 
+
+
     function initNavDesktop(e) {
         const target = e.target
+
         if (target.tagName === 'LI') {
             const navID = target.id
 
@@ -463,7 +439,6 @@ function clickNewPage() {
         }
     })
 }
-
 
 
 /* Top bar countdown */
@@ -525,6 +500,7 @@ function supportNav() {
             underlay.style.pointerEvents = 'auto'
             underlay.addEventListener("mouseenter", remove_support_styles)
         }
+
         underlay.style.zIndex = 5
         underlay.style.pointerEvents = 'auto'
         expert_support_menu.style.transform = 'translate(0)'
@@ -532,8 +508,24 @@ function supportNav() {
         expert_support_menu.style.pointerEvents = 'auto'
         expert_support_wrapper.style.transform = 'translate(0)'
     }
+
     support_icon.addEventListener("mouseenter", initSupportNav)
 }
+
+/* Search bar to show on mobile in bottom bar not side drawer */
+function searchMobile() {
+    const searchIcon = document.getElementById('search-mobile')
+    const searchMobile = document.querySelector('.header__predictive-search.mobile-nav-bar--mobile')
+    const iconGroup = document.querySelector('.header__icon-group')
+
+    searchIcon.onclick = e => {
+        e.target.style.display = "none"
+        iconGroup.style.maxWidth = '28px';
+        searchMobile.style.display = "block"
+    }
+}
+searchMobile()
+
 
 document.addEventListener('DOMContentLoaded', () => {
     clickNewPage()

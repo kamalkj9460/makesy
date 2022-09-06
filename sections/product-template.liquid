@@ -22,7 +22,7 @@
 {%- assign bulk_discounts_titles = product.metafields.bulk_discount.has_bulk_discounts | split: ','-%}
 
 
-<script>console.log('product s',{{ product | json }})</script> 
+<script>console.log('product ',{{ product | json }})</script> 
 {% assign hasBulkDiscounts = false %}
 {% if has_bulk_discounts %}
     {% assign hasBulkDiscounts = true %}
@@ -55,8 +55,6 @@
 <section class="Product Product--{{ section.settings.image_size }}" data-section-id="{{ section.id }}" data-section-type="product" data-section-settings='{{ section_settings }}'>
     <div class="PDP">
         <div class="PDP_container">
-            <!-- Swym Notification Toast -->
-        	<div id="swym-custom-notify-container"class="swym-custom-notify-container container-fluid" style="z-index: 99999;"></div>
             <div class="PDP_grid">
                 <div class="PDP_grid-left">
                     <div class="PDP_grid-items">
@@ -72,6 +70,7 @@
                         <div class="PDP_mainImage">
                             <img class="fade-in" src="{{ product.images[0] | img_url: '800x' }}" alt="product main image"/>
                             <img class="ProductMetaTitle__PinItIcon fade-in" src="{{ 'pin-it-button.svg' | asset_url }}" onclick="pinIt(event)" data-imgurl="{{ product.media[0].src | image_url: width: 400 }}">
+                            <!-- <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/favorite-heart.png?v=1660950515" alt="favorite" class="e-favBadge"> -->
                         </div>
                     </div>
                     <span class="PDP__desktop">
@@ -115,6 +114,9 @@
                                 <a class="PDP_reviewLink" href="#goReviews">write a review</a>
                             {% endunless %}
                         </div>
+                        <!-- {% if product.type == 'vessels' or product.type == 'lids' or product.type == 'packaging' or product.type == 'bottles' %}
+                                <a class="PDP_reviewLink" href="#goReviews">write a review</a>
+                        {% endif %} -->
                         <div class="PDP_description">
                             <div class="Rte"> 
                                 {{ product.description | replace: 'data-section-type', 'data-section-type-placeholder' }}
@@ -181,7 +183,7 @@
                                                     type="radio" 
                                                     name="{{option.name}}"
                                                     title="{{option.name}}"
-                                                    value="{{option.values[0] | remove: '"'}}"
+                                                    value="{{option.values[0]}}"
                                                     data-index="{{- index -}}"
                                                     data-stock="{{variants[0].inventory_quantity}}"
                                                     data-policy="{{variants[0].inventory_policy}}"
@@ -191,13 +193,12 @@
                                                 > 
                                                 <!-- data-stock & data-policy need figuring out due to single option dropdown removal -->
                                                 {% for value in option.values %}
-                                                    {% assign val = value | remove: '"' %}
                                                     <input 
-                                                        id="{{val}}-{{option.position | remove: '"'}}"
+                                                        id="{{value}}-{{option.position}}"
                                                         type="radio" 
                                                         name="{{option.name}}"
-                                                        title="{{val}}"
-                                                        value="{{val}}"
+                                                        title="{{value}}"
+                                                        value="{{value}}"
                                                         data-index="{{- index -}}"
                                                         data-stock="{{variants[0].inventory_quantity}}"
                                                         data-policy="{{variants[0].inventory_policy}}"
@@ -218,10 +219,9 @@
                                             <div class="dropdown-menu-items options-select-label" aria-labelledby="dropdownMenuButton">
                                                 <ul class="menu-list">
                                                     {% for value in option.values %}
-                                                        {% assign val = value | remove: '"' %}
                                                         <li data-index="{{- index -}}">
                                                             <!-- for value has to match input id value above -->
-                                                            <label for="{{val}}-{{option.position}}">{{value}}</label>
+                                                            <label for="{{value}}-{{option.position}}">{{value}}</label>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -294,7 +294,6 @@
                                 >
                                     Notify Me When Available
                                 </button>
-                                <!-- Notify When Available button -->
                                 <div class="c-notify">
                                     <div class="m-notifyContainer">
                                         <h1 class="e-notifyTitle">notify when available</h1>
@@ -343,14 +342,23 @@
                             </div>
                             <div class="PDP__and_Quickview-bottom-content">
                                 <div class="m-fav">
+                                    
+
+                                    <!-- Swym Wishlist Plus EPI Button-->
                                     <button 
+                                        class="wish-list-heart swym-button swym-add-to-wishlist-view-product product_{{product.id}}"
+                                        data-swaction="addToWishlist"
+                                        data-product-id="{{product.id | json}}"
+                                    >
+                                    </button>
+                                    <!-- <button 
                                         data-with-epi="true" 
-                                        class="wish-list-heart swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                                        class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
                                         data-swaction="addToWishlist" 
                                         data-product-id="{{product.id | json}}" 
                                         data-variant-id="{{product.variants[0].id}}" 
                                         data-product-url="{{ shop.url }}{{ product.url }}">
-                                    </button>
+                                    </button> -->
                                     <!-- Swym Wishlist Plus EPI Button-->
 
                                     <span>favorite</span>

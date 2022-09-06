@@ -1,0 +1,356 @@
+{%- assign mobile_menu_handle = section.settings.primary_menu | default: 'mobile-menu' -%}
+{%- assign mobile_menu = linklists[mobile_menu_handle] -%}
+
+{% comment %} Build a list of subnav titles specified in the customizer. {% endcomment %}
+{%- assign has_subnav = '' -%}
+{%- capture subnav_list -%}
+  {%- for block in section.blocks -%}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_1 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_2 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_3 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_4 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_5 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_6 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_7 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_8 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_9 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_10 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_11 | append: ',' }}
+    {{ has_subnav | append: block.settings.dropdown_submenu_title_12 | append: ',' }}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign subnav_check = subnav_list | downcase -%}
+
+<section id="sidebar-menu" class="SidebarMenu Drawer Drawer--small Drawer--fromLeft" aria-hidden="true" data-section-id="{{ section.id }}" data-section-type="sidebar-menu">
+    <header class="Drawer__Header" data-drawer-animated-left>
+      <button class="Drawer__Close Icon-Wrapper--clickable" data-action="close-drawer" data-drawer-id="sidebar-menu" aria-label="{{ 'header.navigation.close_sidebar' | t }}">
+        {%- render 'icon' with 'close' -%}
+      </button>
+      <div class="Drawer_Header_Div">Hi Maker!</div>
+	  <div class="Drawer_Header_Div"><a href="/account">Sign in</a> or <a href="/account/register">Sign up</a></div>
+    </header>
+
+    <div class="Drawer__Content">
+      <div class="Drawer__Main" data-drawer-animated-left data-scrollable>
+        <div class="Drawer__Container">
+          <nav class="SidebarMenu__Nav SidebarMenu__Nav--primary" aria-label="{{ 'header.navigation.sidebar_title' | t }}">
+            {%- for link in mobile_menu.links -%}
+              <div class="Collapsible">
+                {%- if link.links != blank -%}
+                  <button class="Collapsible__Button Heading u-h6" data-action="toggle-collapsible" {% if link.links != blank %}aria-expanded="false"{% endif %}>
+                    {{- link.title | escape -}}<span class="Collapsible__Plus"></span>
+                  </button>
+
+                  <div class="Collapsible__Inner">
+                    <div class="Collapsible__Content ToggleMenuFilterContent">
+                      {%- for sub_link in link.links -%}
+                        <div class="Collapsible">
+                          {%- assign lower_title = sub_link.title | downcase -%}
+                          
+                          {%- unless subnav_check contains lower_title -%}
+                            <a href="{{ sub_link.url }}" class="Collapsible__Button Heading Link Link--primary u-h7">{{ sub_link.title | escape }}</a>
+                          {%- else -%} 
+                          {% assign tt=sub_link.title | downcase%}
+                          {%for itm in shop.metafields.global.menumobile%}
+                          {%if itm.item==tt%}
+                          {% assign url_item=itm.handle %}
+                          {%endif%}
+                          {%endfor%}
+
+                           <button   class="Collapsible__Button Heading Link--primary u-h7" data-action="toggle-collapsible" {% if sub_link.links != blank %}aria-expanded="false"{% endif %}>
+                              {% if url_item != blank %}<span  date-url-item="{{url_item | downcase}}" >{%endif%} {{- sub_link.title | escape -}}{% if url_item != blank %} </span> {%endif%}<span class="Collapsible__Plus"></span>
+                            </button> 
+                            {%- include 'mobile-subnav' with activator: sub_link.title  -%}
+                          {%- endunless -%}
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- else -%}
+                  <a class="Collapsible__Button Heading u-h6" href="{{ link.url }}">{{- link.title | escape -}}</a>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </nav>
+                          
+          {%- assign secondary_menu = linklists[section.settings.secondary_menu] -%}
+
+          <nav class="SidebarMenu__Nav SidebarMenu__Nav--secondary">
+            <ul class="Linklist Linklist--spacingLoose">
+              {%- for link in secondary_menu.links -%}
+                <li class="Linklist__Item">
+                  <a class="Collapsible__Button Heading u-h6" href="{{ link.url }}" class="Link Link--primary">{{ link.title | escape }}</a>
+                  <ul class="Linklist Linklist--spacingLoose">
+                    {%- for sub_link in link.links -%}
+                    <li class="Linklist__Item">
+                      <a href="{{ sub_link.url }}">{{- sub_link.title | escape -}}</a>
+                    </li>
+                    {%- endfor -%}
+                  </ul>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      {%- if section.settings.show_social_media -%}
+        {%- capture social_media -%}
+          {% render 'social-media', class: 'SidebarMenu__Social', spacing: 'fill' %}
+        {%- endcapture -%}
+      {%- endif -%}
+
+      {%- if social_media != blank -%}
+        <aside class="Drawer__Footer" data-drawer-animated-bottom>
+          {%- if social_media != blank -%}
+            {{ social_media }}
+          {%- endif -%}
+        </aside>
+      {%- endif -%}
+    </div>
+</section>
+<script>
+  $('[date-url-item]').click(function(){
+   window.location.href="{{shop.url}}/collections/"+$(this).attr("date-url-item");
+  })
+</script>
+{% schema %}
+{
+  "name": "Sidebar menu",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "primary_menu",
+      "label": "Primary menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Secondary menu",
+      "info": "This menu won't show dropdown items."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_media",
+      "label": "Show social media",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "dropdown_menu",
+      "name": "Dropdown Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "navigation_dropdown_menu",
+          "label": "Menu item",
+          "info": "Enter menu item to apply a dropdown submenu on. These can only be added to items on the primary mobile menu (the one on the top)."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Items"
+        },
+        {
+          "type": "paragraph",
+          "content": "Here you can specify up to 8 submenus to be shown in the dropdown for the top-level nav item specified above. Unused slots can be left empty. Any menu item without an associated menu below will be a regular link, without a nested dropdown."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 1"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_1",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_1",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 2"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_2",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_2",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 3"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_3",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_3",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 4"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_4",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_4",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 5"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_5",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_5",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 6"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_6",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_6",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 7"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_7",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_7",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 8"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_8",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_8",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 9"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_9",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_9",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 10"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_10",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_10",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 11"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_11",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_11",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        },
+        {
+          "type": "header",
+          "content": "Dropdown Submenu Item 12"
+        },
+        {
+          "type": "text",
+          "id": "dropdown_submenu_title_12",
+          "label": "Menu item title",
+          "info": "Enter the submenu item to apply a sub-submenu on. Note: do not enter a value here without also selecting a menu below."
+        },
+        {
+          "type": "link_list",
+          "id": "dropdown_submenu_linklist_12",
+          "label": "Menu to associate with menu item",
+          "info": "Choose the menu to be displayed when this submenu item is tapped on."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

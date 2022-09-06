@@ -1,7 +1,10 @@
 {
     const getAllCookies = () => document.cookie.split(';').reduce((ac, str) => Object.assign(ac, { [str.split('=')[0].trim()]: str.split('=')[1] }), {});
+    //   document.cookie = 'checkout' + '=; Path=/41182462106/checkouts/878445eb17e526e8507e0131d0ae6856; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    //   document.cookie = "checkout=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/41182462106/checkouts/878445eb17e526e8507e0131d0ae6856";
 
     async function postCartItem(id) {
+        console.log('id:', id)
         const res = await fetch('/cart/update.js', {
             body: JSON.stringify({
                 updates: {
@@ -36,6 +39,7 @@
     }
 
     const MakerProShowModal = document.querySelector('.Maker-pro__show-modal')
+    // const AddToCartBtns = document.querySelectorAll('.Maker-pro-submit, .e-priority-add')
     const AddToCartBtns = document.querySelectorAll('.e-priority-add')
 
     function showModal(e) {
@@ -80,4 +84,12 @@
         const shippingEl = document.querySelector(".edit_checkout .step__sections .section.section--shipping-method")
         shippingEl && shippingEl.appendChild(p)
     })
+    
+    document.addEventListener("page:load", function() {
+        console.log('Checkout step is: ', Shopify.Checkout.step)
+        const variants = document.querySelectorAll('[data-variant-id]')
+        console.log('variants:', variants.dataset.variantId)
+    });
+
+
 }

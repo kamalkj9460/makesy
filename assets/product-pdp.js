@@ -113,6 +113,7 @@ function pinIt(e) {
     // console.log('WIP pinIt:', e)
     // console.log('stockState.productImgUrl:', stockState.productImgUrl)
     const {imgurl} = e.target.dataset
+    console.log('data-imgurl:', imgurl)
     
     // https://pinterest.com/pin/create/button/?url=https://makesy.com/products/12oz-matte-umber-aura&amp;media=https://cdn.shopify.com/s/files/1/0411/8246/2106/products/vessel_aura_matte_umber_candle_large.jpg?v=1646843493&amp;description=Bold%20%26amp;%20elevated%20matte%20coffee%20brown%20glass.%20Single%20Candle%20Jar%20($5.40%20each)Buy%201%20Case%20Pack...
     const pinterest = 'https://pinterest.com/pin/create/button/?'
@@ -342,13 +343,17 @@ class PDP {
                     break;
                 case 'PDP_mainImage':
                     const currentThumbs = Array.from(el.children)
+                    console.log('currentThumbs:', currentThumbs)
                     currentThumbs.forEach(currentIMG => {
+                        // console.log('WIP currentIMG:', currentIMG)
+                        // console.log('WIP currentIMG.className:', currentIMG.className)
                         if(currentIMG.className === 'fade-in'){
                             currentIMG.classList.add('fade-in')
                             currentIMG.onload = function(e) {  
                                 this.classList.add('fade-in')
                             }
                             currentIMG.src = images[0].url
+                        // } else if(!(currentIMG.className === 'e-favBadge' || currentIMG.className === 'ProductMetaTitle__PinItIcon fade-in')) {
                         } else if(currentIMG.className !== 'ProductMetaTitle__PinItIcon fade-in') {
                             currentIMG.remove()
                         }
@@ -360,125 +365,58 @@ class PDP {
                     break;
                 case 'wish-list-heart':
                     el.setAttribute('data-product-id', id)
-                    el.className = `wish-list-heart swym-button swym-add-to-wishlist-view-product product_${id} swym-icon swym-heart swym-loaded disabled swym-added swym-adding`
-                    
-                    /* SWYM TEMP - remove classname assignment, fix below, product.scss styles fix */
-
-                    // remove data-swaction if not single variant product
                     if(el.dataset.swaction) el.removeAttribute('data-swaction')
-                    el.className = `wish-list-heart swym-button swym-add-to-wishlist-view-product product_${id} swym-icon swym-heart swym-loaded`
                     // el.setAttribute('data-with-epi', "true")
-
-                    // if(el){
-                    //     _swat.fetchWrtEventTypeET(fetchCallbackFn, 4);       
-                    //     // fetching all wishlist events
-                    // }
-                    // function swymCallbackFn(swat) {
-                    //     // your API calls go here
-                    //     // use swat within this scope, 
-                    //     // alternatively you can use window._swat
-                    //  }
-                    // function fetchCallbackFn(products){
-                    //     // console.log('WIP RUN fetchCallbackFn SwymPageData:', SwymPageData)
-                    //     // const favBadge = document.querySelector('.e-favBadge')
-                    //     var activeProductId = stockState.productId, 
-                    //         activeVariantId = stockState.variantId;
-                    //     // var activeProductId = SwymPageData.empi, 
-                    //     //     activeVariantId = SwymPageData.epi;
-                    //     var isInWishlist = products.find(function(p){
-                    //         return p.empi == activeProductId && p.epi == activeVariantId;
-                    //     });
-                    //     if(isInWishlist){
-                    //         // console.log('WIP IS IN WISHLIST')
-                    //         // el.setAttribute('disabled', true);
-                    //         el.disabled = true
-                    //         el.classList.add('disabled', 'swym-added', 'swym-adding')
-                    //         // el.innerHTML = "Saved";
-                    //         // favBadge.style.display = 'inline'
-                    //     } else {
-                    //         // console.log('WIP IS NOT IN WISHLIST')
-                    //         // el.setAttribute('disabled', false);
-                    //         el.disabled = false
-                    //         el.classList.remove('disabled', 'swym-added', 'swym-adding')
-                    //         el.addEventListener("click", function(e){
-                    //             if(SwymPageData){
-                    //                 // dont pass SwymPageData, pass only 4 arguments below
-                    //                 SwymPageData.et = 4	// et 4 stands for wishlist event type
-                    //                 SwymPageData.empi = stockState.productId
-                    //                 SwymPageData.epi = stockState.variantId
-                    //                 SwymPageData.du = `https://makesy.com/products/${stockState.productHandle}`
-                    //                 // console.log('WIP SwymPageData NOW:', SwymPageData)
-                    //                 _swat.addToWishList(SwymPageData, function(e){
-                    //                 // el.innerHTML = "Saved"; 
-                    //                     // console.log('WIP ADD TO WISHLIST, SwymPageData:', SwymPageData)
-                    //                     el.disabled = true
-                    //                     el.classList.add('disabled', 'swym-added', 'swym-adding')
-                    //                     // favBadge.style.display = 'inline'
-                    //                 })
-                    //             }
-                    //         });
-                    //         // favBadge.style.display = 'none'
-                    //     }
-                    // }
-
-                    function swymCallbackFn(swat) {
-                        // console.log('WIP swat:', swat)
-                        // your API calls go here
-                        // use swat within this scope, 
-                        // alternatively you can use window._swat
-                        window._swat.fetch( function(r) {
-                            // console.log('WIP r:',r);
-                            // document.getElementById('demo').innerHTML = r;
-                            const activeProductId = stockState.productId, 
-                                activeVariantId = stockState.variantId
-                            // console.log('activeP:', activeProductId, ' activeV:', activeVariantId)
-                            const isInWishlist = r.find(function(product){
-                                return product.empi == activeProductId && product.epi == activeVariantId
-                            })
-                            if(isInWishlist) {
-                                // console.log('WIP IS IN WISHLIST:', isInWishlist)
-                                el.disabled = true
-                                el.classList.add('disabled', 'swym-added', 'swym-adding')
-                            } else {
-                                // console.log('WIP NOT IN WISHLIST', stockState.productImgUrl)
-                                el.disabled = false
-                                el.classList.remove('disabled', 'swym-added', 'swym-adding')
-                                el.addEventListener("click", (e) => {
-                                    // console.log('WIP case this.state:', this.state)
-                                    // if(SwymPageData){
-                                    //     // dont pass SwymPageData, pass only 4 arguments below
-                                    //     SwymPageData.et = 4	// et 4 stands for wishlist event type
-                                    //     SwymPageData.empi = stockState.productId
-                                    //     SwymPageData.epi = stockState.variantId
-                                    //     SwymPageData.du = `https://makesy.com/products/${stockState.productHandle}`
-                                    //     // console.log('WIP SwymPageData NOW:', SwymPageData)
-                                    //     _swat.addToWishList(SwymPageData, function(e){
-                                    //     // el.innerHTML = "Saved"; 
-                                    //         // console.log('WIP ADD TO WISHLIST, SwymPageData:', SwymPageData)
-                                    //         el.disabled = true
-                                    //         el.classList.add('disabled', 'swym-added', 'swym-adding')
-                                    //         // favBadge.style.display = 'inline'
-                                    //     })
-                                    // }
-                                    const wishObj = {
-                                        "epi": stockState.variantId,
-                                        "du": `https://makesy.com/products/${stockState.productHandle}`,
-                                        "empi": stockState.productId,
-                                        "iu" : stockState.productImgUrl.replace(/^https?:/, ''), // image uri without protocol
-                                        "et": 4
-                                    }
-                                    window._swat.addToWishList(wishObj, function(r) {
+                    // el.className = `wish-list-heart swym-button swym-add-to-wishlist-view-product product_${id} swym-icon swym-heart swym-loaded disabled swym-added swym-adding`
+                    el.className = `wish-list-heart swym-button swym-add-to-wishlist-view-product product_${id} swym-icon swym-heart swym-loaded`
+                    // el.className = `wish-list-heart swym-button swym-add-to-wishlist-view-product product_${id}`
+                    console.log('case wish-list-heart; el:', el)
+                    if(el){
+                        _swat.fetchWrtEventTypeET(fetchCallbackFn, 4);       
+                        // fetching all wishlist events
+                    }
+                    function fetchCallbackFn(products){
+                        // console.log('WIP RUN fetchCallbackFn SwymPageData:', SwymPageData)
+                        // const favBadge = document.querySelector('.e-favBadge')
+                        var activeProductId = stockState.productId, 
+                            activeVariantId = stockState.variantId;
+                        // var activeProductId = SwymPageData.empi, 
+                        //     activeVariantId = SwymPageData.epi;
+                        var isInWishlist = products.find(function(p){
+                            return p.empi == activeProductId && p.epi == activeVariantId;
+                        });
+                        if(isInWishlist){
+                            // console.log('WIP IS IN WISHLIST')
+                            // el.setAttribute('disabled', true);
+                            el.disabled = true
+                            el.classList.add('disabled', 'swym-added', 'swym-adding')
+                            // el.innerHTML = "Saved";
+                            // favBadge.style.display = 'inline'
+                        } else {
+                            // console.log('WIP IS NOT IN WISHLIST')
+                            // el.setAttribute('disabled', false);
+                            el.disabled = false
+                            el.classList.remove('disabled', 'swym-added', 'swym-adding')
+                            el.addEventListener("click", function(e){
+                                if(SwymPageData){
+                                    SwymPageData.et = 4	// et 4 stands for wishlist event type
+                                    SwymPageData.empi = stockState.productId
+                                    SwymPageData.epi = stockState.variantId
+                                    SwymPageData.dt = stockState.productTitle
+                                    SwymPageData.du = `https://makesy.com/products/${stockState.productHandle}`
+                                    // console.log('WIP SwymPageData NOW:', SwymPageData)
+                                    _swat.addToWishList(SwymPageData, function(e){
+                                    // el.innerHTML = "Saved"; 
+                                        // console.log('WIP ADD TO WISHLIST, SwymPageData:', SwymPageData)
                                         el.disabled = true
                                         el.classList.add('disabled', 'swym-added', 'swym-adding')
-                                    }, false)
-                                });
-                            }
-                        });
-                     }
-                     if(!window.SwymCallbacks) {
-                      window.SwymCallbacks = []
-                     }
-                     window.SwymCallbacks.push(swymCallbackFn)
+                                        // favBadge.style.display = 'inline'
+                                    })
+                                }
+                            });
+                            // favBadge.style.display = 'none'
+                        }
+                    }
                     break;
                 case 'PDP_inventory':
                     const inventoryToString = product.variants[0].inventoryQuantity +''
@@ -517,6 +455,7 @@ class PDP {
                     break;
                 case 'PDP_color':
                     const Color = color || data.color
+                    console.log(this.state)
                     if(Color) {
                         el.textContent = 'Color: ' + Color
                         document.querySelector('circle[style]').removeAttribute('style')
@@ -529,7 +468,6 @@ class PDP {
                 /* Update Clips */
                 case 'm-dropdown': 
                     const clipsInput = el.querySelector('[title="Separate"]')
-                    console.log('clipsInput:', clipsInput)
                     const preInsertedElement = document.getElementsByClassName('Pre-Inserted')[0]
 
                     if(clipsInput && preInsertedElement) {
@@ -659,6 +597,11 @@ class PDP {
                     stockState.productId = swatchProductId
                     stockState.productHandle = data.product.handle
                     stockState.productImgUrl = data.product.images[0].url
+
+                    // stockState.productTitle = product.data.product.title
+                    // stockState.productHandle = product.data.product.handle
+                    // stockState.productId = swatchProductId
+                    // stockState.productImgUrl = product.data.product.images[0].url
                 })
             }
         }
@@ -869,10 +812,6 @@ class PDP {
         stockState.phoneInput.value = ''
         stockState.submitBtn.disabled = true
     }
-
-    static wishlist() {
-
-    }
 }
 
 class PDP_wicks extends PDP {
@@ -906,6 +845,7 @@ class PDP_wicks extends PDP {
     processWickFormData() {
         const inputs = Array.from(document.querySelectorAll('.PDP_product-form input:checked'))
         const quantity = document.querySelector('.m-quantity-select:checked').value
+        console.log(document.querySelector('.product-form-size .wick-variant-select input:checked')?.value)
 
         if (inputs.length <= 3) {
             console.log(document.querySelector('.wick-variant-select input:checked')?.value)
@@ -924,6 +864,7 @@ class PDP_wicks extends PDP {
         const packSize = document.querySelector('#select-pack-size input:checked')?.value
         const clipIndex = packSize == '100' || !packSize ? 0 : 1
         const variantId = this.getPriceAndVariant().id.replace(/[^0-9]/g,'')
+        console.log('variantId:', variantId)
 
         /* Wick products with option dropdowns */
         const formData = inputs.reduce((arr, input) => {
@@ -978,10 +919,6 @@ class PDP_wicks extends PDP {
         this.updateProductContent(productContent)
         this.loadOptionDropDowns(variants)
         this.loadWickTypeDropDown(products)
-        stockState.productId = this.state.products[0].id
-        stockState.variantId = this.state.products[0].variants[0].id
-        stockState.productHandle = this.state.products[0].handle
-        stockState.productImgUrl = this.state.products[0].images[0].url
     }
 
     updateWithProduct(data){
@@ -1051,11 +988,8 @@ class PDP_wicks extends PDP {
         this.state.pricings = {}
 
         return variants.reduce((newObj, {title, id, inventoryQuantity,inventoryPolicy, price, selectedOptions}, j) => {
-            /* Incase of quote remove */
-            const titleProp = this.isWickProduct() ? title : title.replace(/"$/g, '')
-
             /* Update options state */
-            this.state.options[titleProp] = id.replace(/[^0-9]/g, '')
+            this.state.options[title] = id.replace(/[^0-9]/g, '')
             this.state.pricings[j] = Number(price)
             this.state.inventory[j] = inventoryQuantity
             this.state.inventoryPolicy[j] = inventoryPolicy
@@ -1164,7 +1098,7 @@ class PDP_wicks extends PDP {
                 firstInput.title = "Select a wick type"
                 firstInput.checked = true
                 firstLabel.textContent = "Select a wick type"
-            }
+            } 
 
             /* Input for dropdowns */
             const input = document.createElement('input')
@@ -1311,7 +1245,6 @@ class PDP_wicks extends PDP {
             stockState.notifyBtn.style.display = 'block'
             return this.submitBTN.setAttribute('disabled', '')
         } else {
-            this.submitBTN.style.display = 'block' 
             this.submitBTN.children[0].textContent = this.submitBTN.children[0].textContent.replace(/out of stock/, 'add to cart')
             this.submitBTN.style.display = 'block'
             stockState.notifyBtn.style.display = 'none'
@@ -1353,7 +1286,7 @@ class PDP_wicks extends PDP {
 
         const price = clipsPrice + priceObj[index]  
         const id = this.state.options[selectedVariant]
-        stockState.variantId = id
+
         console.log('id:', id)
         return {id, price, inventory, inventoryPolicy}
     }
@@ -1424,25 +1357,12 @@ class PDP_wicks extends PDP {
         console.log('value:', value)
         const title = e.target.title
 
-        if(this.state.product) {
-            // console.log('only product')
-            // const currentVariant = this.state.product.variants.find(v => v.id == )
-        } else if(this.state.products) {
-            // console.log('only products')
-            // const currentVariant = this.state.products.find(item => item)
-        }
-        // stockState.productId = this.state.products[0].id
-        // stockState.variantId = this.state.products[0].variants[0].id
-        // stockState.productHandle = this.state.products[0].handle
-        // stockState.productImgUrl = this.state.products[0].images[0].url
-
         // variant url param
         const url = new URL(window.location.href)
         url.searchParams.append('variant', value)
         
         if(['collection', 'product'].includes(name)) {
             this.updateWickProduct(e.target)
-            stockState.variantId = value
         } else if(['0', '1', '2' ].includes(optionIndex)) {
             if(optionIndex == '0') {
                 this.addMessage('', false, true)
@@ -1463,9 +1383,8 @@ class PDP_wicks extends PDP {
             window.history.replaceState(null, null, `?variant=${value}`); 
             this.addMessage('', false, true)
             this.updateInventory(e.target)
-            this.updatePrice()
             const hasBulkDiscounts = e.target.dataset.bulkDiscounts
-           
+            this.updatePrice()
             if(!hasBulkDiscounts) return this.bulk_message.style.transform = null;
             
             // Don't run message until quantity is selected above
@@ -1473,7 +1392,6 @@ class PDP_wicks extends PDP {
                 this.state.checkedTitle = title 
                 this.bulkMessage(this.state.quantity)
             }
-            
         }
     }
 
@@ -1579,4 +1497,30 @@ window.addEventListener('DOMContentLoaded', () => {
     // if(fav.contains('disabled')) favBadge.style.display = 'none'
 })
 
+// window.addEventListener('DOMContentLoaded', (event) => {});
+// addMessage(message, open, error) 
+
+// Yotpo reviews add scrollbar if overflow dynamically
+// window.addEventListener('DOMContentLoaded', (event) => {
+//     const productContent = document.querySelector('.Product__InfoWrapper')
+//     const scrollEl = document.querySelector('.c-arrow-down')
+    
+//     const resizeObserver = new ResizeObserver(entries => {
+//         const height = entries[0].contentRect.height
+
+//         if (height > 949 && window.innerWidth > 640) {
+//             productContent.classList.add('scroll-bar-product')
+//             scrollEl.querySelector('span').classList.add('animate-arrow')
+//         } else
+//             productContent.classList.remove('scroll-bar-product')
+//     });
+
+//     resizeObserver.observe(productContent);
+
+//     let hasScrolled = false
+//     productContent.addEventListener('scroll', (e) => {
+//         if (!hasScrolled) scrollEl.style.display = 'none'
+//         hasScrolled = true
+//     })
+// });
 

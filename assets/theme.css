@@ -2230,7 +2230,10 @@ body:not(.is-tabbing) .flickity-enabled:focus {
     padding-left: 30px;
     padding-right: 30px;
   }
-
+  #sidebar-menu .Drawer__Container {
+    padding-left: 0;
+    padding-right: 0;
+  }
   .Drawer--fromRight .Drawer__Close {
     right: 30px;
     left: auto;
