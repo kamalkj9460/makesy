@@ -1,0 +1,60 @@
+
+<div class="Search__filter-desktop">
+    <accordian-nav class="c-accordian__menu"> 
+        <div class="accordian__menu_items">
+            <h3 class="menu_item --open">search by</h3>
+            <form action="{{ routes.search_url }}">
+                <input
+                    name="q"
+                    value="{{ search.terms | escape }}"
+                    type="hidden"
+                />
+                <label 
+                    for="article"
+                    {% if articleCount > 0 %}style="color: #D58778;"{% endif %}
+                >
+                    articles ({{articleCount}})
+                    <input id= "article" type="submit" name="type" value="article" />
+                </label>
+                <label 
+                    for="products"
+                    {% if productCount > 0 %}style="color: #D58778;"{% endif %}
+                >
+                    products ({{productCount}})
+                    <input id= "products" type="submit" name="type" value="product" />
+                </label>
+                <label 
+                    for="pages"
+                    {% if pageCount > 0 %}style="color: #D58778;"{% endif %}
+                >
+                    pages ({{pageCount}})
+                    <input id= "pages" type="submit" name="type" value="page" />
+                </label>
+            </form>
+            <span class="nav_state">
+                <span></span>
+                <span></span>
+            </span>  
+        </div>
+        <div class="accordian__menu_items">
+            <h3 class="menu_item">price</h3>
+            <form action="{{ routes.search_url }}">
+                <input
+                    name="q"
+                    value="{{ search.terms | escape }}"
+                    type="hidden"
+                />
+                <label for="price-ascending">lowest price
+                    <input id= "price-ascending" type="submit" name="sort_by" value="price-ascending" />
+                </label>
+                <label for="price-descending">highest price
+                    <input id= "price-descending" type="submit" name="sort_by" value="price-descending" />
+                </label>
+            </form>
+            <span class="nav_state">
+                <span></span>
+                <span></span>
+            </span>
+        </div> 
+    </accordian-nav>
+</div>

@@ -1,0 +1,639 @@
+ 
+{%- capture section_settings -%}
+{
+  "enableHistoryState": true,
+  "templateSuffix": {{ product.template_suffix | json }},
+  "showInventoryQuantity": {{ section.settings.show_inventory_quantity | json }},
+  "showSku": {{ section.settings.show_sku | json }},
+  "stackProductImages": {{ section.settings.stack_images | json }},
+  "showThumbnails": {{ section.settings.show_thumbnails | json }},
+  "enableVideoLooping": {{ section.settings.enable_video_looping | json }},
+  "inventoryQuantityThreshold": {{ section.settings.inventory_quantity_threshold }},
+  "showPriceInButton": {{ section.settings.show_price_in_button | json }},
+  "enableImageZoom": {{ section.settings.enable_image_zoom | json }},
+  "showPaymentButton": {{ section.settings.show_payment_button | json }},
+  "useAjaxCart": {% if settings.cart_type == 'drawer' %}true{% else %}false{% endif %}
+}
+{%- endcapture -%}
+
+{% assign bulk_discounts = product.metafields.bulk_discount | json %}
+{% assign has_bulk_discounts = product.metafields.bulk_discount.has_bulk_discounts %}
+{% assign largest_bulk_quantity = 250 %}
+{%- assign bulk_discounts_titles = product.metafields.bulk_discount.has_bulk_discounts | split: ','-%}
+
+
+<script>console.log('product s',{{ product | json }})</script> 
+{% assign hasBulkDiscounts = false %}
+{% if has_bulk_discounts %}
+    {% assign hasBulkDiscounts = true %}
+    {% assign largest_bulk_quantity = product.metafields.bulk_discount.quantity | split: ',' | last %}
+{% endif %}
+{% if product.handle contains 'wick' %}
+    {% assign hasBulkDiscounts = true %}
+    {% assign largest_bulk_quantity = 1000 %}
+{% elsif product.handle contains 'maker-pro-annual-membership' %}
+    {% assign largest_bulk_quantity = 1 %}
+{% endif %}
+
+{% if product.handle contains 'sample-kit' or product.handle contains 'clip' or  product.handle contains 'mini-kit' or product.type == 'candle-accessories' or product.handle contains 'wick-stickers' %}
+    {% assign hasBulkDiscounts = false %}
+{% endif %}
+{% assign stock = product.variants[0].inventory_quantity %}
+{% if stock < 100 and stock > 0  %}
+    {% assign stock = 'less than 100 in stock' %}
+{% else %}
+    {% assign stock = '' %}
+{% endif %}
+<!-- Thumb Images -->
+{% assign imgCount = 0 %}
+{%- for img in product.images -%}
+    {%- if forloop.first != true and img.aspect_ratio < 0.99 and img.aspect_ratio > 0.6  -%}
+        {% assign imgCount = imgCount | plus: 1 %}
+    {%- endif -%}
+{% endfor %}
+
+<section class="Product Product--{{ section.settings.image_size }}" data-section-id="{{ section.id }}" data-section-type="product" data-section-settings='{{ section_settings }}'>
+    <div class="PDP">
+        <div class="PDP_container">
+            <!-- Swym Notification Toast -->
+        	<div id="swym-custom-notify-container"class="swym-custom-notify-container container-fluid" style="z-index: 99999;"></div>
+            <div class="PDP_grid">
+                <div class="PDP_grid-left">
+                    <div class="PDP_grid-items">
+                        <div class="PDP_thumbs">
+                            {%- for img in product.images -%}
+                                {%- if imgCount != 0 and img.aspect_ratio < 0.99 and img.aspect_ratio > 0.7  -%}
+                                    <div class="PDP_thumb">
+                                        <img src="{{ img | img_url: '500x'}}" alt="product thumbnails"/>
+                                    </div>
+                                {%- endif -%}
+                            {% endfor %}
+                        </div>
+                        <div class="PDP_mainImage">
+                            <img class="fade-in" src="{{ product.images[0] | img_url: '800x' }}" alt="product main image"/>
+                            <img class="ProductMetaTitle__PinItIcon fade-in" src="{{ 'pin-it-button.svg' | asset_url }}" onclick="pinIt(event)" data-imgurl="{{ product.media[0].src | image_url: width: 400 }}">
+                        </div>
+                    </div>
+                    <span class="PDP__desktop">
+                        {% render 'product-tabs', hasBulkDiscounts: hasBulkDiscounts %}
+                    </span>
+                </div>
+                <div class="PDP_grid-right">
+                    <div class="PDP_content">
+                        <div class="PDP_heading">
+                            {% render 'swym-product-view', product: product %}
+                            <h2 class="PDP_heading-title">{{ product.title }}</h2>
+                            {% for tag in product.tags %}
+                                {% if tag contains 'makes' %}
+                                    <div>
+                                        <img class="e-productTitleIcon" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/kits-{{tag}}.png"> 
+                                    </div>
+                                {% endif %}
+                                {%- if tag == "functional-fragrance" -%}
+                                <div>
+                                    <img class="e-productTitleIcon" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png" 
+                                    alt="Functional Fragrance Icon">
+                                </div>
+                                {%- endif -%}
+                            {% endfor %}
+                        </div> 
+                        <div class="PDP_price-inventory">
+                            {% if customer.tags contains 'maker_pro' and product.id == 7409347428506 %}
+                                <p class="PDP_price" id="ProductPrice"><span class="PDP-price-line_through">{{product.price | money}}</span>$799 for makerpro members</p>
+                            {% else %}
+                                <p class="PDP_price" id="ProductPrice">{{product.price | money}}</p>
+                            {% endif %}
+                            
+                            {% if product.type == 'vessels' or product.type == 'lids' or product.type == 'packaging' or product.type == 'bottles' or product.type == 'diffuser set' %}
+                                <div>
+                                    <p class="PDP_inventory">{{ stock }}</p>
+                                    <a class="PDP_stockReviewLink" href="#goReviews">write a review</a>
+                                </div>
+                            {% endif %}
+
+                            {% unless product.type == 'vessels' or product.type == 'lids' or product.type == 'packaging' or product.type == 'bottles' or product.type == 'diffuser set' %}
+                                <a class="PDP_reviewLink" href="#goReviews">write a review</a>
+                            {% endunless %}
+                        </div>
+                        <div class="PDP_description">
+                            <div class="Rte"> 
+                                {{ product.description | replace: 'data-section-type', 'data-section-type-placeholder' }}
+                            </div>
+                        </div> 
+                        <!-- Vessel Swatches -->
+                        {% if product.type == 'vessels' or product.type == 'diffuser set' %}
+                            <div class="PDP_swatches">
+                                {% if product.type == 'vessels' %}
+                                    {% assign collectionHandle = 'vessels' %}
+                                {% else %}
+                                    {% assign collectionHandle = '5oz-mod-diffuser-set' %}
+                                {% endif %}
+                                {% assign color-swatchers = shop.metafields.global.color-swatchers %}
+                                {% assign category = '' %}
+                                {% assign first = 0 %}
+                                <!-- Get the category for color that matches the current product handle and asign to category -->
+                                {% for color in color-swatchers %}
+                                    {% if color.product-handle == product.handle %}
+                                        {% assign category = color.category %}
+                                        {% assign currentColor = color.color-name %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% for color in color-swatchers %}
+                                    {% paginate collections[collectionHandle].products by 300 %}
+                                        {% for product in collections[collectionHandle].products %}
+                                            {% if product.handle == color.product-handle and color.category == category %}
+                                                {% for img in product.images %}
+                                                    {% if img.width == 200 %}
+                                                        {% assign first = first | plus: 1 %}
+                                                            {% if first == 1 %}<p class="PDP_color">Color: {{currentColor}}</p>{% endif %}
+                                                            <span class="swatch_color-item" data-swatch-product-id="{{product.id}}" data-swatch-color="{{color.color-name}}">
+                                                                <img src="{{ img | image_url: width: 50 }}" alt="" />
+                                                                <svg viewBox="0 0 30 30">
+                                                                    <circle {% if currentColor == color.color-name %}style="stroke-dashoffset: 0;" {% endif %} cx="15" cy="15" r="13"/>
+                                                                </svg>
+                                                            </span>
+                                                        {% break %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endpaginate %}
+                                {% endfor %}
+                            </div>                             
+                        {% endif %}
+                        <div class="PDP_product-form">
+                          {% include 'yotpo-subs-product-page-widget' %}
+                            {% assign dropDownTitle = product.options[0] %}
+                            {% assign variants = product.variants %}
+                            {% if product.handle contains "wick" and hasBulkDiscounts or product.title == "WICK SAMPLE KITS" or product.title == "MINI WICK SAMPLE KITS" %}
+                                {%- render 'PDP-wicks', product: product, variants: variants -%}
+                            {% else %}
+                                <!-- if product has variants else don't show dropdown -->
+                                {% if variants.size > 1 %}
+                                    <!-- multiple dropdowns -->
+                                    {% for option in product.options_with_values %}
+                                        {% assign index = forloop.index0 %}
+                                        <div class="m-dropdown PDP-options">
+                                            <button class="options-select btn-dropdown PDP-dropdown-toggle radios">
+                                                <input 
+                                                    id="default"
+                                                    data-products-id="{{product.id}}" 
+                                                    type="radio" 
+                                                    name="{{option.name}}"
+                                                    title="{{option.name}}"
+                                                    value="{{option.values[0] | remove: '"'}}"
+                                                    data-index="{{- index -}}"
+                                                    data-stock="{{variants[0].inventory_quantity}}"
+                                                    data-policy="{{variants[0].inventory_policy}}"
+                                                    data-variant-price="{{variants[0].price | money_without_currency }}"
+                                                    {%- if variants[0].title == has_bulk_discounts -%}data-bulk-discounts='{{ bulk_discounts }}'{%- endif -%}
+                                                    checked
+                                                > 
+                                                <!-- data-stock & data-policy need figuring out due to single option dropdown removal -->
+                                                {% for value in option.values %}
+                                                    {% assign val = value | remove: '"' %}
+                                                    <input 
+                                                        id="{{val}}-{{option.position | remove: '"'}}"
+                                                        type="radio" 
+                                                        name="{{option.name}}"
+                                                        title="{{val}}"
+                                                        value="{{val}}"
+                                                        data-index="{{- index -}}"
+                                                        data-stock="{{variants[0].inventory_quantity}}"
+                                                        data-policy="{{variants[0].inventory_policy}}"
+                                                        data-variant-price="{{variant.price | money_without_currency }}"
+                                                        {% for title in bulk_discounts_titles %}
+                                                            {% assign variantTitle = value | strip | downcase %}
+                                                            {% assign bulkTitle = title | strip | downcase  %}
+                                                            {%- if variantTitle == bulkTitle -%} data-bulk-discounts='{{ bulk_discounts }}'{%- endif -%}
+                                                        {% endfor %}
+                                                    >  
+                                                {% endfor %}
+                                                <span class="btn-carrot">
+                                                    <svg role="presentation" viewBox="0 0 19 12">
+                                                        <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                            <div class="dropdown-menu-items options-select-label" aria-labelledby="dropdownMenuButton">
+                                                <ul class="menu-list">
+                                                    {% for value in option.values %}
+                                                        {% assign val = value | remove: '"' %}
+                                                        <li data-index="{{- index -}}">
+                                                            <!-- for value has to match input id value above -->
+                                                            <label for="{{val}}-{{option.position}}">{{value}}</label>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                            <!-- Quantity Dropdown -->
+                            <div class="m-dropdown m-dropdown-quantity">
+                                <button class="btn-dropdown-quantity btn-dropdown PDP-dropdown-toggle radios" type="button"
+                                    {% if product.title == "makerpro annual membership" %} 
+                                        style="display: none;" 
+                                    {% endif %}
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <input type="radio" 
+                                        class="m-quantity-select"
+                                        name="quantity" 
+                                        id="default"
+                                        title="quantity"
+                                        value="1"
+                                        checked
+                                    >
+                                    {% for q in (1..largest_bulk_quantity) %}
+                                        <input type="radio" 
+                                            class="m-quantity-select"
+                                            name="quantity" 
+                                            id="_{{q}}"
+                                            title="{{q}}" 
+                                            value="{{q}}"
+                                        >
+                                    {% endfor %}
+                                    <span class="btn-carrot">
+                                        <svg role="presentation" viewBox="0 0 19 12">
+                                            <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                                          </svg>
+                                    </span>
+                                </button>
+                                <div class="dropdown-menu-items" aria-labelledby="dropdownMenuButton">
+                                    <ul class="menu-list">
+                                        {% for r in (1..largest_bulk_quantity) %}
+                                            <li>
+                                                <label for="_{{r}}">{{r}}</label>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="PDP_message-reveal">
+                                <p class="PDP_bulk_message"></p>
+                                <p class="PDP_error_message"></p>
+                                <button 
+                                    class="PDP__cart-submit gradient-hover-btn"
+                                    data-variant-price="{{variants[0].price | money_without_currency }}"
+                                    data-product-variant-id="{{variants[0].id}}"
+                                    {%- if has_bulk_discounts and variants.size == 1 -%} 
+                                        data-bulk-discounts='{{ bulk_discounts }}'
+                                        title="{{bulk_discounts_titles[0]}}"
+                                    {% endif %}
+                                    {% if customer.tags contains "maker_pro" %}data-vip="true"{% endif %}
+                                    {% unless product.available %}disabled{% endunless %}
+                                >
+                                    <span>{% if product.available %}ADD TO CART{% else %}OUT OF STOCK{% endif %}</span>
+                                </button>
+                                <button
+                                    class="e-notifyBtn"
+                                    onclick="PDP.notifyOpen(event)"
+                                    data-product-id="{{product.id}}"
+                                    data-product-variant-id="{{variants[0].id}}"
+                                >
+                                    Notify Me When Available
+                                </button>
+                                <!-- Notify When Available button -->
+                                <div class="c-notify">
+                                    <div class="m-notifyContainer">
+                                        <h1 class="e-notifyTitle">notify when available</h1>
+                                        <hr>
+                                        <p class="e-notifyMsg">We will send you a notification as soon as this product is available again.</p>
+                                        <h2 class="e-notifyItemTitle">{{product.title}}</h2>
+                                        <span class="e-closeNotify">&times;</span>
+                                        <div class="m-notifyBtns">
+                                            <button class="e-selectEmail active" onclick="PDP.notifySelect(event)" data-delivery="email">email</button>
+                                            <button class="e-selectText" onclick="PDP.notifySelect(event)" data-delivery="text">sms</button>
+                                        </div>
+                                        <form>
+                                            <input
+                                                class="e-emailInput"
+                                                oninput="PDP.notifyBtnState(event)"
+                                                type="email"
+                                                name="email"
+                                                placeholder="email address"
+                                                required
+                                            >
+                                            <input
+                                                class="e-phoneInput"
+                                                oninput="PDP.notifyBtnState(event)"
+                                                id="phon"
+                                                type="tel"
+                                                name="phone"
+                                                placeholder="phone number"
+                                            >
+                                            <button
+                                                class="e-notifySend"
+                                                onclick="PDP.notifySend(event)"
+                                                type="submit"
+                                                data-product-id="{{product.id}}"
+                                                data-product-variant-id="{{variants[0].id}}"
+                                                data-notify-method="email"
+                                                disabled
+                                            >
+                                                notify me
+                                            </button>
+                                        </form>
+                                        <div class="e-notifyResult"></div>
+                                        <p class="e-emailSmall">By signing up via email, you agree to receive recurring automated promotional and personalized marketing emails (e.g. cart reminders) from makesy at the email used when signing up. Consent is not a condition of any purchase.</p>
+                                        <p class="e-smsSmall">By signing up via text, you agree to receive recurring automated promotional and personalized marketing text messages (e.g. cart reminders) from makesy at the cell number used when signing up. Consent is not a condition of any purchase. Reply HELP for help and STOP to cancel. Msg frequency varies. Msg and data rates may apply. View <a href="https://attnl.tv/t/1jR">Terms</a> & <a href="https://attnl.tv/p/1jR">Privacy</a>. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="PDP__and_Quickview-bottom-content">
+                                <div class="m-fav">
+                                    <button 
+                                        data-with-epi="true" 
+                                        class="wish-list-heart swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                                        data-swaction="addToWishlist" 
+                                        data-product-id="{{product.id | json}}" 
+                                        data-variant-id="{{product.variants[0].id}}" 
+                                        data-product-url="{{ shop.url }}{{ product.url }}">
+                                    </button>
+                                    <!-- Swym Wishlist Plus EPI Button-->
+
+                                    <span>favorite</span>
+                                </div>
+                                <afterpay-placement data-locale="en_US" data-currency="USD" data-amount-selector="#ProductPrice" data-size="s"
+                                    data-badge-theme="mint-on-black" data-show-upper-limit="true"
+                                    data-is-eligible="{%if productIsIneligible%}false{%else%}true{%endif%}"
+                                    style="text-align: center; margin-top: 15px;font-family: 'Futura-PT-Light';color: #222222;--logo-badge-width: 75px;">
+                                </afterpay-placement>
+                            </div>
+                        </div>
+                    </div>
+                    {% render 'product-tabs', itemFor: 'right_column', hasBulkDiscounts: hasBulkDiscounts %}
+                </div>
+                <!-- Product tabs dropdown for mobile only -->
+                <span class="PDP__mobile">
+                    {% render 'product-tabs', hasBulkDiscounts: hasBulkDiscounts %}
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Product page",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Clip Variant ID's"
+    },
+    {
+      "type": "paragraph",
+      "content": "Enter the ID's for each of the wick clip variants. These values are used on the clips PDP to add clips to the cart along with the customer's chosen wicks."
+    },
+       {
+      "type": "text",
+      "id": "clips_preinserted_100",
+      "label": "Pre-Inserted 100",
+      "default": "39438009106581"
+    },
+    {
+      "type": "text",
+      "id": "clips_preinserted_1000",
+      "label": "Pre-Inserted 1000",
+      "default": "41472973406357"
+    },
+    {
+      "type": "text",
+      "id": "clips_separate_flat_100",
+      "label": "Separate: Flat 100",
+      "default": "39438009434261"
+    },
+     {
+      "type": "text",
+      "id": "clips_separate_flat_1000",
+      "label": "Separate: Flat 1000",
+      "default": "41472958496917"
+    },
+      {
+      "type": "text",
+      "id": "clips_separate_xWicks_100",
+      "label": "Separate: X Wicks 100",
+      "default": "41472992510101"
+    },
+     {
+      "type": "text",
+      "id": "clips_separate_xWicks_1000",
+      "label": "Separate: X Wicks 1000",
+      "default": "41472992542869"
+    },
+    {
+      "type": "text",
+      "id": "clips_separate_spiral_100",
+      "label": "Separate: Spiral 100",
+      "default": "39438081261717"
+    },
+      {
+      "type": "text",
+      "id": "clips_separate_spiral_1000",
+      "label": "Separate: Spiral 1000",
+      "default": "41472973406357"
+    },
+    {
+      "type": "header",
+      "content": "General PDP Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show social sharing buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_taxes_included",
+      "label": "Show price taxes notice",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "description_below_add_to_cart",
+      "label": "Description below add to cart",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "selector_mode",
+      "label": "Selector type",
+      "options": [
+        {
+          "value": "block",
+          "label": "Block"
+        },
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        }
+      ],
+      "default": "dropdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatch",
+      "label": "Show color swatch",
+      "default": false,
+      "info": "Some colors appear white? [Learn more](http://support.maestrooo.com/article/80-product-uploading-custom-color-for-color-swatch)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_carousel",
+      "label": "Show color carousel",
+      "info": "A pop-up selector with variant images for choosing colors. Only enables when color swatch is disabled.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inventory_quantity",
+      "label": "Show inventory quantity",
+      "info": "Make sure that your inventory is tracked. [Learn more](https://help.shopify.com/manual/products/inventory#set-up-inventory-tracking).",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "inventory_quantity_threshold",
+      "label": "Inventory quantity threshold",
+      "info": "Only show inventory quantity if below threshold. Choose 0 to always show.",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price_in_button",
+      "label": "Show price in add to cart button",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_button",
+      "label": "Show dynamic checkout button",
+      "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "paragraph",
+      "content": "Learn more about [media types](https://help.shopify.com/en/manual/products/product-media)"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "fill",
+          "label": "Fill screen"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_images",
+      "label": "Stack images on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show thumbnails on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": "Enable zoom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "paragraph",
+      "content": "You need to install [Shopify's free Product Reviews](https://apps.shopify.com/product-reviews) app before enabling this option."
+    },
+    {
+      "type": "checkbox",
+      "id": "reviews_enabled",
+      "label": "Enable",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Featured image"
+    },
+    {
+      "type": "paragraph",
+      "content": "You can highlight an image after product tabs by adding the ALT tag \"featured\" to a given image. [Learn more](http://support.maestrooo.com/article/152-product-highlight-a-featured-image)."
+    },
+    {
+      "type": "select",
+      "id": "featured_image_size",
+      "label": "Section size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "large"
+    }
+  ]
+}
+{% endschema %}

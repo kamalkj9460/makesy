@@ -1,0 +1,136 @@
+<section class="index__section-seven" id="index__section-seven-{{section.id}}">
+	<div class="index__container">
+		<header class="index__section-seven-header">
+			<h3 class="index__section-seven-heading">{{ section.settings.subheading | escape }}</h3>
+			<h1 class="header__heading">{{ section.settings.heading| default: collection.title }}</h1>
+		</header>
+    </div>
+        <div class="section-seven__caorusel-container">
+            <div class="c-carousel" data-scroll="600">
+                <div class="c-carousel-wrap">
+                    <div class="carousel-item-array">
+                        {%- for block in section.blocks -%}
+                            {%- assign collection = collections[block.settings.collection] -%}
+                            {%- if collection != empty -%}
+                                <div class="c-carousel-item">
+                                    <a href="{{ block.settings.collection_link_url }}">
+                                        <img class="m-carousel-img" src="{{ block.settings.collection_image | img_url: '600x' }}" alt="collection item">
+                                        <div class="carousel__item-info">
+                                            <p class="collection__collection_title">{{block.settings.collection_title}}</p>
+                                            <p class="collection__collection_subtitle">{{block.settings.collection_subtitle}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            {%- endif -%}
+                        {%- endfor -%}
+                    </div>
+                </div>
+                <div class="c-left-btn">
+                    <svg x="0px" y="0px"  viewBox="0 0 16 16" xml:space="preserve">
+                        <path class="top-arm" d="M4.65,7.65l6-6c0,0,0,0,0,0c0.2-0.19,0.51-0.19,0.71,0c0,0,0,0,0,0c0.19,0.2,0.19,0.51,0,0.71
+                            L5.71,8L4.5,8C4.5,7.87,4.55,7.74,4.65,7.65z" />
+                        <path class="bottom-arm" d="M5.71,8l5.65,5.65c0.2,0.2,0.2,0.51,0,0.71c-0.2,0.2-0.51,0.2-0.71,0l-6-6c0,0,0,0,0,0
+                            C4.55,8.25,4.5,8.13,4.5,8L5.71,8z" />
+                            <circle cx="5.11" cy="8" r="0.57"/>
+                    </svg>
+                </div>
+                <div class="c-right-btn">
+                    <svg x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve">
+                        <path class="top-arm" d="M11.35,7.65l-6-6c0,0,0,0,0,0c-0.2-0.2-0.51-0.19-0.71,0c0,0,0,0,0,0c-0.2,0.2-0.19,0.51,0,0.71
+                            L10.29,8h1.21C11.5,7.87,11.45,7.74,11.35,7.65z" />
+                        <path class="bottom-arm" d="M10.29,8l-5.65,5.65c-0.2,0.2-0.2,0.51,0,0.71s0.51,0.2,0.71,0l6-6c0,0,0,0,0,0
+                            c0.1-0.1,0.15-0.23,0.15-0.35H10.29z" />
+                            <circle cx="10.87" cy="8" r="0.59"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="index__container">
+		    <a href="{{ section.settings.link_url }}" class="section-cta gradient-hover-btn">{{ section.settings.link_text | escape }}</a>
+        </div>
+</section>
+
+{% schema %}
+{
+	"name": "Index Section seven",
+	"class": "section-seven",
+	"max_blocks": 15,
+	"settings": [
+	{
+		"type": "header",
+		"content": "Collection Group Settings"
+	  },
+	  {
+		"type": "text",
+		"id": "subheading",
+		"label": "Sub-heading",
+		"default": "Sub-heading"
+	  },
+	  {
+		"type": "text",
+		"id": "heading",
+		"label": "Heading",
+		"default": "Heading"
+	  },
+	  {
+		"type": "text",
+		"id": "link_text",
+		"label": "Link Text",
+		"default": "Add the text for this collections's link..."
+	  },
+	  {
+		"type": "url",
+		"id": "link_url",
+		"label": "Link"
+	  }
+	],
+	"blocks": [
+	  {
+		"type": "collection_group",
+		"name": "Collection",
+		"settings": [
+		  {
+			"type": "collection",
+			"id": "collection",
+			"label": "Collection"
+		  },
+		  {
+			"type": "image_picker",
+			"id": "collection_image",
+			"label": "Image",
+			"info": "290px x 350px .jpg recommended"
+		  },
+		  {
+			"type": "text",
+			"id": "collection_subtitle",
+			"label": "Sub-Title"
+		  },
+		  {
+			"type": "text",
+			"id": "collection_title",
+			"label": "Title",
+			"default": "Title"
+		  },
+		  {
+			"type": "url",
+			"id": "collection_link_url",
+			"label": "Link"
+		  } 
+		]
+	  }
+	],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Index Section seven",
+      "settings": {},
+      "blocks": [
+	  {
+		"type": "collection_group",
+		"settings": {}
+	  }
+      ]
+    }
+  ]
+}
+{% endschema %}

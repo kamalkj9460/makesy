@@ -1,0 +1,142 @@
+<footer id="section-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="footer">
+    <div class="index__section-ten">
+        <div class="index__container">
+            <div class="index__section-ten-cards">
+                <form method="post" action="/contact#footer-newsletter" id="footer-newsletter" accept-charset="UTF-8"
+                    class="Footer__Newsletter Form">
+                    <div class="cards__flex">
+                        <div class="cards__flex-item">
+                            <h3 class="index__section-heading">
+                                {{section.settings.heading}}
+                            </h3>
+                            <p>{{section.settings.para}}</p>
+                        </div>
+                        <div class="cards__flex-item">
+                            <input type="hidden" name="form_type" value="customer">
+                            <input type="hidden" name="utf8" value="✓">
+                            <input type="hidden" name="contact[tags]" value="newsletter">
+                            <input type="email" name="contact[email]" class="Form__Input"
+                                aria-label="Enter your email address" placeholder="Enter your email address"
+                                required="true">
+                        </div>
+                        <div class="cards__flex-item">
+                            <button type="submit" class="section-cta gradient-hover-btn"
+                                onclick="dataLayer.push({'event': 'Footer Email Signup'});">{{section.settings.subscribe_text}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="index__container">
+        <div class="m-footer__topbar">
+            <div class="company__logo">
+              	<a href="https://makesy.com">
+                	<img src="{{" makesy-logomark.svg" | asset_url}}" alt="Company Logo" />
+                </a>
+            </div>
+            <div class="social-icons">
+                <a  target="_blank" href="https://www.facebook.com/makesyofficial">
+                    <img src="{{" facebook.svg" | asset_url}}" alt="facebook icon" />
+                </a>
+                <a  target="_blank" href="https://www.instagram.com/makesy/">
+                    <img src="{{" instagram.svg" | asset_url}}" alt="instagram icon" />
+                </a>
+                <a  target="_blank" href="https://www.pinterest.com/makesyofficial">
+                    <img src="{{" pinterest.svg" | asset_url}}" alt="pinterest icon" />
+                </a>
+                <a  target="_blank" href="https://www.youtube.com/channel/UC55Zy8pKhI2TY2IoIhpU8HA">
+                    <img src="{{" youtube.svg" | asset_url}}" alt="youtube icon" />
+                </a>
+            </div>
+        </div>
+        <accordian-nav class="c-accordian__menu">
+            {%- for menus in linklists.footer.links -%}
+            {%- assign menu_title = menus.title | strip -%}
+                <div class="accordian__menu_items">
+                    <h3 class="menu_item">{{ menus.title}}</h3>
+                    <ul>
+                        {%- for l in menus.links -%}
+                        <a href="{{ l.url}}">
+                            <li>{{l.title}}</li>
+                        </a>
+                        {%- endfor -%}
+                    </ul>
+                    <span class="nav_state">
+                        <span></span>
+                        <span></span>
+                    </span>
+                </div>
+            {%- endfor -%}
+        </accordian-nav>
+        <div class="m-footer__bottombar">
+            <p class="bottombar-left-para">let's get making.</p>
+            <div class="bottombar-center-items">
+                <a href="/pages/the-privacy-policy">policies</a>
+                <a href="/pages/shipping-returns">shipping & returns</a>
+                <a href="https://www.trustpilot.com/review/woodenwick.com?utm_medium=trustbox&utm_source=Mini">trustpilot</a>
+            </div>
+            <p class="bottombar-right-para">&copy; makesy 2022</p>
+        </div>
+    </div>
+</footer>
+
+{% schema %}
+{
+    "name": "Footer",
+    "class": "shopify-section--footer",
+    "settings": [
+        {
+            "id": "heading",
+            "type": "text",
+            "label": "Heading",
+            "default": "stay connected",
+            "label": "Heading"
+        },
+        {
+            "id": "para",
+            "type": "text",
+            "label": "Short paragraph",
+            "default": "Subscribe to get notified about new product launches, special offers and new educational content."
+        },
+        {
+            "type": "text",
+            "id": "email_text",
+            "label": "Button email text",
+            "default": "email address"
+        },
+        {
+            "type": "text",
+            "id": "subscribe_text",
+            "label": "Button subscribe text",
+            "default": "subscribe"
+        },
+        {
+            "type": "image_picker",
+            "id": "social_icon",
+            "label": "Social Icons",
+            "info": "Currently using svg's, svg aren't supported through this theme editer only pngs jpgs."
+        }
+    ],
+    "blocks": [
+        {
+            "type": "image",
+            "name": "social media", 
+            "settings": [ 
+                {
+                    "type": "checkbox",
+                    "id": "show_social_media",
+                    "label": "Show social media",
+                    "info": "Currently using svg's, svg aren't supported through this theme editer only pngs jpgs.",
+                    "default": true
+                },
+                {
+                    "type": "image_picker",
+                    "id": "social_icon",
+                    "label": "Social Icons"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

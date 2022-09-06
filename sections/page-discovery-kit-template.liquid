@@ -1,0 +1,65 @@
+{% if page.handle == 'fragrances-discovery-kit' %}
+    <script>window.addEventListener("load", () => onLoad(201593847962, '.33 oz / 10 ml', 'SHOP BY_All'))</script>
+{% endif %}
+<main class="discoveryKit">
+    <div class="c-hero">
+        <h1 class="e-heading">create. curate. customize.</h1>
+        <p class="e-subheading">
+            Now you can choose any 10 fragrances to add to your customized fragrance discovery kit. Click on the fragrances below to add each one. Happy curating!
+        </p>
+        <div class="m-bundleContainer">
+            <div class="e-previousContainer">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/discoveryKit-prev.png?v=1651099262" alt="previous" class="e-previous">
+            </div>
+            <div class="swiper m-bundle">
+                <div class="swiper-wrapper"></div>
+            </div>
+            <div class="e-nextContainer">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/discoveryKit-next.png?v=1651099262" alt="next" class="e-next">
+            </div>
+        </div>
+        {%- comment -%} Pass kit variant id and key for line item property {%- endcomment -%}
+        {% if page.handle == 'fragrances-discovery-kit' %}
+            <button class="e-submit" onclick="bundle.submit(41937487724698, '_is_discovery_kit')" disabled><span></span></button>
+        {% endif %}
+        <p class="e-bundleAlert">Are you sure? Once you add to bag, you won't be able to edit this kit!</p>
+    </div>
+    <div class="c-filters">
+        <button class="e-filterBtn" onclick="filters.showMenu()"></button>
+        <div class="m-filters">
+            <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/discoveryKit-close.png?v=1651168168" class="e-closeFilters" onclick="filters.closeMenu()" alt="close" />
+            {% if page.handle == 'fragrances-discovery-kit' %}
+                <button class="active" onclick="filters.select(event)" data-tag="SHOP BY_All">all</button>
+                <button onclick="filters.select(event)" data-tag="SHOP BY_New Arrivals">new arrivals</button>
+                <button onclick="filters.select(event)" data-tag="SHOP BY_Top Sellers">top sellers</button>
+                <button onclick="filters.select(event)" data-tag="SHOP BY_Functional+">functional+</button>
+                <!-- <button onclick="filters.select(event)" data-tag="SHOP BY_Strongest">strongest</button> -->
+                <button onclick="filters.select(event)" data-tag="SHOP BY_All-Natural">all natural</button>
+                <!-- <button onclick="filters.select(event)" data-tag="FRAGRANCE FAMILY_Aquatic">aquatic</button> -->
+                <button onclick="filters.select(event)" data-tag="FRAGRANCE FAMILY_Citrus">citrus</button>
+                <button onclick="filters.select(event)" data-tag="FRAGRANCE FAMILY_Floral">floral</button>
+                <button onclick="filters.select(event)" data-tag="FRAGRANCE FAMILY_Green">green</button>
+                <button onclick="filters.select(event)" data-tag="FRAGRANCE FAMILY_Sweet">sweet</button>
+                <button onclick="filters.select(event)" data-tag="FRAGRANCE FAMILY_Woody">woody</button>
+                <!-- <button onclick="filters.select(event)" data-tag="BEST FOR PRODUCT TYPE_Mens">mens</button> -->
+                <!-- <button onclick="filters.select(event)" data-tag="BEST FOR PRODUCT TYPE_Luxury">luxury</button> -->
+            {% endif %}
+        </div>
+    </div>
+    <div class="c-productGrid">
+        <div class="m-productContainer"></div>
+    </div>
+</main>
+
+{% schema %}
+  {
+    "name": "Discovery Kit",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,246 @@
+{%- capture flickity_options -%}
+{
+  "prevNextButtons": true,
+  "pageDots": true,
+  "wrapAround": false,
+  "contain": true,
+  "cellAlign": "center",
+  "watchCSS": false,
+  "dragThreshold": 4,
+  "groupCells": 4,
+  "arrowShape": {"x0": 20, "x1": 60, "y1": 40, "x2": 60, "y2": 35, "x3": 25}
+}
+{%- endcapture -%}
+
+<div data-section-id="{{ section.id }}">
+  <section class="Section Section--spacingNormal" >
+	
+  <div class="flex selection_container">
+    <div style="justify-content: flex-start  ;" class="left_container flex flex_col">
+        <div style="margin-bottom: 35px;" class="header">{{ section.settings.header-1}}</div>
+        <div style="flex-wrap: wrap; justify-content:center; align-items: flex-start;" class="flex">
+        <div style="width: 250px; margin: 0 20px 20px 20px" class="flex flex_col">
+            <a target="_top" class="selection_button" href="{{ section.settings.url-1}}">{{ section.settings.button-1}}</a>
+            <div class="description">{{ section.settings.description-1}}</div>
+        </div>
+        <div style="width: 250px; margin: 0 20px 20px 20px" class="flex flex_col">
+            <a target="_top" class="selection_button" href="{{ section.settings.url-2}}">{{ section.settings.button-2}}</a>
+            <div class="description">{{ section.settings.description-2}}</div>
+        </div>
+        </div>
+    </div>
+
+    <div style="justify-content: flex-start;" class="right_container flex flex_col">
+        <div style="margin-bottom: 35px;" class="header">{{ section.settings.header-2}}</div>
+        <div style="flex-wrap: wrap; justify-content:center; align-items: flex-start;" class="flex">
+        <div style="width: 250px; margin: 0 20px 20px 20px" class="flex flex_col">
+            <a target="_top" class="selection_button" href="{{ section.settings.url-3 }}">{{ section.settings.button-3}}</a>
+            <div class="description">{{ section.settings.description-3}}</div>
+        </div>
+        <div style="width: 250px; margin: 0 20px 20px 20px" class="flex flex_col">
+            <a target="_top" class="selection_button" href="{{ section.settings.url-4}}"> {{ section.settings.button-4}}</a>
+            <div class="description">{{ section.settings.description-4}} </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+  </section>
+</div>
+
+<style>
+
+    .flex {
+    display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .flex_col {
+        flex-direction: column;
+    }
+
+    .description {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .selection_container {
+        max-width: 1250px;
+        width: 90vw;
+        margin-top: 35px;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+    }
+
+    .header {
+        font-family: Sackers Gothic Std;
+        font-size: 11px;
+        letter-spacing: .2em;
+        text-transform: lowercase;
+            font-size: 16px;
+        line-height: 22px;
+    }
+
+    .left_container {
+        width: calc(45vw - 1px);
+        border-right: 1px solid transparent;
+    }
+
+    .right_container {
+        width: calc(45vw - 1px);
+        border-left: 1px solid #000;
+    }
+
+    .selection_button {
+        width: 250px;
+        height: 60px;
+        margin-bottom: 15px;
+        background-color: #dfad98;
+        display: flex;
+        align-items: center;
+        font-family: Sackers Gothic Std;
+        text-transform: lowercase;
+        font-size: 12px;
+        line-height: 18px;
+        box-sizing: border-box;
+        justify-content: center;
+        text-decoration: none;
+        text-align: inherit;
+        flex-wrap: wrap;
+        display: inherit;
+        color: inherit;
+        letter-spacing: 2.4px;
+    }
+
+    .border_divider_2 {
+        height: 16px;
+        border-top: 1px solid #000;
+        padding-bottom: 0px;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90vw;
+        max-width: 1250px;
+        background-color: #fff;
+        display: block;
+    }
+    .border_divider_text {
+        height: 30px;
+        margin-top: -17px;
+        width: 450px;
+        padding-top: 1px;
+        background-color: #fff;
+        border: 1px solid #000;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 14px;
+        line-height: 20px;
+        font-family: Sackers Gothic Std;
+        letter-spacing: .2em;
+        text-transform: lowercase;
+    }
+
+    @media (max-width: 750px) {
+    .flex.selection_container {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+        .left_container.flex.flex_col,
+        .right_container.flex.flex_col {
+            width: 100%;
+        }
+    }
+</style>
+{% schema %}
+{
+  "name": "Wicks Guides Selector",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header-1",
+      "label": "Left Header",
+      "default": "i know what i want"
+    },
+    {
+      "type": "text",
+      "id": "header-2",
+      "label": "Right Header",
+      "default": "i would like guidance"
+    },
+    {
+      "type": "html",
+      "id": "button-1",
+      "label": "Button text 1",
+      "default" : "shop all <br>ready-made wicks"
+    },
+    {
+      "type": "url",
+      "id": "url-1",
+      "label": "URL 1"
+    },
+    {
+      "type": "html",
+      "id": "description-1",
+      "label": "Description 1",
+      "default": "As of January 2020, our ready-made wick heights are 3\" and 5\" for flat wicks; 5\" for Spiral and 5\" for Tube wicks. For additional height options, click on Custom Sized-Wicks."
+    },
+    {
+      "type": "html",
+      "id": "button-2",
+      "label": "Button text 2",
+      "default" : "order <br>custom-sized wicks"
+    },
+    {
+      "type": "url",
+      "id": "url-2",
+      "label": "URL 2"
+    },
+    {
+      "type": "html",
+      "id": "description-2",
+      "label": "Description 2",
+      "default": "We off a variety of customized wooden wick options. Click here to order a customized wick."
+    },
+    {
+      "type": "html",
+      "id": "button-3",
+      "label": "Button text 3",
+      "default" : "explore <br>wick selection guide"
+    },
+    {
+      "type": "url",
+      "id": "url-3",
+      "label": "URL 3"
+    },
+    {
+      "type": "html",
+      "id": "description-3",
+      "label": "Description 3",
+      "default": "A helpful guide to determine the <br>best wooden wick for your candle project. We are here for you every step of the way."
+    },
+    {
+      "type": "html",
+      "id": "button-4",
+      "label": "Button text 4",
+      "default" : "order <br>a wick sample kit"
+    },
+    {
+      "type": "url",
+      "id": "url-4",
+      "label": "URL 4"
+    },
+    {
+      "type": "html",
+      "id": "description-4",
+      "label": "Description 4",
+      "default": "An extensive wooden wick sample <br>kit with a variety of different types <br>of wicks + clips to choose from for your project."
+    }
+  ]
+}
+{% endschema %}

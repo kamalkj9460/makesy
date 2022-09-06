@@ -1,0 +1,254 @@
+
+<div class="ProductItem {% if use_horizontal %}ProductItem--horizontal{% endif %}">
+  <div class="ProductItem__Wrapper">
+    {%- comment -%}
+    We are using LazySizes to efficiently choose the most appropriate image in the set. However, because internally LazySizes uses srcset, we need to make
+    sure that the image sizes we offer is not larger than the max size uploaded by the merchants.
+    {%- endcomment -%}
+
+    {%- if settings.product_image_size == 'natural' or use_horizontal -%}
+      {%- assign use_natural_size = true -%}
+    {%- else -%}
+      {%- assign use_natural_size = false -%}
+    {%- endif -%}
+
+    {%- if settings.product_show_secondary_image and product.media[1] != blank and use_horizontal != true -%}
+      {%- assign has_alternate_image = true -%}
+    {%- else -%}
+      {%- assign has_alternate_image = false -%}
+    {%- endif -%}
+
+
+{% assign types= shop.metafields.global.wicks_collections   %}
+  {% assign is_not_virtual_type=true   %}
+  {%for item in types  %}
+  {% if item.virtual_type == product.type   %}
+   {% assign is_not_virtual_type= false  %}
+  {%endif%}
+  {%endfor%}
+
+
+  {% if template != "search.ajax" and template !="search" and  product.type != 'wick-clips'  and is_not_virtual_type %}
+     {% comment %} Quickview {% endcomment %}
+    <div class="ProductItem__Quickview {% if collection.handle contains 'enhancers' %}ProductItem__Quickview--alt{% endif %} {% if product.type == 'virtual-wicks' or product.type == 'virtual-custom-wicks' %}ProductItem__Quickview--wicks{% endif %}">
+      <div class="ProductMeta__TitleContainer--right wishl-quickview" data-id="{{product.id}}">
+     
+      {% render 'swym-product-view', product: product %}
+      <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
+        <button 
+            data-with-epi="true" 
+            class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+            data-swaction="addToWishlist" 
+            data-product-id="{{product.id | json}}" 
+            data-variant-id="{{product.variants[0].id}}" 
+            data-product-url="{{ shop.url }}{{ product.url }}">
+        </button>
+      </div> 
+      <div class="ProductItem__Quickview--column">
+        <h2 class="ProductItem__Title Heading">{{ product.title }}</h2>
+        <div class="ProductMeta__Description {% if collection.handle contains 'shop-all-wicks' and product.title contains 'Wicks' %}ProductItem__Quickview--wicks-description{% endif %}">{{ product.description | strip_html | truncate: 100 }}</div>
+ 
+        {%- if product.template_suffix != 'coming-soon'  -%}
+        {% render 'swym-product-view', product: product %}
+        {% render 'swym-product-view', product: product %}
+          <a class="ProductItem__ViewProduct" href="{{ product.url | within: collection }}"><span>VIEW ITEM DETAILS</span></a>
+    {%- endif -%}
+      </div>
+    </div> 
+ {% comment %}
+    <div class="Quickview-Button"><a class="quick-view" data-handle="{{ product.handle }}" href="{{ product.url | within: collection }}" title="Quick View"></a></div>
+    End Quickview {% endcomment %}
+     {%endif%}
+
+
+    <a href="{{ product.url | within: collection }}" class="ProductItem__ImageWrapper {% if has_alternate_image %}ProductItem__ImageWrapper--withAlternateImage{% endif %}">
+      {%- if use_horizontal -%}
+        {%- assign max_width = 125 -%}
+      {%- else -%}
+        {%- assign max_width = product.featured_media.preview_image.width -%}
+      {%- endif -%}
+
+      {%- assign media_aspect_ratio = product.featured_media.aspect_ratio | default: product.featured_media.preview_image.aspect_ratio -%}
+
+      <div class="AspectRatio AspectRatio--{% if use_natural_size %}withFallback{% else %}{{ settings.product_image_size }}{% endif %}" style="max-width: {{ max_width }}px; {% if use_natural_size %}padding-bottom: {{ 100.0 | divided_by: media_aspect_ratio }}%;{% endif %} --aspect-ratio: {{ media_aspect_ratio }}">
+        {%- comment -%}
+        IMPLEMENTATION NOTE: The alternate image (not visible by default) should be the first in the DOM, as the spinner (Image__Loader element) is
+        displayed based on the immediately previously shown image.
+        {%- endcomment -%} 
+
+        {%- if has_alternate_image -%}
+
+          {%- assign image_url = product.media[1] | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+          {{ product.featured_image | img_url: '300x', crop: 'left' | img_tag: product.featured_media.alt, 'ProductItem__Image ProductItem__Image--alternate Image--lazyLoad Image--fadeIn' }}
+        {%- endif -%}
+
+        {%- assign image_url = product.featured_media | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+        {%- if product.featured_image.aspect_ratio < 2 -%}
+          {{ product.featured_image | img_url: '400x', crop: 'left' | img_tag: product.featured_media.alt, 'ProductItem__Image Image--lazyLoad Image--fadeIn' }}
+        {%- else -%}
+          {{ product.media[0] | img_url: '750x', crop: 'left' | img_tag: product.media[0].alt, 'ProductItem__Image Image--lazyLoad Image--fadeIn' }}
+        {%- endif -%}
+        <span class="Image__Loader"></span>
+
+        <noscript>
+          <img class="ProductItem__Image ProductItem__Image--alternate" src="{{ product.media[1] | img_url: '600x' }}" alt="{{ product.media[1].alt | escape }}">
+          <img class="ProductItem__Image" src="{{ product.featured_media| img_url: '600x' }}" alt="{{ product.featured_media.alt | escape }}">
+        </noscript>
+      </div>
+    </a>
+
+    {%- if show_labels -%}
+      {%- capture product_labels -%}
+      {%assign is_preorder = "true" %}
+        {%- for tag in product.tags -%}
+                               {%- if tag =='pre-order' -%}
+                                  <span class="ProductItem__Label Heading Text--subdued">{{tag}}</span>
+                                  {%assign is_preorder = "false" %}
+                                   {%- break -%}
+                               {%- endif -%}
+         {%- endfor -%} 
+     {% if is_preorder == "true" %}
+        {%- if product.available -%}
+          {%- if product.compare_at_price > product.price -%}
+            <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued BadgeOnSale">{{ 'product.labels.on_sale' | t }}</span>
+          {%else%}
+               {% assign dateStart = product.published_at | date: '%s' %}
+               {% assign nowTimestamp = 'now' | date: '%s' %}
+               {% assign diffSeconds = nowTimestamp | minus: dateStart %}
+               {% assign diffDays = diffSeconds | divided_by: 3600 | divided_by: 24 %}
+               {%- if diffDays<90 -%}
+                    <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued">NEW</span>
+                {%- endif -%}
+
+          {%- endif -%}
+
+        {%- else -%}
+          <span class="ProductItem__Label ProductItem__Label--soldOut Heading Text--subdued">{{ 'product.labels.sold_out' | t }}</span>
+        {%- endif -%}
+    {%endif%}
+          
+      {%- endcapture -%}
+
+      {%- if product_labels != blank -%}
+        <div class="ProductItem__LabelList">
+          {{ product_labels }}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if show_product_info -%}
+      <div class="ProductItem__Info {% unless use_horizontal %}ProductItem__Info--{{ settings.product_info_alignment }}{% endunless %}">
+        {%- if show_first_tag -%}
+          <p class="ProductItem__FirstTag Heading">{{ product.tags[0] }}</p>
+        {%- endif -%}
+        
+        {%- if show_vendor -%}
+          <p class="ProductItem__Vendor Heading">{{ product.vendor }}</p>
+        {%- endif -%}
+
+        <div style="display: flex; justify-content: space-between;">
+          <h2 class="ProductItem__Title Heading">
+            <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+          </h2>
+        
+          {% render 'swym-product-view', product: product %}
+          <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
+            <button 
+                data-with-epi="true" 
+                class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                data-swaction="addToWishlist" 
+                data-product-id="{{product.id | json}}" 
+                data-variant-id="{{product.variants[0].id}}" 
+                data-product-url="{{ shop.url }}{{ product.url }}">
+            </button>
+      </div>
+
+        
+
+        {%- if show_price_on_hover == nil -%}
+          {%- assign show_price_on_hover = settings.product_show_price_on_hover -%}
+        {%- endif -%}
+
+        {%- if show_price_on_hover and color_swatch_list != blank -%}
+          {{- color_swatch_list -}}
+        {%- endif -%}
+    {% assign types= shop.metafields.global.wicks_collections   %}
+  {% assign is_not_virtual_type= true  %}
+  
+  {%for item in types  %}
+  {% if item.virtual_type == product.type %}
+   {% assign is_not_virtual_type= false  %}
+  {%endif%}
+  {%endfor%}
+
+        {%- if product.template_suffix != 'coming-soon' and is_not_virtual_type -%}
+        {% unless is_virtual_type %}
+          <div class="ProductItem__PriceList {% if show_price_on_hover %}ProductItem__PriceList--showOnHover{% endif %} Heading">
+             {% assign in_collection = false %}
+             {% for collection in product.collections %}
+                {% if  collection.id == 273029693594 %}
+                      {% assign in_collection = TRUE %}
+                {% endif %}
+             {% endfor %}
+             {% if product.id != 5633925251226  and product.type == 'vessels' or  product.type == 'bottles' or product.type == 'spray-bases' or in_collection == true %}
+                 {% if product.type == 'vessels' %}
+                 {% assign lowest_price = product.price | times: 0.6 %}
+                 {% elsif product.type == 'bottles' or product.type == 'spray-bases' %}
+                 {% assign lowest_price = product.price | times: 0.8 %}
+                 {%endif %}
+                 {%if in_collection == true %}
+                 {% assign lowest_price = product.price | times: 0.68 %}
+                 {%endif%}
+               {%endif%}
+            
+            {%- if product.compare_at_price > product.price -%}
+              <span class="ProductItem__Price Price Price--highlight Text--subdued">{{ product.price | money_without_trailing_zeros }}</span>
+              <span class="ProductItem__Price Price Price--compareAt Text--subdued">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+            {%- elsif product.price_varies -%}
+              {%- capture formatted_min_price -%}{{ product.price_min | money_without_trailing_zeros }}{%- endcapture -%}
+              {%- capture formatted_max_price -%}{{ product.price_max | money_without_trailing_zeros }}{%- endcapture -%}
+               {% if product.id != 5633925251226  and product.type == 'vessels' or  product.type == 'bottles' or product.type == 'spray-bases' or in_collection == true %}
+                         <span class="ProductItem__Price Price Text--subdued">{{ lowest_price | money_without_trailing_zeros }} +</span>
+                  {%else %}
+                         <span class="ProductItem__Price Price Text--subdued">{{ 'collection.product.from_price_html' | t: min_price: formatted_min_price, max_price: formatted_max_price }}</span>
+                  {%endif%}
+
+            {%- else -%}
+              {% if product.id != 5633925251226  and product.type == 'vessels' or  product.type == 'bottles' or product.type == 'spray-bases' or in_collection == true %}
+                      <span class="ProductItem__Price Price Text--subdued">{{ lowest_price | money_without_trailing_zeros }} +</span>
+                {%else%}
+                     <span class="ProductItem__Price Price Text--subdued">{{ product.price | money_without_trailing_zeros }}</span>
+               {%endif%}
+            {%- endif -%}
+          </div>
+        {%- endunless -%}
+
+          {%- if product.selected_or_first_available_variant.unit_price_measurement -%}
+            <div class="ProductItem__UnitPriceMeasurement">
+              <div class="UnitPriceMeasurement Heading Text--subdued">
+                <span class="UnitPriceMeasurement__Price">{{ product.selected_or_first_available_variant.unit_price | money_without_trailing_zeros }}</span>
+                <span class="UnitPriceMeasurement__Separator">/ </span>
+
+                {%- if product.selected_or_first_available_variant.unit_price_measurement.reference_value != 1 -%}
+                  <span class="UnitPriceMeasurement__ReferenceValue">{{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}</span>
+                {%- endif -%}
+
+                <span class="UnitPriceMeasurement__ReferenceUnit">{{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if show_price_on_hover == false and color_swatch_list != blank -%}
+          {{- color_swatch_list -}}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if use_horizontal -%}
+    <a href="{{ product.url }}" class="ProductItem__ViewButton Button Button--secondary hidden-pocket">{{ 'collection.product.view_product' | t }}</a>
+  {%- endif -%}
+</div>

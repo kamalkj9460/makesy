@@ -1,0 +1,255 @@
+<section class="index__section-two" id="index__section-two-{{section.id}}">
+    <div class="index__container">
+        {%- if section.settings.title != blank -%}
+            <header class="index__section-two-header">
+                <h3 class="index__section-two-heading">{{ section.settings.title | escape }}</h3>
+                <h1 class="header__heading">{{ section.blocks.first.settings.title | default: collection.title }}</h1>
+            </header>
+        </div> 
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+            {%- assign collection = collections[block.settings.collection] -%}
+            {%- if collection != empty -%}
+            <div class="section-two__caorusel-container">
+                <div class="c-carousel" data-count="5" data-scroll="600">
+                    <div class="c-carousel-wrap">
+                        <div class="carousel-item-array">
+                            {%- for product in collection.products limit: block.settings.grid_items_count -%}
+                                <div class="c-carousel-item">
+                                    {% comment %} {%- render 'product-item', product: product, show_product_info: true, show_labels: true -%} {% endcomment %}
+                                    <a href="{{product.url}}">
+                                        <div class="carousel-item-img">
+                                            <img class="m-carousel-img" src="{{ product.featured_media| img_url: '352x' }}" alt="{{ product.featured_media.alt | escape }}">
+                                            {%- if collection.title == 'new arrivals' -%}
+                                                
+                                                <div class="ProductItem__LabelList">
+                                                    <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued">NEW</span>
+                                                </div>
+                                            {%- endif -%}
+                                        </div>
+                                    </a> 
+                                     <div class="carousel__item-info">
+                                        {%- if section.settings.show_product_info -%}
+                                            <div class="carousel__item-title">
+                                                <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                                                {% render 'swym-product-view', product: product %}
+                                                <!-- <button 
+                                                    class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                                                    data-swaction="addToWishlist" 
+                                                    data-product-id="{{product.id | json}}">
+                                                </button> -->
+                                                <button 
+                                                    data-with-epi="true" 
+                                                    class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                                                    data-swaction="addToWishlist" 
+                                                    data-product-id="{{product.id | json}}" 
+                                                    data-variant-id="{{product.variants[0].id}}" 
+                                                    data-product-url="{{ shop.url }}{{ product.url }}">
+                                                </button>
+                                            </div>
+                                            {% assign lowest_price = false %}
+                                            {% assign list_lowest_price = shop.metafields.lowest_price_g.lowest_price2 %}
+                                            {% for lp in list_lowest_price%}
+                                                {%if lp.select_by == "collection_handle"%}
+                                                    {% for collection in product.collections %}
+                                                        {% if collection.handle == lp.value %}
+                                                            {% assign lowest_price = lp.lowest_price %}
+                                                            {% break %}
+                                                        {% endif %}  
+                                                    {% endfor %}  
+                                                {% endif %}
+                                                {% if lowest_price %}
+                                                    {% break %}
+                                                {% endif %}  
+                                                {%if lp.select_by == "product_tag" and product.tags contains lp.value%}
+                                                    {% assign lowest_price = lp.lowest_price %}
+                                                {%endif%}
+                                            {%endfor%}
+                                            {% if lowest_price %}
+                                                <p class="carousel__item-info-lowest">{{ lowest_price}} +</p>
+                                            {% else %}
+                                                <p class="carousel__item-info-lowest">{{ product.price_min | money_without_trailing_zeros }}</p>
+                                            {%- endif -%}
+                                        {%- endif -%}
+                                    </div> 
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="c-left-btn">
+                        <svg x="0px" y="0px"  viewBox="0 0 16 16" xml:space="preserve">
+                            <path class="top-arm" d="M4.65,7.65l6-6c0,0,0,0,0,0c0.2-0.19,0.51-0.19,0.71,0c0,0,0,0,0,0c0.19,0.2,0.19,0.51,0,0.71
+                                L5.71,8L4.5,8C4.5,7.87,4.55,7.74,4.65,7.65z" />
+                            <path class="bottom-arm" d="M5.71,8l5.65,5.65c0.2,0.2,0.2,0.51,0,0.71c-0.2,0.2-0.51,0.2-0.71,0l-6-6c0,0,0,0,0,0
+                                C4.55,8.25,4.5,8.13,4.5,8L5.71,8z" />
+                                <circle cx="5.11" cy="8" r="0.57"/>
+                        </svg>
+                    </div>
+                    <div class="c-right-btn">
+                        <svg x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve">
+                            <path class="top-arm" d="M11.35,7.65l-6-6c0,0,0,0,0,0c-0.2-0.2-0.51-0.19-0.71,0c0,0,0,0,0,0c-0.2,0.2-0.19,0.51,0,0.71
+                                L10.29,8h1.21C11.5,7.87,11.45,7.74,11.35,7.65z" />
+                            <path class="bottom-arm" d="M10.29,8l-5.65,5.65c-0.2,0.2-0.2,0.51,0,0.71s0.51,0.2,0.71,0l6-6c0,0,0,0,0,0
+                                c0.1-0.1,0.15-0.23,0.15-0.35H10.29z" />
+                                <circle cx="10.87" cy="8" r="0.59"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            {%- endif -%}
+            {%- if block.settings.link_text != blank -%}
+            <div class="index__container">
+                <a href="{{ block.settings.link_url }}" class="section-cta gradient-hover-btn">{{ block.settings.link_text | escape }}</a>
+            </div>
+            {%- endif -%}
+        {%- endfor -%}
+        
+    
+</section>
+
+
+{% schema %}
+{
+  "name": "Featured collections",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "new supplies"
+    },
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_first_tag", 
+      "label": "Show the first tag for each product",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_info",
+      "label": "Show product info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatch",
+      "label": "Show color swatch",
+      "info": "Some colors appear white? [Learn more](http://support.maestrooo.com/article/80-product-uploading-custom-color-for-color-swatch).",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Grid",
+      "info": "Those settings apply only if the layout mode is set to grid."
+    },
+    {
+      "type": "select",
+      "id": "grid_mobile_items_per_row",
+      "label": "Products per row (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "min": 2,
+      "max": 4,
+      "id": "grid_desktop_items_per_row",
+      "label": "Products per row (desktop)",
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "info": "If none is set, collection title is used."
+        },
+        {
+          "type": "range",
+          "id": "grid_items_count",
+          "min": 2,
+          "max": 50,
+          "step": 1,
+          "label": "Products to show",
+          "default": 15
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "View all products"
+        },
+        {
+		  "type": "header",
+		  "content": "Link in Section Footer"
+		},
+		{
+		  "type": "text",
+		  "id": "link_text",
+		  "label": "Text for the link",
+		  "default": "shop all new arrivals"
+		},
+		{
+		  "type": "url",
+		  "id": "link_url",
+		  "label": "Link"
+		}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Featured collections",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

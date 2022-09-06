@@ -1,0 +1,73 @@
+{% assign image_mobile = collection.metafields.global.mobile_image.value  %}
+<div class="makesy-hero-wick-container">
+    <div class="makesy-hero-image-wick">
+        <div class="makesy-hero-title-h1">{{collection.title}}</div>
+        <div class="makesy-hero-title-h2">{{collection.description}}</div>
+        {%if collection.handle == 'custom-wicks'%}
+            <div class="makesy-hero-title-h3">
+              Check out the  
+              <a href="/pages/wick-selection-guide-v2" >WICK SELECTION GUIDE</a>
+               to determine the optimal wicks for you candle project
+            </div>
+        {%else%}
+            <div class="makesy-hero-title-h3">
+                {{banner.banner_text}}
+            </div>  
+        {%endif%}
+   </div>
+   
+
+ </div>
+ {% schema %}
+ {
+   "name": "Mobile settings",
+   "settings": [
+        {
+        "type": "image_picker",
+        "id": "mobile-image",
+        "label": "Mobile Hero image"
+        }
+    ]
+ }
+ {% endschema %}
+
+
+ 
+ {%style%}
+  {%if collection.title == 'Rainforest' %} 
+    .makesy-hero-title-h1 {
+        color: #fff;
+    }
+ {%endif%}
+ {%if collection.image != blank%}
+    .makesy-hero-image-wick {
+        background:url("{{ collection.image | img_url: '1920x1080' }}") no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+    }
+{%else%}
+    .makesy-hero-image-wick{
+        background-color:#F0E4DA;
+    }
+{%endif%}
+
+@media(max-width:866px){
+{%if image_mobile != blank%}
+   .makesy-hero-image-wick {
+        background:url("{{image_mobile}}")  no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+{%else%}
+    .makesy-hero-image-wick{
+        background-color:#F0E4DA;
+    }
+{%endif%}
+}
+{%endstyle%}
+ 

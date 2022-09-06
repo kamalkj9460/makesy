@@ -1,0 +1,200 @@
+<script class="cartFlagX"></script>{%- capture section_settings -%}
+{
+    "type": {{ settings.cart_type | json }},
+    "itemCount": {{ cart.item_count }},
+    "drawer": true,
+    "hasShippingEstimator": false
+}
+{%- endcapture -%}
+<style>
+    .container_progress_items {
+        width: 100%;
+        border-style: solid;
+        border-width: 0px;
+    }
+
+    .text_progress {
+        font-family: "LucidaGrandeBold", sans-serif;
+        font-size: 11pt;
+        font-size: 10px;
+        text-align: left;
+        width: 100%;
+        color: gray;
+
+    }
+
+    @media screen and (min-width: 641px) {
+        .Drawer__Header {
+            max-height: 100px;
+            min-height: 60px;
+        }
+    }
+
+    .progress_global {
+        background: white;
+        height: 5px;
+        width: 90%;
+        border-radius: 14px;
+        display: inline-block;
+    }
+
+    .progress_percent {
+        margin-left: 0px;
+        height: 100%;
+        width: 0%;
+        max-width: 100%;
+        background: #FF6666;
+        border-radius: 14px;
+        transition: width .5s ease-in .4s;
+    }
+</style>
+<div id="sidebar-cart" class="Drawer Drawer--fromRight" aria-hidden="true" data-section-id="cart"
+    data-section-type="cart" data-section-settings='{{ section_settings }}'>
+    <div class="Drawer__Header Drawer__Header--bordered Drawer__Container">
+        <span class="Drawer__Title Heading u-h4">{{ 'cart.general.title' | t }}</span>
+        <button class="Drawer__Close Icon-Wrapper--clickable" data-action="close-drawer" data-drawer-id="sidebar-cart"
+            aria-label="{{ 'header.navigation.close_cart' | t }}">
+            {%- render 'icon' with 'close' -%}
+        </button>
+        {%- assign percent = {{cart.total_price | money_without_currency | divided_by: 100 | times: 100 }} -%}
+        {%- assign shippingPrice = 100 | minus: percent | abs -%}
+        <div class="text_progress">{% if shippingPrice < 100 and shippingPrice > 0 %} You are ${{shippingPrice}} away from Free Domestic Shipping 
+            {% else %} You Qualify for Free Domestic Shipping {% endif %}
+        </div>
+        <div class="container_progress_items">
+            <div class="progress_global">
+                <div class="progress_percent" style="width: {{percent}}%"></div>
+            </div>
+        </div>
+    </div>
+    <form class="Cart Drawer__Content" action="/checkout" method="POST" novalidate>
+        <div class="Drawer__Main" data-scrollable>
+            {%- if settings.cart_show_free_shipping_threshold -%}
+                {%- assign threshold_in_cents = settings.cart_free_shipping_threshold | times: 100 -%}
+
+                <div class="Cart__ShippingNotice Text--subdued">
+                    <div class="Drawer__Container">
+                        {%- if cart.total_price >= threshold_in_cents -%}
+                        <p>{{- 'cart.general.free_shipping' | t -}}</p>
+                        {%- else -%}
+                        {%- capture remaining_amount -%}<span>{{ cart.total_price | minus: threshold_in_cents | abs |
+                            money_without_trailing_zeros }}</span>{%- endcapture -%}
+                        <p>{{- 'cart.general.free_shipping_remaining_html' | t: remaining_amount: remaining_amount -}}
+                        </p>
+                        {%- endif -%}
+                    </div>
+                </div>
+            {%- endif -%}
+
+            {%- if cart.item_count == 0 -%}
+                <p class="Cart__Empty Heading u-h5">{{ 'cart.general.empty' | t }}</p>
+            {%- else -%}
+                <div class="Drawer__Container">
+                    <input type="hidden" name="attributes[collection_mobile_items_per_row]" value="">
+                    <input type="hidden" name="attributes[collection_desktop_items_per_row]" value="">
+
+                    {% render 'cart-items' %}
+                </div>
+            {%- endif -%}
+        </div>
+
+        {%- unless cart.item_count == 0 -%}
+        <div class="Drawer__Footer" data-drawer-animated-bottom>    
+            {%- for line_item in cart.items -%}
+                {%- assign title = line_item.product.title | downcase -%}
+                {%- if title contains 'wick' -%}
+                    {%- assign terms_check = 'true' -%}
+                {%- endif -%}
+            {%- endfor -%}
+
+            {%- if terms_check == 'true' -%}
+                <p>
+                    <input style="float:none; vertical-align: middle;" type="checkbox" id="agree" />
+                    <label style="display:inline; float:none" for="agree">
+                        I agree to <a href="/pages/terms-conditions" target="_blank">The Makesy Terms &
+                            Conditions</a>.
+                    </label>
+                </p>
+            {%- endif -%}
+
+            {%- capture shipping_and_taxes_notice -%}
+                {{ 'cart.general.shipping_and_taxes_notice' | t }}
+            {%- endcapture -%}
+
+            {%- if settings.cart_enable_notes or shipping_and_taxes_notice != blank -%}
+                {%- if settings.cart_enable_notes -%}
+                    {%- if cart.note == blank -%}
+                        <button name="note" type="button" class="Cart__NoteButton" data-action="toggle-cart-note">
+                            {{'cart.general.add_note' | t }}
+                        </button>
+                    {%- else -%}
+                        <button name="note" type="button" class="Cart__NoteButton" data-action="toggle-cart-note">
+                            {{'cart.general.edit_note' | t }}</button>
+                    {%- endif -%}
+                {%- endif -%}
+
+                {%- if shipping_and_taxes_notice != blank -%}
+                    <p class="Cart__Taxes Text--subdued">{{ shipping_and_taxes_notice }}</p>
+                {%- endif -%}
+
+                {%- if cart.cart_level_discount_applications != blank -%}
+                    {%- for discount_application in cart.cart_level_discount_applications -%}
+                        <p class="Cart__Discount">
+                            {%- render 'icon' with 'sale' -%} 
+                            {{ 'cart.general.discount' | t }} 
+                            ({{discount_application.title }}): -
+                            <span>{{ discount_application.total_allocated_amount | money_without_trailing_zeros }}</span>
+                        </p>
+                    {%- endfor -%}
+                {%- endif -%}
+            {%- endif -%}
+
+            <button type="submit" onclick="return agreement();" name="checkout" class="Cart__Checkout Button Button--primary Button--full">
+                <span>{{- 'cart.general.checkout' | t -}}</span>
+                <span class="Button__SeparatorDot"></span>
+                <span><span style="display:none" class="tdf-cart-total-flag"></span><span id='total_of_cart'>{{
+                        cart.total_price | money_without_trailing_zeros }}</span></span>
+            </button>
+
+            <!-- Route Code Edited 03/14/2022 -->
+            <!-- <div class="route-div" disable-reorder></div>
+            <div
+                style="font-size: 12px; margin-top: -10px; margin-bottom: 15px; line-height: 15px; text-align: center;">
+                *Things happen. Be worry free with Route and<br> protect yourself against lost, damaged or stolen
+                items.</div> -->
+            <!-- Route Code End  -->
+
+            {%- for item in cart.items -%}
+            {%- if item.gift_card -%}
+            {%- assign cartIsIneligible = true -%}
+            {%- endif -%}
+            {%- endfor -%}
+            <afterpay-placement data-locale="en_US" data-currency="USD" data-amount="{{ cart.total_price | money }}"
+                data-size="xs" data-show-upper-limit="true" data-badge-theme="mint-on-black"
+                data-cart-is-eligible="{%if cartIsIneligible%}false{%else%}true{%endif%}"
+                style="text-align: center;font-family: 'Futura-PT-Light';color: #222222;--logo-badge-width: 75px;">
+            </afterpay-placement>
+
+            {%- if settings.cart_enable_notes -%}
+            <div class="Cart__OffscreenNoteContainer" aria-hidden="true">
+                {%- if cart.note == blank -%}
+                <span class="Cart__NoteButton">{{ 'cart.general.add_note' | t }}</span>
+                {%- else -%}
+                <span class="Cart__NoteButton">{{ 'cart.general.edit_note' | t }}</span>
+                {%- endif -%}
+
+                <div class="Form__Item">
+                    <textarea class="Cart__Note Form__Textarea" name="note" id="cart-note" rows="3"
+                        placeholder="{{ 'cart.general.note_placeholder' | t }}"
+                        data-scrollable>{{ cart.note }}</textarea>
+                </div>
+
+                <button type="button" class="Button Button--primary Button--full" data-action="toggle-cart-note">{{
+                    'cart.general.save_note' | t }}</button>
+            </div>
+            {%- endif -%}
+        </div>
+        {%- endunless -%}
+    </form>
+    </div>
+

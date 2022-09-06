@@ -1,0 +1,142 @@
+<div class="index__section-hero">
+    <div class="index__container">
+            <div class="index__hero-flex">
+                <div class="r-header">
+                    <div class="r-header-card">
+                        {%- for block in section.blocks -%}
+                            <h1 class="header--title">{{block.settings.title}}</h1>
+                        {%- endfor -%}
+                    </div>
+                    <p class="header--subtitles">
+                        {%- for block in section.blocks -%}
+                            <span>{{block.settings.subtitle}}</span>
+                        {%- endfor -%}
+                    </p>
+                    <a class="header--cta section-cta gradient-hover-btn" href="">
+                        {%- for block in section.blocks -%}
+                            <span data-url="{{block.settings.button_link}}">{{block.settings.button_text}}</span>
+                        {%- endfor -%}
+                    </a> 
+                </div>
+                <div class="r-carousel">
+                    <div class="r-carousel-wrap"> 
+                        <div class="r-carousel__array">
+                            {%- for block in section.blocks -%}
+                                <div class="carousel__item">
+                                    <div class="item__img index__desktop">
+                                            {{block.settings.image | img_url: '2048x' | img_tag}}
+                                    </div>
+                                    <div class="item__img index__mobile">
+                                            {{block.settings.image_mobile | img_url: '400x' | img_tag}}
+                                    </div>
+                                </div>
+                            {%- endfor -%}
+                            <span class="r-carousel-overlay"></span>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        <div class="r-button-container">
+            <div class="r-button-count"><span></span></div>
+        </div>
+    </div>
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Hero Two",
+    "class": "index__section-hero",
+    "settings": [
+        {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text",
+            "default": "#222222"
+        },
+        {
+            "type": "color",
+            "id": "button_background_color",
+            "label": "Button background color",
+            "default": "#EBBAA3"
+        },
+        {
+            "type": "color",
+            "id": "button_text_color",
+            "label": "Button text color",
+            "default": "#222222"
+        },
+        {
+            "type": "checkbox",
+            "id": "autoplay",
+            "label": "Auto rotate between slides",
+            "default": true
+          },
+        {
+            "type": "range",
+            "id": "cycle_speed",
+            "min": 3,
+            "max": 8,
+            "step": 1,
+            "unit": "sec",
+            "label": "Change slides every",
+            "default": 5
+          }
+    ],
+    "blocks": [
+        {
+            "type": "image",
+            "name": "Slide",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image",
+                    "info": "700 x 700px .jpg recommended"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image_mobile",
+                    "label": "Image Mobile",
+                    "info": "375 x 400px .jpg recommended"
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Heading",
+                    "default": "hi, we're makesy."
+                },
+                {
+                    "type": "text",
+                    "id": "subtitle",
+                    "label": "Sub-Heading",
+                    "default":  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Risus magna dui consectetur elit cras. Nunc, lectus quisque ultrices ac. Imperdiet pellentesque lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                },
+                {
+                    "type": "text",
+                    "id": "button_text",
+                    "label": "Text"
+                },
+                {
+                    "type": "url",
+                    "id": "button_link",
+                    "label": "Link"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "category": "Image",
+            "name": "Hero Two",
+            "settings": {},
+            "blocks": [
+                {
+                    "type": "image"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %} 

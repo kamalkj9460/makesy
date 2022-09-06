@@ -1,0 +1,14 @@
+{% comment %} 
+
+@DO - loop through wick product collections and get info metafields for each product.
+Used on wick PDP's. Stores data in hidden divs for conditional retrieval.
+
+{% endcomment %}
+
+{%- for product in input_collection.products -%}
+  {% assign info = product.metafields.info-block %}
+  {% assign key = 'content' %}
+  <div id="{{product.handle}}-info-box" style="display: none;">
+    {{ info[key] }}
+  </div>
+{%- endfor -%}

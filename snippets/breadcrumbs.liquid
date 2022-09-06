@@ -1,0 +1,95 @@
+<script>
+var wd=["The","If","For","Like","Or","And","Then","To","Not"]
+function remove_(id){  
+  
+var c=document.getElementById(id).innerHTML;
+var j=0;
+var cc=c;
+while(cc.includes("_")){
+for(i=0;i<c.length;i++)
+if(c[i]=="_")
+{j=i;}
+cc=c.substr(j+1, c.length); 
+
+}
+document.getElementById(id).innerHTML=cc;
+document.querySelector("#"+id).innerText = document.querySelector("#"+id).innerText.toLowerCase().replace(/\b(\w)/g, x => x.toUpperCase());
+cc=document.querySelector("#"+id).innerText;
+if(cc.substr(0,4)=="The "){
+  cc=cc.substr(4,cc.length);
+document.querySelector("#"+id).innerText=cc;
+}
+for(i=0;i<wd.length;i++)
+if(cc.includes(wd[i]+" ")){
+document.getElementById(id).innerHTML=cc.replace(wd[i],"<span style=' text-transform: lowercase;'>"+wd[i]+"</span>");
+}
+
+document.getElementById("div_rec").style.marginBottom="10px";
+document.getElementById("div_rec").style.marginTop="10px";
+}
+</script>
+
+<div id="div_rec" style="margin-left:3.5%;font-size:12px;" ><font class="Text--subdued ">
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' %}
+<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+  <a href="/" title="Home">Makesy</a>
+  {% if template contains 'page' %}
+    <span aria-hidden="true">/</span>
+    <span id='dv_rbd01' >{{ page.title }}</span> <script>remove_('dv_rbd01');</script>
+  {% elsif template contains 'product' %}
+    {% if collection.url %}
+      <span aria-hidden="true">/</span>
+            <a href="{{collection.url }}" ><span id='dv_rbd12' >{{ collection.title  }}</span></a> <script>remove_('dv_rbd12');</script>
+    {% endif %}
+    <span aria-hidden="true">/</span>
+    <span id='dv_rbd02'>{{ product.title }}</span><script>remove_('dv_rbd02');</script>
+  {% elsif template contains 'collection' and collection.handle %}
+    <span aria-hidden="true">/</span>
+    {% if current_tags %}
+      {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+           <a href="{{url }}" ><span id='dv_rbd13' >{{ collection.title }}</span></a> <script>remove_('dv_rbd13');</script>
+     <span aria-hidden="true">/</span>
+     <span id="dv_bc1">{{ current_tags | join: " + " }}</span><script>remove_('dv_bc1');</script>
+    {% else %}
+      <span id="dv_bc14"> {{ collection.title }}</span> <script>remove_('dv_bc14');</script>
+    {% endif %}
+
+  {% elsif template == 'blog' %}
+    <span aria-hidden="true">/</span>
+    {% if current_tags %}
+         <a href="{{blog.url}} " ><span id='dv_rbd03'>{{ blog.title }}</span></a><script>remove_('dv_rbd03');</script>
+      <span aria-hidden="true">/</span>
+      <span id='dv_rbd04'>{{ current_tags | join: " + " }}</span><script>remove_('dv_rbd04');</script>
+    {% else %}
+    <span id='dv_rbd05'>{{ blog.title }}</span><script>remove_('dv_rbd05');</script>
+    {% endif %}
+
+  {% elsif template == 'blog.videos' %}
+    <span aria-hidden="true">/</span>
+    {% if current_tags %}
+            <a href="{{blog.url}} " ><span id='dv_rbd03'>{{ blog.title }}</span></a><script>remove_('dv_rbd03');</script>
+        <span aria-hidden="true">/</span>
+        <span id='dv_rbd04'>{{ current_tags | join: " + " }}</span><script>remove_('dv_rbd04');</script>
+    {% else %}
+    <span id='dv_rbd05'>{{ blog.title }}</span><script>remove_('dv_rbd05');</script>
+  {% endif %}
+
+  {% elsif template == 'article' %}
+    <span aria-hidden="true">/</span>
+    <a href="{{blog.url}} " ><span id='dv_rbd08'>{{ blog.title }}</span> </a> <script>remove_('dv_rbd08');</script> 
+    <span aria-hidden="true">/</span>
+    <span id='dv_rbd06'>{{ article.title }}</span> <script>remove_('dv_rbd06');</script>
+  {% elsif template == 'article.videos' %}
+    <span aria-hidden="true">/</span>
+    <a href="{{blog.url}} " ><span id='dv_rbd08'>{{ blog.title }}</span> </a> <script>remove_('dv_rbd08');</script> 
+    <span aria-hidden="true">/</span>
+    <span id='dv_rbd06'>{{ article.title }}</span> <script>remove_('dv_rbd06');</script>
+  {% else %}
+    <span aria-hidden="true">/</span>
+    <span id='dv_rbd07'>{{ page_title }}</span> <script>remove_('dv_rbd07');</script>
+  {% endif %}
+
+</nav>
+{% endunless %}
+</font>
+</div>

@@ -1,0 +1,167 @@
+.SectionHeader__Description.e-mProTitle {
+  text-align: left;
+  display: none;
+}
+
+.SectionHeader__Description.e-enthusiastTitle {
+  text-align: left;
+  display: none;
+}
+
+.c-mPro {
+  display: none;
+  margin: 32px 0;
+}
+
+.c-mPro .u-hide {
+  display: none;
+}
+
+.c-mPro .u-show {
+  display: block;
+}
+
+.c-mPro .PageLayout {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .c-mPro .PageLayout__Section--secondary {
+    max-width: 100%;
+  }
+}
+
+.c-mPro .m-proDetails {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media screen and (max-width: 767px) {
+  .c-mPro .m-proDetails {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+    grid-gap: 20px;
+    margin-bottom: 20px !important;
+  }
+}
+
+.c-mPro .m-proBenefit {
+  background: #f9f7f2;
+  padding: 8px 19px 24px;
+  border-radius: 15px;
+  height: 100%;
+  min-width: 235px;
+}
+
+.c-mPro .m-proBenefit h2 {
+  font-family: 'Futura-PT-Medium';
+  text-align: left;
+}
+
+.c-mPro .m-proBenefit hr {
+  margin-top: 8px;
+  margin-bottom: 11px;
+}
+
+.c-mPro .m-proBenefit .e-benefits {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  line-height: 1;
+}
+
+.c-mPro .m-proBenefit .e-benefits .e-proTitle {
+  font-family: 'Futura-PT-Medium';
+  margin-bottom: 0;
+}
+
+.c-mPro .m-proBenefit .e-bullet {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c-mPro .m-proBenefit .e-bullet img {
+  -ms-flex-item-align: start;
+      -ms-grid-row-align: start;
+      align-self: start;
+  margin-top: 4px;
+  margin-right: 9px;
+}
+
+.c-mPro .m-proBenefit .m-giftcard .m-gc {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 4.5fr 5.5fr;
+      grid-template-columns: 4.5fr 5.5fr;
+  gap: 32px;
+}
+
+@media screen and (max-width: 767px) {
+  .c-mPro .m-proBenefit .m-giftcard .m-gc {
+    gap: 18px;
+  }
+}
+
+.c-mPro .m-proBenefit .m-giftcard .m-gc .e-gcUsed {
+  display: none;
+}
+
+.c-mPro .m-proBenefit .m-giftcard .m-gc .e-gcInvalid {
+  display: none;
+}
+
+.c-mPro .m-proBenefit .m-giftcard .e-gift {
+  position: relative;
+  font-family: 'Futura-PT-Medium';
+  color: #D58778;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.c-mPro .m-proBenefit .m-giftcard .e-giftCopied {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.9);
+  color: #fff;
+  text-align: center;
+  padding: 5px 20px;
+  border-radius: 6px;
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 24px;
+  left: -8px;
+  /* Fade in tooltip */
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+.c-mPro .m-proBenefit .m-giftcard .e-giftCopied::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.c-mPro .m-proBenefit .m-giftcard .e-showGiftCopied {
+  visibility: visible;
+  opacity: 1;
+}
+
+.c-mPro .m-proBenefit .e-calModal {
+  font-family: 'Futura-PT-Medium';
+  color: #D58778;
+  text-decoration: underline;
+  cursor: pointer;
+}

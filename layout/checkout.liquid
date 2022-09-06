@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="shortcut icon"
+        href="//cdn.shopify.com/s/files/1/0411/8246/2106/files/Favicon_a2d866b5-45ef-4ba4-9df1-c4a147f16f30_96x.png?v=1647033770"
+        type="image/png">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    <link rel="stylesheet" href="{{ 'theme.scss.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'custom-checkout.scss.css' | asset_url }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/q6wOPlTyW5qTMLVoo2kTKw" async></script>
+    <!-- ATTENTIVE SMS CHECKOUT INTEGRATION -->
+    <!-- ADDED BY WOODENWICK/ALAN WATSON 2/25/2021 -->
+    <script src="{{ 'maker-pro-upsell.js' | asset_url }}" defer></script>
+    <script src="https://cdn.attn.tv/checkout/checkout.js" defer></script>
+    <script src="https://cdn.attn.tv/wwc/dtag.js"></script>
+
+    <!-- /ATTENTIVE SMS CHECKOUT INTEGRATION -->
+    <!-- /ADDED BY WOODENWICK/ALAN WATSON 2/25/2021 -->
+
+
+    <title>{{ page_title }}</title>
+    {{ content_for_header }}
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+    {% render 'shogun-head' %}
+
+
+    
+    <!-- Route Code Edited 01/20/2022 -->
+    <script type="text/javascript"
+        src="https://cdn.routeapp.io/route-widget-shopify/v2/route-widget-shopify-stable-v2.min.js"></script>
+    <style>
+        .route-widget {
+            justify-content: flex-end !important;
+        }
+
+        .route-div::after {
+            content: "*Things happen. Be worry free with Route and\A protect yourself against lost, damaged or stolen items.";
+            white-space: pre-wrap;
+            display: inline-block;
+        }
+
+        .route-div {
+            text-align: right;
+            font-size: 12px;
+            line-height: 15px;
+        }
+    </style>
+    <!-- Route Code End -->
+</head>
+
+<body>
+    {{ skip_to_content_link }}
+    <header class="banner" data-header role="banner">
+        <div class="wrap">
+            {{ content_for_logo }}
+        </div>
+    </header>
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+        <div class="wrap">
+            <div class="main">
+                <header class="main__header" role="banner">
+                    {{ content_for_logo }}
+                    {{ breadcrumb }}
+                    {{ alternative_payment_methods }}
+                </header>
+
+                <!-- DISPLAY AFTERPAY + ALL CREDIT CARDS WE ACCEPT -->
+                <!-- ONLY SHOW ON STEP ONE OF CHECKOUT -->
+                {% if content_for_layout contains 'data-step="contact_information"' %}
+                <header class="main__header" role="banner">
+                    <img
+                        src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/all-payment-methods_d5a8a443-b5ed-467a-9da4-a548010d8001.png?v=1641339482" />
+                </header>
+                {% endif %}
+                <!-- /DISPLAY AFTERPAY + ALL CREDIT CARDS WE ACCEPT -->
+                <!-- /ADDED BY WOODENWICK/ALAN WATSON 1/4/2022 -->
+
+                <main class="main__content" role="main">
+                    {{ content_for_layout }}
+                    {%- comment -%}START DEMO{%- endcomment -%}
+                    
+                    {% unless content_for_layout contains 'data-step="thank_you"' %}
+                    <div class="m-priorityProcessing">
+                        <h1>get it faster!</h1>
+                        <div class="m-priorityContainer">
+                            <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/lightning-bolt.jpg?v=1656100023"
+                                alt="priority">
+                            <div class="m-priorityCopy">
+                                <div class="e-priority-layout">
+                                    <p class="e-priorityProcessing">makerpro same-day processing</p>
+                                    {% if customer.tags contains "maker_pro" %}
+                                        <p>free<span class="e-freePriority">$10</span></p>
+                                    {% else %}
+                                        <p>$10</p>
+                                    {% endif %}
+                                </div>
+                                {% if customer.tags contains "maker_pro" %}
+                                    <p class="e-priorityCondition">congratulations maker pro! you get it for free</p>
+                                {% else %}
+                                <div class="e-priority-layout">
+                                    <p class="e-priorityCondition">Want it free? Sign up to become a makerpro today.
+                                        <a class="Maker-pro__show-modal">sign up</a>
+                                    </p>
+                                    <button class="e-priority-add">ADD</button>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endunless %}
+
+                    {%- comment -%}END DEMO{%- endcomment -%}
+
+                    <!-- ATTENTIVE SMS CHECKOUT INTEGRATION -->
+                    <!-- ADDED BY WOODENWICK/ALAN WATSON 2/25/2021 -->
+                    <div id="attentiveOptIn" class="fieldset-description" data-buyer-accepts-marketing-attentive=""
+                        aria-label="Phone Sign Up">
+                        <div class="section__content section__content__attentive">
+                            <div class="checkbox-wrapper">
+                                <div class="checkbox__input">
+                                    <input name="attributes[buyer_accepts_marketing_attentive]" type="hidden" value="0">
+                                    <input class="input-checkbox" data-backup="buyer_accepts_marketing" type="checkbox"
+                                        value="1" name="attributes[buyer_accepts_marketing_attentive]"
+                                        id="checkout_buyer_accepts_marketing_attentive" aria-labelledby="headers"
+                                        tabindex="0" focusable="true">
+                                </div>
+                                <div class="checkbox__label checkbox__label__attentive">
+                                    <span id="headers" tabindex="0" focusable="true">
+                                        <div class="checkbox__label__attentive__subheader">Sign-up to get exclusive
+                                            offers + update texts from makesy</div>
+                                    </span>
+                                    <div class="section__footer__attentive">By checking this box, you agree to receive
+                                        recurring automated promotional and personalized marketing text messages
+                                        <b>(e.g. cart reminders)</b> from makesy at the cell number used when
+                                        signing up. Consent is not a condition of any purchase. <b>Reply HELP for help
+                                            and STOP to cancel.</b> Msg frequency varies. Msg & data rates may apply.
+                                        View <a href="http://attn.tv/wwc/terms.html" target="_blank"
+                                            rel="noopener noreferrer" aria-label="Wooden Wick Terms Link">Terms</a>
+                                        &amp; <a href="https://attnl.tv/p/1jR" target="_blank" rel="noopener noreferrer"
+                                            aria-label="Wooden Wick Privacy Link">Privacy</a>.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /ATTENTIVE SMS CHECKOUT INTEGRATION -->
+                    <!-- /ADDED BY WOODENWICK/ALAN WATSON 2/25/2021 -->
+
+                </main>
+                <footer class="main__footer" role="contentinfo">
+                    {{ content_for_footer }}
+                </footer>
+            </div>
+            <aside class="sidebar" role="complementary">
+                <div class="sidebar__header">
+                    {{ content_for_logo }}
+                </div>
+                <div class="sidebar__content">
+                    {{ content_for_order_summary }}
+                </div>
+                <div class="yotpo-widget-instance" data-yotpo-instance-id="110672" reload-page-after-redeem=true></div>
+            </aside>
+        </div>
+    </div>
+    {%- render 'maker-pro-upsell' -%}
+    {{ tracking_code }}
+</body>
+
+</html>
+
+<div data-rebuy-id="2106"></div>
+<script src="https://rebuyengine.com/js/rebuy?shop=thewoodenwickco.myshopify.com"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="preview_cart_btn" style="display:none;">
+    <div style="width:100%;text-align:left;margin-bottom:15px;font-size:11px;">
+        <a href="/cart">
+            <span style="color: #222222;font-size:12px;text-decoration:underline;">View Cart Details </span>
+        </a>
+        <br />
+        <a href="/pages/contact-makesy">
+            <span style="color: #222222;font-size:12px;text-decoration:underline;">Need Help? Contact Support</span>
+        </a>
+    </div>
+</div>

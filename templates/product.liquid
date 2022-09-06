@@ -1,0 +1,55 @@
+{%if product.tags contains "hide"%}
+    <script> window.location.href = "{{shop.url}}"; </script>
+{%endif%}
+{% render 'shogun-products', content: product %}
+{{product.metafields.shogun.above}}
+{% section 'product-template' %}
+{% render 'yotpo-reviews' product: product %}
+{% section 'product-recommendations' %}
+{% section 'recently-viewed-products' %}
+
+<!-- {% assign tier_data = shop.metafields.discount-calc.discount-tiers | json %}
+<input type="hidden"  class="product_tier_data" value='{{tier_data}}'> -->
+
+<script>
+    window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)};
+    ShopifyXR('addModels', {{ product.media | where: 'media_type', 'model' | json }});
+</script>
+
+<script type="text/javascript">
+    var _learnq = _learnq || [];
+    var item = {
+        Name: {{ product.title|json }},
+        ProductID: {{ product.id|json }},
+        Categories: {{ product.collections|map:'title'|json }},
+        ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+        URL: "{{ shop.secure_url }}{{ product.url }}",
+        Brand: {{ product.vendor|json }},
+        Price: {{ product.price|money|json }},
+        CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+    };
+    _learnq.push(['track', 'Viewed Product', item]);
+    _learnq.push(['trackViewedItem', {
+        Title: item.Name,
+        ItemId: item.ProductID,
+        Categories: item.Categories,
+        ImageUrl: item.ImageURL,
+        Url: item.URL,
+        Metadata: {
+        Brand: item.Brand,
+        Price: item.Price,
+        CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>
+<script type="text/javascript">
+    var _learnq = _learnq || [];
+    var classname = document.getElementsByClassName("ProductForm__AddToCart Button Button--primary Button--full");
+    var addToCart = function() {
+    _learnq.push(['track', 'Added to Cart', item]);
+    }; for (var i = 0; i < classname.length; i++) {
+        classname[i].addEventListener('click', addToCart, false);
+    }
+    </script>{% render 'product_infox' %}
+    {{product.metafields.shogun.below}}
+

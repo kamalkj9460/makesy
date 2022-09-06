@@ -1,0 +1,21 @@
+
+  {% if shop.customer_accounts_enabled %}
+  {% if customer  %}
+   
+  
+    <script>
+		window.location.replace( 'https://woodenwick.com/pages/perks-account-home' );
+	</script>
+    
+  {% else %}
+
+
+    {% if shop.customer_accounts_optional %}
+    
+    <script>
+      window.location.replace( 'https://woodenwick.com/pages/perks-welcome' );
+    </script>
+    
+    {% endif %}
+  {% endif %}
+{% endif %}

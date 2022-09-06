@@ -1,0 +1,50 @@
+
+
+{% schema %}
+{
+  "name": "Blog page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_rss",
+      "label": "Show RSS",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show filters",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_featured_article",
+      "label": "Show featured article",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "label": "Show article category",
+      "info": "The first article's tag is used as the main category.",
+      "default": false
+    },
+    {
+      "type": "article",
+      "id": "blog1",
+      "label": "Featured blog 1"
+    },
+    {
+      "type": "article",
+      "id": "blog2",
+      "label": "Featured blog 2"
+    },
+    {
+      "type": "article",
+      "id": "blog3",
+      "label": "Featured blog 3"
+    }
+    
+  ]
+}
+{% endschema %}

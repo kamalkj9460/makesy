@@ -1,0 +1,37 @@
+<div class="collection-carousel-container">
+    <div class="c-carousel" data-scroll="600" data-item-count="6">
+        <div class="c-carousel-wrap">
+            <div class="carousel-item-array">
+                {% for i in (1..2) %}
+                    {%for item in collection_item %} 
+                        <div id="{{item.collection_title}}" data-element="carousel-item" data-tag="{{item.tags}}" data-action="toggle-tag" class="c-carousel-item item_collection" data-tag="{{item.tags}}">
+                            <p class="title-round-image">{{item.collection_title}}</p>
+                            <div class="collection_carousel_img">
+                                <img class="m-carousel-img" src="{{item.collection_img}}" alt="collection item">
+                            </div>
+                        </div>
+                    {%- endfor -%}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Carousel Buttons -->
+        <div class="c-left-btn">
+            <svg x="0px" y="0px" viewBox="0 0 16 16">
+                <path class="top-arm" d="M4.65,7.65l6-6c0,0,0,0,0,0c0.2-0.19,0.51-0.19,0.71,0c0,0,0,0,0,0c0.19,0.2,0.19,0.51,0,0.71
+                L5.71,8L4.5,8C4.5,7.87,4.55,7.74,4.65,7.65z" />
+                <path class="bottom-arm" d="M5.71,8l5.65,5.65c0.2,0.2,0.2,0.51,0,0.71c-0.2,0.2-0.51,0.2-0.71,0l-6-6c0,0,0,0,0,0
+                C4.55,8.25,4.5,8.13,4.5,8L5.71,8z" />
+                <circle cx="5.11" cy="8" r="0.57" />
+            </svg>
+        </div>
+        <div class="c-right-btn">
+            <svg x="0px" y="0px" viewBox="0 0 16 16">
+                <path class="top-arm" d="M11.35,7.65l-6-6c0,0,0,0,0,0c-0.2-0.2-0.51-0.19-0.71,0c0,0,0,0,0,0c-0.2,0.2-0.19,0.51,0,0.71
+                L10.29,8h1.21C11.5,7.87,11.45,7.74,11.35,7.65z" />
+                <path class="bottom-arm" d="M10.29,8l-5.65,5.65c-0.2,0.2-0.2,0.51,0,0.71s0.51,0.2,0.71,0l6-6c0,0,0,0,0,0
+                c0.1-0.1,0.15-0.23,0.15-0.35H10.29z" />
+                <circle cx="10.87" cy="8" r="0.59" />
+            </svg>
+        </div>
+    </div>
+</div>

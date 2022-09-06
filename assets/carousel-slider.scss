@@ -1,0 +1,119 @@
+.c-carousel {
+    position: relative;
+    .c-left-btn,
+    .c-right-btn {
+        cursor: pointer;
+        width: 35px;
+        position: absolute;
+        top: calc(50% - 15px);
+        z-index: 10;
+        svg {
+            pointer-events: none;
+            fill: #B8695B;
+        }
+    }
+    .c-left-btn {
+        .top-arm,
+        .bottom-arm {
+            transition: transform 0.2s ease-in-out;
+            transform-origin: 5.1px 8px;
+        }
+        &:hover .top-arm {
+            transform: rotate(-12deg);
+        }
+        &:hover .bottom-arm {
+            transform: rotate(12deg);
+        }
+    }
+    .c-right-btn {
+        .top-arm,
+        .bottom-arm {
+            transition: transform 0.2s ease-in-out;
+            transform-origin: 10.9px 8px;
+        }
+        &:hover .top-arm {
+            transform: rotate(12deg);
+        }
+        &:hover .bottom-arm {
+            transform: rotate(-12deg);
+        }
+    }
+
+    .c-carousel-wrap {
+        overflow: hidden;
+        touch-action: none;
+    }
+    .carousel-item-array {
+        display: grid;
+        grid-template-columns: repeat(100, 20%);
+        touch-action: auto;
+        padding-bottom: 15px;
+        &::-webkit-scrollbar {
+            height: 17px;
+            background-color: #fbfbfb;
+            border-radius: 7px;
+        }
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #d2d2d2;
+            border-radius: 15px;
+            border: 4px solid transparent;
+            background-clip: content-box;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: #a8bbbf;
+        }
+        @media (min-width: 500px) {
+            &::-webkit-scrollbar-thumb {
+                background-color: #eeeeee;
+
+            }
+            &::-webkit-scrollbar {
+                background-color: #fff;
+            }
+        }
+    }
+    .c-carousel-item {
+        transition-property: transform, opacity;
+        transition-duration: 0.35s, 0.5s;
+        transition-timing-function: ease-in;
+    }
+    .c-carousel-img {
+        pointer-events: none;
+        background: #fff;
+    }
+}
+@media (min-width: 600px) {
+    .c-carousel-wrap {
+        margin: 0 3rem;
+    }
+
+    .c-left-btn {
+        left: 0px;
+    }
+    .c-right-btn {
+        right: 0px;
+    }
+}
+
+@media (max-width: 576px) {
+    .c-left-btn {
+        left: -13px;
+    }
+    .c-right-btn {
+        right: -13px;
+    }
+}
+@media (pointer: coarse) {
+    .carousel-item-array {
+        touch-action: auto;
+    }
+    .c-left-btn,
+    .c-right-btn {
+        display: none;
+    }
+    /* custom css for "touch targets" */
+}
+//  *** END OF CAROUSEL ***

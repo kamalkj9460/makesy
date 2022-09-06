@@ -1,0 +1,887 @@
+/* alan temp style over ride */
+.template-index .ArticleItem__Category {
+  content-visibility: hidden;
+}
+
+/**
+ * This file contains various generic bloc to use with images
+ */
+/* DO Custom Sytle Overrides - Base 
+   Includes overrides for header, footer, homepage and page sections.
+*/
+.Header__Icon {
+  margin-top: 0;
+}
+
+.Header__Icon.wishlist-icon {
+  max-height: 14px;
+  margin-top: -2px;
+  vertical-align: middle;
+}
+
+.Header__Icon.mag_glass {
+  margin: -3px 0 0 0 !important;
+}
+
+#Search .Heading.u-h7 {
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+#Search .Segment__Title--flexed {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.ProductItem__Info button.swym-button {
+  padding-left: 2px !important;
+  max-height: 12px;
+}
+
+.u-h6,
+.Rte h6 {
+  font-family: 'Futura-PT-Medium';
+  font-size: 18px !important;
+  line-height: 22px;
+  letter-spacing: 0.03em;
+}
+
+@media (min-width: 1600px) {
+  nav.Header__MainNav.rightNav .HorizontalList__Item {
+    margin-right: 2vw;
+  }
+}
+
+@media (max-width: 1599px) {
+  nav.Header__MainNav.rightNav .HorizontalList__Item {
+    margin-right: 0.25vw;
+  }
+  nav.Header__MainNav .HorizontalList--spacingExtraLoose .HorizontalList__Item {
+    margin-right: 0.75vw;
+  }
+}
+
+#swym-no-items strong {
+  font-family: "GT-Eesti", sans-serif;
+  font-weight: normal !important;
+  color: #222222 !important;
+  font-size: 15px !important;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+}
+
+#swym-no-items p {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  font-size: 14px;
+  line-height: 23px !important;
+}
+
+.lion-notification__message {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.lion-notification__action-button {
+  border-radius: 0 !important;
+  background-color: #f3c6a3 !important;
+  color: #222222 !important;
+  font-family: "Futura-PT-Light", sans-serif !important;
+  font-size: 11px !important;
+  text-transform: capitalize !important;
+  letter-spacing: 0.05em !important;
+}
+
+#shopify-section-featured-collections .ProductItem__Quickview,
+#shopify-section-1605311917b01e5e7d .ProductItem__Quickview {
+  display: none;
+}
+
+#shopify-section-cart-template .CartItem__Title,
+.Cart.Drawer__Content .CartItem__Title {
+  font-size: 16px;
+  line-height: 21px;
+  font-family: 'GT-Eesti';
+  text-transform: lowercase;
+  font-color: #222222;
+}
+
+#shopify-section-cart-template .CartItem__Meta,
+.Cart.Drawer__Content .CartItem__Meta {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  margin-top: -0.5em;
+}
+
+#shopify-section-cart-template .CartItem__Meta .CartItem__Variant,
+.Cart.Drawer__Content .CartItem__Meta .CartItem__Variant {
+  letter-spacing: .05em !important;
+  font-size: 11px !important;
+  text-transform: none;
+}
+
+#shopify-section-cart-template .CartItem__Meta .CartItem__Price,
+.Cart.Drawer__Content .CartItem__Meta .CartItem__Price {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  font-size: 14px;
+  letter-spacing: .05em;
+  color: #222;
+  margin-top: -0.5em;
+  display: block;
+}
+
+#shopify-section-cart-template .CartItem__QuantitySelector,
+.Cart.Drawer__Content .CartItem__QuantitySelector {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  color: #222222 !important;
+}
+
+@media (min-width: 640px) {
+  #shopify-section-cart-template .CartItem__QuantitySelector .QuantitySelector__Button,
+  .Cart.Drawer__Content .CartItem__QuantitySelector .QuantitySelector__Button {
+    margin-top: 0px;
+  }
+}
+
+#shopify-section-cart-template .CartItem__QuantitySelector .QuantitySelector__CurrentQuantity,
+.Cart.Drawer__Content .CartItem__QuantitySelector .QuantitySelector__CurrentQuantity {
+  font-size: 12px;
+  margin-top: 0px;
+}
+
+#shopify-section-cart-template .CartItem__Remove,
+.Cart.Drawer__Content .CartItem__Remove {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  color: #222222;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+}
+
+#shopify-section-cart-template .CartItem__Remove:hover,
+.Cart.Drawer__Content .CartItem__Remove:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  #shopify-section-cart-template .CartItem__Remove,
+  .Cart.Drawer__Content .CartItem__Remove {
+    margin: 8px 0;
+  }
+}
+
+#shopify-section-cart-template .Drawer__Footer,
+.Cart.Drawer__Content .Drawer__Footer {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  font-size: 11px;
+  letter-spacing: 0.05em !important;
+  background: #F9F7F1;
+  border-radius: 30px 30px 0px 0px;
+}
+
+#shopify-section-cart-template .Cart__NoteButton,
+.Cart.Drawer__Content .Cart__NoteButton {
+  font-family: 'Futura-PT-Medium';
+  color: #222;
+  font-size: 16px;
+  letter-spacing: .05em;
+  margin-top: 10px;
+  text-transform: lowercase;
+  text-decoration: underline;
+}
+
+#shopify-section-cart-template #agree,
+.Cart.Drawer__Content #agree {
+  width: auto;
+  margin-bottom: 0.19em;
+}
+
+#shopify-section-cart-template .Cart__HeadItem {
+  font-size: 18px;
+  font-family: 'Futura-PT-Medium';
+  text-transform: capitalize;
+  color: #222;
+  letter-spacing: .05em;
+}
+
+#shopify-section-cart-template .CartItem__Meta {
+  font-size: 12px;
+}
+
+#shopify-section-cart-template #revy-cart-subtotal-price {
+  font-family: "GT-Eesti", sans-serif !important;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+#shopify-section-cart-template .CartItem__Price {
+  font-family: "Futura-PT-Light", sans-serif !important;
+  letter-spacing: 0.05em;
+  font-size: 16px;
+}
+
+#shopify-section-cart-template .CartItem__LinePriceList .CartItem__Price {
+  color: #222222;
+  font-size: 16px;
+}
+
+#shopify-section-cart-template #agree {
+  width: auto;
+  margin-bottom: 0.19em;
+}
+
+/* WW - Alan Watson - 6/30/2021  */
+/* Lucida Font Update Overrides  */
+nav.Header__MainNav .HorizontalList--spacingExtraLoose .HorizontalList__Item {
+  margin-right: 1.95vw !important;
+}
+
+nav.Header__SecondaryNav .HorizontalList__Item {
+  margin-right: 1.95vw !important;
+}
+
+@media (min-width: 641px) {
+  .Header__LogoImage {
+    min-width: 385px;
+  }
+}
+
+span.DetailLinkHeader.MegaMenu__SubTitle.Heading.u-h6 {
+  font-size: 15px !important;
+  text-transform: uppercase;
+}
+
+p.MegaMenu__PushHeading.Heading.u-h6 {
+  font-family: 'Futura-PT-Light';
+  font-size: 11px !important;
+  text-transform: capitalize;
+  color: #222222;
+}
+
+#section-1597255850227 .textblock p {
+  font-family: 'Futura-PT-Light';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: 0.02em;
+  color: #222222;
+}
+
+h3.SectionHeader__SubHeading.Heading.u-h6 {
+  color: #222222 !important;
+  font-family: 'Futura-PT-Light';
+  font-size: 16px !important;
+  text-transform: lowercase;
+}
+
+h2.SectionHeader__Heading.SectionHeader__Heading--emphasize.Heading.u-h1 {
+  font-size: 36px;
+  margin-top: 0.3em !important;
+}
+
+#insta-feed h2 {
+  font-size: 56px !important;
+  font-family: BastilleScript !important;
+  letter-spacing: .01em !important;
+  line-height: 0.5em !important;
+  padding: 20px 0px 60px 0px !important;
+}
+
+h2.Footer__Title.Heading.u-h6 {
+  color: #d58778 !important;
+}
+
+span.Drawer__Title.Heading.u-h4 {
+  font-family: 'Futura-PT-Medium';
+  font-size: 18px;
+  line-height: 23px;
+  text-transform: lowercase;
+}
+
+.text_progress {
+  font-family: "Futura-PT-Light" !important;
+  font-weight: normal !important;
+  font-size: 14px !important;
+  letter-spacing: .045em !important;
+  text-align: left !important;
+  width: 100% !important;
+  color: #222 !important;
+}
+
+.progress_percent {
+  background: #EBBAA3 !important;
+  border-radius: 22px;
+}
+
+img.CartItem__Image {
+  border-radius: 30px;
+}
+
+h4.super-title {
+  font-family: 'Futura-PT-Medium' !important;
+  font-size: 18px !important;
+  text-transform: lowercase !important;
+  text-align: left !important;
+  letter-spacing: 0.05em !important;
+  line-height: 23px;
+}
+
+a.rebuy-product-title.clickable {
+  font-family: 'GT-Eesti' !important;
+  font-style: normal;
+  font-size: 16px !important;
+  line-height: 23px !important;
+  letter-spacing: 0.05em !important;
+}
+
+span.rebuy-money {
+  font-family: 'Futura-PT-Medium' !important;
+  font-size: 12px;
+  letter-spacing: .05em;
+  color: #222 !important;
+  margin-top: -0.5em;
+}
+
+.rebuy-button {
+  color: #222 !important;
+  background: #EBBAA3 !important;
+  border: none !important;
+  font-size: 16px !important;
+  font-family: 'Futura-PT-Medium' !important;
+  text-transform: lowercase !important;
+  letter-spacing: 0.05em !important;
+  border-radius: 30px !important;
+}
+
+#rebuy-widget-2202 .rebuy-product-block .rebuy-product-media img {
+  border-radius: 30px !important;
+}
+
+p.Cart__Empty.Heading.u-h5 {
+  font-size: 12px;
+  font-family: 'Futura-PT-Light';
+  letter-spacing: .05em;
+}
+
+label {
+  font-size: 14px;
+  font-family: 'Futura-PT-Light';
+  font-weight: 100 !important;
+  letter-spacing: .05em !important;
+}
+
+h2.pt9.atsackers {
+  font-size: 16px;
+  font-family: 'GT-Eesti';
+}
+
+h3.pt9.atsackers {
+  font-size: 16px;
+  font-family: 'GT-Eesti';
+}
+
+#section-blog-template .ImageHero .Button {
+  color: #1c1c1c;
+  border-color: #ffffff;
+  text-transform: uppercase;
+}
+
+.title_page_video {
+  font-family: GT-Eesti !important;
+  font-size: 90px !important;
+  text-transform: lowercase;
+  letter-spacing: 0.05em !important;
+  line-height: unset !important;
+}
+
+.title_page_video:after {
+  content: ".";
+}
+
+@media (max-width: 768px) {
+  .title_page_video {
+    font-size: 40px !important;
+  }
+}
+
+a#el_ {
+  font-family: 'Futura-PT-Medium';
+  color: #B8695B;
+  font-size: 16px;
+}
+
+.img_thm {
+  border-radius: 30px;
+}
+
+div#liste_videos_content {
+  margin-top: -75px;
+}
+
+#video_description {
+  font-size: 12px !important;
+  color: #222222;
+}
+
+h1.Article__Title.Heading.u-h1 {
+  margin-top: 40px;
+}
+
+a.ArticleItem__Link.Link.Link--underline {
+  height: 29px;
+  text-decoration: none;
+  color: #b8695b;
+  font-size: 16px;
+  line-height: 21px;
+  font-family: 'GT-Eesti';
+  letter-spacing: 0.05em;
+}
+
+a.ArticleItem__Link.Link.Link--underline:hover {
+  color: #D58778;
+}
+
+.preorder-description {
+  font-size: 11px;
+  font-family: 'GT-Eesti';
+  letter-spacing: .05em;
+  text-align: center;
+  margin-top: 15px;
+  color: #ff7065;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.CartItem__PropertyList {
+  list-style: none;
+  font-size: 14px;
+  font-family: 'Futura-PT-Medium';
+  color: #b8695b;
+  font-style: normal;
+  text-transform: lowercase;
+  letter-spacing: .05em;
+}
+
+h2#pn-mixed-cart-warning-title {
+  font-family: 'GT-Eesti';
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin: 20px 20px;
+}
+
+div#pn-mixed-cart-warning-text {
+  font-family: 'Futura-PT-Light';
+  font-size: 12px;
+  letter-spacing: .05em;
+  text-align: center;
+  color: #222222;
+  margin: 0px 20px 20px 20px;
+}
+
+#pn-modal-close-btn {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+  color: #222222;
+  margin-top: -10px;
+}
+
+.jddkUx {
+  max-width: 1250px !important;
+}
+
+div#quiz-kit-question-navigation {
+  margin-top: 0px;
+}
+
+button#quiz-kit-question-prev-button {
+  text-transform: capitalize !important;
+  letter-spacing: .05em !important;
+  font-size: 16px !important;
+  font-weight: normal !important;
+}
+
+button#quiz-kit-question-next-button {
+  text-transform: capitalize !important;
+  letter-spacing: .05em !important;
+  font-size: 16px !important;
+  font-weight: normal !important;
+}
+
+h1.sc-AxhCb.jXrfFE {
+  font-family: 'Futura-PT-Medium' !important;
+  text-transform: lowercase !important;
+  font-size: 16px !important;
+  letter-spacing: 0.05em !important;
+}
+
+h1.sc-AxhCb.ZdEou {
+  font-family: 'GT-Eesti' !important;
+  text-transform: lowercase !important;
+  font-size: 16px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.dwmtEr:hover > div {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.dwmtEr.focus-visible > div, .dwmtEr.active-class > div {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+button#quiz-kit-question-image-text-item-24424 {
+  width: 250px !important;
+}
+
+h3#quiz-kit-question-navigation-24424 {
+  display: none;
+}
+
+button#quiz-kit-question-image-text-item-24786 {
+  width: 250px !important;
+}
+
+h3#quiz-kit-question-navigation-24786 {
+  display: none;
+}
+
+button#quiz-kit-question-image-text-item-24558 {
+  width: 160px !important;
+}
+
+h3#quiz-kit-question-navigation-24558 {
+  display: none;
+}
+
+button#quiz-kit-question-image-text-item-24549 {
+  width: 165px !important;
+}
+
+h3#quiz-kit-question-navigation-24549 {
+  display: none;
+}
+
+button#quiz-kit-question-image-text-item-24794 {
+  width: 200px !important;
+}
+
+h3#quiz-kit-question-navigation-24794 {
+  display: none;
+}
+
+h1#quiz-kit-subscribe-5gJ_Lll0Ih-heading {
+  font-size: 16px !important;
+  font-family: 'Futura-PT-Light' !important;
+}
+
+h2#quiz-kit-subscribe-5gJ_Lll0Ih-subheading {
+  font-family: 'GT-Eesti' !important;
+  font-size: 45px !important;
+  text-transform: lowercase !important;
+}
+
+@media (max-width: 768px) {
+  h2#quiz-kit-subscribe-5gJ_Lll0Ih-subheading {
+    font-size: 30px !important;
+  }
+}
+
+a#quiz-kit-subscribe-5gJ_Lll0Ih-decline-button {
+  font-size: 16px !important;
+  text-decoration: underline !important;
+}
+
+.jEvuBy {
+  max-width: 100% !important;
+}
+
+h2#quiz-kit-results-subtitle-5gJ_Lll0Ih {
+  display: none;
+}
+
+h1#quiz-kit-results-title-5gJ_Lll0Ih {
+  text-transform: lowercase !important;
+  letter-spacing: 0.05em !important;
+  font-size: 45px !important;
+}
+
+p#quiz-kit-results-description-5gJ_Lll0Ih {
+  max-width: 80% !important;
+  font-size: 16px !important;
+  color: #222222 !important;
+}
+
+h3.sc-AxhCb.jXrfFE {
+  text-align: left !important;
+  text-transform: lowercase !important;
+  margin: 15px 12px 15px -15px !important;
+  line-height: 18px !important;
+  letter-spacing: 0.05em !important;
+  font-family: 'GT-Eesti' !important;
+  font-size: 16px !important;
+}
+
+h3.sc-AxhCb.ZdEou {
+  font-family: 'GT-Eesti' !important;
+  text-transform: lowercase !important;
+  font-size: 16px !important;
+  letter-spacing: .05em !important;
+}
+
+h4.sc-AxhCb.ZdEqp {
+  font-family: 'Futura-PT-Light' !important;
+  font-size: 16px !important;
+  color: #222222 !important;
+}
+
+button#quiz-kit-results-retake-quiz-button-5gJ_Lll0Ih {
+  font-size: 12px !important;
+}
+
+input.sc-fzqBkg.dLjYwK {
+  height: 40px !important;
+  border: 1px solid #777777 !important;
+}
+
+button.sc-fznxsB.jNSwSh {
+  text-transform: lowercase !important;
+  height: 40px !important;
+  min-width: 200px !important;
+}
+
+button.sc-fznxsB.jNSwSh:hover {
+  background-color: #D58778 !important;
+  color: #ffffff !important;
+  text-transform: lowercase !important;
+}
+
+.dMUsUM img {
+  border-radius: 30px !important;
+}
+
+h1.Faq__Section.Heading.u-h1 {
+  font-size: 45px;
+  text-transform: lowercase;
+  line-height: 45px;
+  font-family: 'GT-Eesti';
+}
+
+@media (max-width: 650px) {
+  #swym-plugin-name {
+    font-size: 38px;
+    line-height: 38px;
+    margin-bottom: 25px !important;
+  }
+}
+
+ul#swym-tabs-nav {
+  display: none !important;
+}
+
+.swym-image {
+  border-radius: 30px;
+  height: 300px !important;
+  border-width: 0px !important;
+}
+
+@media (max-width: 650px) {
+  .swym-image {
+    height: 100% !important;
+    margin-right: 30px !important;
+    border-width: 0px !important;
+  }
+}
+
+#swym-plugin .swym-item-grid.show-add-to-cart .swym-add-to-cart, #swym-hosted-plugin .swym-item-grid.show-add-to-cart .swym-add-to-cart {
+  background: #EBBAA3 !important;
+  border-radius: 30px;
+  margin-top: 20px;
+  border-width: 0px !important;
+}
+
+#swym-plugin .swym-item-grid .swym-add-to-cart a, #swym-hosted-plugin .swym-item-grid .swym-add-to-cart a {
+  color: #222 !important;
+  font-family: 'Futura-PT-Medium';
+}
+
+#swym-plugin .swym-item-grid .swym-item, #swym-hosted-plugin .swym-item-grid .swym-item {
+  width: 250px !important;
+  margin: 0px 0px 230px 15px !important;
+}
+
+@media (max-width: 650px) {
+  #swym-plugin .swym-item-grid .swym-item, #swym-hosted-plugin .swym-item-grid .swym-item {
+    width: 95% !important;
+    margin: 0px 0 100px 15px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  #swym-plugin .swym-item-grid .swym-inner, #swym-hosted-plugin .swym-item-grid .swym-inner {
+    height: 136px;
+  }
+}
+
+i.swym-icon.swym-heart-grey {
+  top: 150px !important;
+  left: 30px !important;
+}
+
+@media (max-width: 650px) {
+  i.swym-icon.swym-heart-grey {
+    top: 40px !important;
+    left: 30px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  #swym-plugin .swym-item-grid .swym-actions li.swym-remove, #swym-hosted-plugin .swym-item-grid .swym-actions li.swym-remove {
+    background: transparent !important;
+  }
+}
+
+@media (max-width: 650px) {
+  #swym-plugin .swym-item-grid .swym-actions li.swym-remove i, #swym-hosted-plugin .swym-item-grid .swym-actions li.swym-remove i {
+    margin-top: -25px !important;
+  }
+}
+
+.swym-product-view {
+  padding: 50px !important;
+}
+
+#swym-plugin .swym-product-view-swiper .swym-information, #swym-plugin .swym-product-view-swiper .swym-title, #swym-hosted-plugin .swym-product-view-swiper .swym-information, #swym-hosted-plugin .swym-product-view-swiper .swym-title {
+  padding-left: 30px;
+}
+
+#swym-plugin .swym-product-view-swiper .swym-image, #swym-hosted-plugin .swym-product-view-swiper .swym-image {
+  height: 265px !important;
+}
+
+#swym-plugin .swym-product-view-swiper .swym-buy, #swym-hosted-plugin .swym-product-view-swiper .swym-buy {
+  margin-top: 5px;
+}
+
+#swym-plugin .swym-product-pagination li, #swym-hosted-plugin .swym-product-pagination li {
+  background: #EBBAA3 !important;
+  border-radius: 2px !important;
+}
+
+#order-lookup-by-hulkapps .find-order {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+#order-lookup-by-hulkapps .find-order .heading h3 {
+  display: none;
+}
+
+#order-lookup-by-hulkapps .find-order .heading {
+  border-bottom: 0px !important;
+}
+
+#order-lookup-by-hulkapps .find-order .order-track-form .input-wrap label {
+  font-size: 16px !important;
+  font-family: 'GT-Eesti' !important;
+  text-transform: lowercase !important;
+  text-align: center;
+}
+
+#order-lookup-by-hulkapps .find-order .order-track-form .input-wrap input {
+  border-width: .5px !important;
+  border-color: #222 !important;
+  border-radius: 30px !important;
+  font-size: 14px !important;
+  font-family: 'Futura-PT-Light';
+  height: 40px;
+}
+
+#order-lookup-by-hulkapps .btn {
+  font-size: 16px !important;
+  font-family: 'Futura-PT-Medium' !important;
+  text-transform: lowercase !important;
+  letter-spacing: .05em !important;
+  height: 40px !important;
+  padding: 0px !important;
+}
+
+h4.package-count {
+  font-size: 16px !important;
+  text-transform: lowercase !important;
+  font-family: 'Futura-PT-Medium' !important;
+}
+
+#order-lookup-by-hulkapps .delivery-package.horizontal .package-details .package-v2 .package-contains .col {
+  width: 33% !important;
+  max-width: 200px !important;
+}
+
+#order-lookup-by-hulkapps .delivery-package .package-contains .col img {
+  border-radius: 30px;
+}
+
+#order-lookup-by-hulkapps .delivery-package .package-contains .col .image-wrap .badge {
+  background: #EBCCBE !important;
+  font-family: 'Futura-PT-Medium' !important;
+  color: #222 !important;
+  font-size: 16px !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 31px !important;
+}
+
+#order-lookup-by-hulkapps .delivery-package.horizontal .package-details .package-v2 .package-contains .col .product-name {
+  font-size: 16px !important;
+  font-family: 'Futura-PT-Medium' !important;
+  text-transform: lowercase !important;
+  line-height: 18px !important;
+  text-align: left !important;
+  font-weight: normal !important;
+  margin-top: -10px;
+}
+
+#order-lookup-by-hulkapps .shipment-details-inner > li.active h5 {
+  color: #222 !important;
+  font-family: 'Futura-PT-Light' !important;
+  font-size: 16px !important;
+}
+
+#order-lookup-by-hulkapps .shipment-details-inner > li h5 {
+  color: #9E9999 !important;
+  font-family: 'Futura-PT-Light' !important;
+  font-size: 16px !important;
+}
+
+h1.Form__Title.Heading.u-h1 {
+  font-family: 'GT-Eesti';
+  font-size: 90px;
+  text-transform: lowercase;
+  line-height: 85px;
+}
+
+p.Form__Legend {
+  font-size: 16px;
+}
+
+h1.Form__Title.Heading.u-h1::after {
+  content: ".";
+}
+
+.form_generater_form_div {
+  max-width: 1000px !important;
+}

@@ -1,0 +1,867 @@
+$breakpoint-xs: 0px;
+$breakpoint-sm: 600px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1440px;
+
+@mixin breakpointMax($size) {
+    @media (max-width: $size) {
+        @content;
+    }
+}
+
+@mixin breakpointMin($size) {
+    @media (min-width: $size) {
+        @content;
+    }
+}
+
+$title-h1: #ffbb80;
+$content-color: #ffe6cc;
+$background-color: #1c1c1c;
+$border-color: #da7645;
+
+.__desktop {
+    @include breakpointMax($breakpoint-md) {
+        display: none !important;
+    }
+}
+.__mobile {
+    @include breakpointMin($breakpoint-md) {
+        display: none !important;
+    }
+}
+.explore {
+    .section-cta {
+        font-family: Futura-PT-Medium;
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+        max-width: 280px;
+        border-radius: 30px;
+        height: 40px;
+        color: #111;
+        background-color: #ebbaa3;
+        display: block;
+        line-height: 40px;
+        text-transform: lowercase;
+        cursor: pointer;
+    }
+    .header__heading {
+        font-family: GT-Eesti;
+        font-size: unquote("clamp(35px, 5vw + 2.1rem,90px)");
+        line-height: unquote("clamp(48px,5vw + 15px,85px)");
+        margin-bottom: 30px;
+    }
+
+    .header__subheading {
+        font-size: 16px;
+        line-height: 20px;
+        max-width: 406px;
+        padding-right: 15px;
+        @include breakpointMax($breakpoint-sm) {
+            font-size: 12px;
+        }
+    }
+}
+
+a.gradient-hover-btn {
+    background: #ebbaa3;
+    background: linear-gradient(to right, #ebbaa3, #ebbaa3 40%, #d58778 80%);
+    background-size: 300%;
+    transition: background-position 250ms ease-in, color 250ms ease-in;
+    background-position: left;
+    &:hover {
+        background-position: right;
+        color: #fff;
+    }
+}
+
+.explore__link {
+    text-decoration: underline;
+    font-family: Futura-PT-Medium;
+    font-size: 16px;
+    color: #b8695b;
+    @include breakpointMax($breakpoint-sm) {
+        font-size: 12px;
+    }
+}
+
+.explore__link-bottom {
+    margin-top: 15px;
+}
+
+.explore__link-top {
+    margin-bottom: 15px;
+}
+
+.explore__container {
+    width: 100%;
+    padding: 0 100px;
+    @include breakpointMax($breakpoint-md) {
+        padding: 0 16.5px;
+    }
+    margin: 0 auto;
+    max-width: $breakpoint-xl;
+    display: flow-root;
+}
+
+.explore__header .explore__container {
+    @include breakpointMax(980px) {
+        padding: 0 16.5px;
+    }
+    @include breakpointMax($breakpoint-md) {
+        padding-right: 32px;
+        padding-left: 0px;
+    }
+    // @include breakpointMax($breakpoint-xs) {
+    //     padding-right: 10px;
+    //     padding-left: 0px;
+    // }
+    @include breakpointMax($breakpoint-sm) {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+.explore__grid {
+    padding-top: 16px;
+    @include breakpointMin($breakpoint-md) {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 3.5rem;
+    }
+    a {
+        display: block;
+    }
+    .explore__grid-item-left {
+        display: flex;
+        flex-direction: column;
+        .item-left-img {
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+            overflow: hidden;
+            .item-left-img-aWrap {
+                position: relative;
+                height: 100%;
+                img {
+                    height: 100%;
+                    width: auto;
+                    object-fit: cover;
+                }
+                .explore__link-bottom {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    padding: 24px 16px;
+                    font-family: 'GT-Eesti';
+                    font-size: 45px;
+                    color: #fff;
+                    line-height: 1;
+                    text-decoration: none;
+                    @include breakpointMax($breakpoint-lg) {
+                        font-size: 35px;
+                    }
+                }
+            }
+        }
+    }
+    .explore__grid-item-right {
+        .item-right-top {
+            display: flex;
+            @include breakpointMax($breakpoint-sm) {
+                position: relative;
+            }
+            > div {
+                flex: 1 1 50%;
+            }
+            .item-top-img {
+                display: flex;
+                flex-direction: column;
+                a {
+                    position: relative;
+                    .explore__link-bottom {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        padding: 24px 20px;
+                        font-family: 'GT-Eesti';
+                        font-size: 45px;
+                        color: #fff;
+                        line-height: 1;
+                        text-decoration: none;
+                        max-width: 340px;
+                        width: 100%;
+                        @include breakpointMax($breakpoint-lg) {
+                            font-size: 35px;
+                        }
+                    }
+                }
+                img {
+                    // min-width: 234px;
+                    max-width: 340px;
+                    width: 100%;
+                    margin-top: 17%;
+                    border-radius: 30px;
+                    @include breakpointMax($breakpoint-sm) {
+                        max-width: 100%;
+                        margin-top: 0;
+                    }
+                }
+            }
+            .item-top-content {
+                padding-left: 8px;
+                @include breakpointMax($breakpoint-sm) {
+                    position: absolute;
+                    top: 55px;
+                }
+            }
+        }
+        .item-right-bottom {
+            .item-bottom-img {
+                a {
+                    position: relative;
+                    .explore__link-bottom {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        padding: 24px 20px;
+                        font-family: 'GT-Eesti';
+                        font-size: 45px;
+                        color: #fff;
+                        line-height: 1;
+                        text-decoration: none;
+                        @include breakpointMax($breakpoint-lg) {
+                            font-size: 35px;
+                        }
+                    }
+                }
+                img {
+                    width: 100%;
+                    border-radius: 30px;
+                }
+            }
+        }
+        .header__heading {
+            text-align: right;
+            @include breakpointMax($breakpoint-sm) {
+                text-align: left;
+                margin-left: 25px;
+                max-width: 200px;
+                font-size: 38px;
+                line-height: 1;
+                margin-bottom: 25px;
+            }
+        }
+        .header__subheading {
+            text-align: right;
+            max-width: 280px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: 0;
+            margin-bottom: 40px;
+            @include breakpointMax($breakpoint-sm) {
+                text-align: left;
+                margin-left: 25px;
+                max-width: 155px;
+                line-height: 15.38px;
+            }
+            &.__mobile {
+                max-width: 130px;
+                padding-right: 0;
+                margin-bottom: 5px;
+                line-height: 15.38px;
+            }
+        }
+    }
+}
+
+// Top carousel items below the top header / hero section
+.explore__caorusel-container {
+    padding: 5rem 0rem;
+    margin: auto;
+    @include breakpointMax(600px) {
+        width: 100%;
+        // padding: 5rem 0 5rem 3rem;
+        padding: 1rem 0 1rem 2rem;
+    }
+    @include breakpointMin(1200px) {
+        max-width: 1280px;
+    }
+    .explore__carousel-wrap {
+        margin: 0;
+    }
+    .carousel-item-array {
+        padding-bottom: 10px;
+    }
+    // Might end up using this. 
+    .c-carousel-item:not(.cloned) {
+        // margin: 20px 25px;
+    }
+    .c-carousel-item {
+        display: flex;
+        flex-direction: column;
+        // margin: 20px 25px;
+        margin: auto 25px 20px;
+        @include breakpointMax(600px) {
+            // margin: 20px 15px;
+            margin: auto 15px 20px;
+        }
+        .m-carousel-img {
+            width: 100%;
+            border-radius: 30px;
+        }
+    }
+
+    .carousel-item-img {
+        img {
+            width: 100%;
+        }
+    }
+    .c-left-btn,
+    .c-right-btn {
+        top: calc(50% - 50px);
+    }
+}
+
+
+
+/* SECTION ONE JOIN OUR COMMUNITY */
+.explore_section-one {
+    background-color: #f9f7f2;
+    border-radius: 30px;
+    z-index: 1;
+    position: relative;
+
+    .explore__section-one-header {
+        margin: 90px auto 50px;
+        text-align: center;
+        .header__subheading {
+            margin: 0 auto 19px;
+        }
+    }
+
+    .explore_one-grid {
+        font-family: Futura-PT-Medium;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(150px, 279px));
+        @include breakpointMax($breakpoint-md) {
+            grid-template-columns: repeat(2, minmax(100px, 279px));
+        }
+        @include breakpointMax($breakpoint-sm) {
+            grid-template-columns: 1fr;
+        }
+        grid-gap: 40px 1.5rem;
+        justify-content: center;
+        justify-items: center;
+        width: 100%;
+        margin-bottom: 118px;
+        .grid-item-img {
+            @include breakpointMax($breakpoint-sm) {
+                aspect-ratio: 19/8;
+            }
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        // @include breakpointMax($breakpoint-sm) {
+        //     .grid-item-img {
+        //         aspect-ratio: 19/8;
+        //         border-radius: 30px;
+        //         overflow: hidden;
+        //     }
+        // }
+
+        .grid-item {
+            @include breakpointMax($breakpoint-sm) {
+                width: 100%;
+            }
+            img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .grid-item-title {
+            font-size: 18px;
+            color: #222222;
+            margin-top: 30px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 14px;
+                font-size: 12px;
+            }
+            @include breakpointMin($breakpoint-sm) {
+                height: 50px;
+            }
+        }
+        .grid-item-para {
+            font-family: "Futura-PT-Light", sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 7px;
+                font-size: 12px;
+            }
+        }
+        a {
+            color: #b8695b;
+            font-size: 16px;
+            line-height: 20px;
+            text-decoration-line: underline;
+        }
+    }
+}
+/* END SECTION ONE JOIN OUR COMMUNITY */
+
+
+/* SECTION TWO */
+.explore_section-two {
+    margin-top: -25px;
+    // background: url("https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec2-bg.jpg?v=1649267937")
+    // background: url("https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec2b-bg.jpg?v=1655497934")
+    //     no-repeat left center;
+    // background: url("https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec2c-bg.jpg?v=1658432195")
+    //     no-repeat left center;
+    background: url("https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec2c-bg.jpg?v=1658432195")
+        no-repeat center;
+    background-size: cover;
+}
+.explore__section-two-header {
+    padding: 200px 0;
+    .header__heading {
+        // max-width: 500px;
+        max-width: 652px;
+    }
+    p {
+        max-width: 406px;
+        margin-bottom: 23px;
+    }
+}
+/* END SECTION TWO */
+
+
+
+
+/* SECTION THREE HOW TO VIDEOS */
+.explore_section-three {
+    border-radius: 30px;
+    background: #f9f7f2;
+    margin-top: -25px;
+    position: relative;
+    padding-bottom: 120px;
+    @include breakpointMax($breakpoint-sm) {
+        padding-bottom: 50px;
+    }
+    .header__subheading {
+        margin: 0 auto 19px;
+    }
+    .explore__section-three-header {
+        margin: 90px auto 50px;
+        text-align: center;
+    }
+    .explore_section-videos {
+        display: flex;
+        grid-gap: 2.5rem;
+        @include breakpointMax($breakpoint-sm) {
+            grid-gap: .5rem;
+        }
+        .explore_section-video {
+            width: 50%;
+            @include breakpointMax($breakpoint-sm) {
+                width: 100%;
+            }
+            .explore_section-video-container {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                padding-top: 56.25%;
+                .section_three-video {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 30px;
+                }
+            }
+        }
+    }
+    .explore_video-title {
+        font-family: Futura-PT-Medium;
+        font-size: 18px;
+        margin-top: 25px;
+    }
+    @include breakpointMax($breakpoint-sm) {
+        .explore_section-videos {
+            flex-wrap: wrap;
+        }
+        .explore_video-title {
+            font-size: 12px;
+            margin-top: 18px;
+        }
+        .explore_section-video:nth-of-type(2) {
+            margin-top: 54px;
+        }
+    }
+    .section-cta {
+        margin: 32px auto;
+    }
+}
+/* END SECTION THREE HOW TO VIDEOS */
+
+
+/* SECTION FOUR BACKGROUND IMAGE */
+.explore_section-four {
+    margin-top: -25px;
+    background: url("https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec4-bg.jpg?v=1649354332") no-repeat
+        center center;
+    background-size: cover;
+    .header__heading {
+        max-width: 652px;
+        @include breakpointMax($breakpoint-sm) {
+            max-width: 378px;
+        }
+    }
+}
+
+.explore__section-four-header {
+    padding: 200px 0;
+    @include breakpointMax($breakpoint-sm) {
+        padding: 100px 0;
+    }
+}
+/* END SECTION FOUR BACKGROUND IMAGE */
+
+
+/* SECTION FIVE BUSINESS 101 */
+.explore_section-five {
+    margin-top: -25px;
+    border-radius: 30px;
+    // background: #f9f7f2;
+    background-color: #fff;
+    .section-cta {
+        margin: 0 auto;
+    }
+    padding-bottom: 120px;
+    @include breakpointMax($breakpoint-sm) {
+        padding-bottom: 50px;
+    }
+    .explore__section-five-header {
+        margin: 90px auto 50px;
+        text-align: center;
+
+        .header__subheading {
+            margin: 0 auto 19px;
+        }
+    }
+    .explore_five-grid {
+        font-family: Futura-PT-Medium;
+        display: grid;
+        @include breakpointMin($breakpoint-sm) {
+            grid-template-columns: repeat(3, minmax(150px, 370px));
+        }
+        grid-gap: 40px 1.5rem;
+        justify-content: center;
+        justify-items: center;
+        width: 100%;
+        margin-bottom: 118px;
+        .grid-item {
+            max-width: 385px;
+        }
+        img {
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .grid-item-title {
+            font-size: 18px;
+            color: #222;
+            margin-top: 30px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 14px;
+                font-size: 12px;
+                height: 50px;
+            }
+        }
+        .grid-item-para {
+            font-family: Futura-PT-Light, sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 7px;
+                font-size: 12px;
+            }
+        }
+        a {
+            color: #b8695b;
+            font-size: 16px;
+            line-height: 20px;
+            text-decoration-line: underline;
+        }
+        .grid-item-img {
+            position: relative;
+            .section_five-img {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+        .grid-item-img::after {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+    }
+}
+/* END SECTION FIVE BUSINESS 101 */
+
+
+/* SECTION SIX MEET OUR MAKERS */
+.explore_section-six {
+    background-color: #f9f7f2;
+    border-radius: 30px;
+    z-index: 1;
+    position: relative;
+    padding-bottom: 120px;
+
+    .explore__section-six-header {
+        margin: 90px auto 50px;
+        text-align: center;
+        .header__subheading {
+            margin: 0 auto 19px;
+        }
+    }
+
+    .explore_six-grid {
+        font-family: Futura-PT-Medium;
+        display: grid;
+        @include breakpointMin($breakpoint-sm) {
+            grid-template-columns: repeat(3, minmax(150px, 370px));
+        }
+        // grid-template-columns: repeat(4, minmax(150px, 279px));
+        // @include breakpointMax($breakpoint-md) {
+        //     grid-template-columns: repeat(2, minmax(100px, 279px));
+        // }
+        // @include breakpointMax($breakpoint-sm) {
+        //     grid-template-columns: 1fr;
+        // }
+        grid-gap: 40px 1.5rem;
+        justify-content: center;
+        justify-items: center;
+        width: 100%;
+        margin-bottom: 118px;
+        // .grid-item-img {
+        //     @include breakpointMax($breakpoint-sm) {
+        //         aspect-ratio: 14/8;
+        //     }
+        //     border-radius: 30px;
+        //     overflow: hidden;
+        // }
+        .grid-item {
+            max-width: 385px;
+            width: 100%;
+            // @include breakpointMax($breakpoint-sm) {
+            //     width: 100%;
+            // }
+            // img {
+            //     object-fit: cover;
+            //     width: 100%;
+            //     height: 100%;
+            // }
+            .grid-item-img {
+                position: relative;
+                .section_six-img {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    border-radius: 30px;
+                    overflow: hidden;
+                }
+            }
+            .grid-item-img::after {
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+            }
+        }
+        .grid-item-date {
+            font-family: "Futura-PT-Light", sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 7px;
+                font-size: 12px;
+            }
+        }
+        .grid-item-title {
+            font-size: 18px;
+            color: #222222;
+            margin-top: 16px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 14px;
+                font-size: 12px;
+            }
+        }
+        .grid-item-para {
+            font-family: "Futura-PT-Light", sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            @include breakpointMax($breakpoint-sm) {
+                margin-top: 7px;
+                font-size: 12px;
+            }
+        }
+        a {
+            color: #b8695b;
+            font-size: 16px;
+            line-height: 20px;
+            text-decoration-line: underline;
+        }
+    }
+    .section-cta {
+        margin: 0 auto;
+    }
+}
+/* END SECTION SIX MEET OUR MAKERS */
+
+/* SECTION SEVEN INSPIRATION */
+.explore_section-seven {
+    @extend .explore_section-five;
+    .explore_seven-grid {
+        @extend .explore_five-grid
+    }
+}
+/* END SECTION SEVEN INSPIRATION */
+
+/* SECTION EIGHT CHARTS & GUIDES */
+.explore_section-eight {
+    .explore__container {
+        padding: 0;
+    }
+    .explore_eight-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        @include breakpointMax($breakpoint-sm) {
+            display: none;
+        }
+    }
+    .grid-item {
+        position: relative;
+        img {
+            // max-width: 720px;
+            width: 100%;
+        }
+        .content {
+            position: absolute;
+            bottom: 24%;
+            left: 14%;
+            width: 280px;
+            @include breakpointMax($breakpoint-lg) {
+                bottom: 16%;
+                left: 8%;
+            }
+            @include breakpointMax($breakpoint-md) {
+                bottom: 10%;
+                left: 6%;
+                max-width: 250px;
+            }
+            h2 {
+                font-family: 'GT-Eesti';
+                font-size: 45px;
+                line-height: 1;
+                @include breakpointMax($breakpoint-lg) {
+                    font-size: 42px;
+                    margin-bottom: 28px;
+                }
+                @include breakpointMax($breakpoint-md) {
+                    font-size: 38px;
+                    margin-bottom: 28px;
+                }
+            }
+            
+        }
+    }
+    .explore_eight-mobile {
+        @include breakpointMin($breakpoint-sm) {
+            display: none;
+        }
+        .grid-item {
+            .section-cta {
+                max-width: 160px;
+            }
+            .content {
+                bottom: 22%;
+            }
+        }
+        .swiper-pagination {
+            text-align: left;
+            left: 6%;
+            .swiper-pagination-bullet {
+                background: none;
+                border: .5px solid #B8695B;
+                height: 20px;
+                width: 20px;
+            }
+            .swiper-pagination-bullet-active {
+                background: #B8695B;
+            }
+        }
+    }
+}
+/* END SECTION EIGHT CHARTS & GUIDES */
+
+/* SECTION NINE INSPIRATION */
+.explore_section-nine {
+    padding: 120px 0 150px 0;
+    @include breakpointMax($breakpoint-sm) {
+        padding: 0 0 50px;
+        .explore__container {
+            padding: 0;
+        }
+    }
+    .explore_nine-grid {
+        display: flex;
+        justify-content: space-between;
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .explore__section-nine-header {
+                max-width: 473px;
+                width: 100%;
+                padding-right: 16px;
+                .header__subheading {
+                    max-width: none;
+                    padding-right: 0;
+                }
+            }
+            .explore_nine-img {
+                border-radius: 30px;
+            }
+            @include breakpointMax($breakpoint-sm) {
+                display: none;
+            }
+        }
+        .explore_nine-mobile {
+            position: relative;
+            @include breakpointMin($breakpoint-sm) {
+                display: none;
+            }
+            .explore__section-nine-mobileHeader {
+                position: absolute;
+                left: 6%;
+                bottom: 80px;
+                .header__subheading {
+                    margin-bottom: 30px;
+                }
+                .section-cta {
+                    max-width: 160px;
+                }
+            }
+        }
+    }
+}
+/* END SECTION NINE INSPIRATION */

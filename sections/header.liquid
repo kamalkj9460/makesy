@@ -1,0 +1,497 @@
+<header class="header" id="section-{{ section.id }}">
+    {% if section.settings.show_top_bar %}
+    <div class="header__countdown" style="background: {{section.settings.topbar_background}}">
+        <p style="color: {{section.settings.topbar_color}}">
+            {{ section.settings.anouncement_text }}
+            {% if section.settings.show_countdown %}
+            <span
+                class="header__count">{{section.settings.end_year}}:{{section.settings.end_month}}:{{section.settings.end_day}}:{{section.settings.end_hours}}</span>
+            {% endif %}
+            {% if section.settings.show_anouncement_link %}
+            <a href="{{ section.settings.link_url}}" class="header__link">{{ section.settings.link_text}}</a>
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+    <div class="header__top-bar" style="background: {{section.settings.middlebar_background}}">
+        <p style="color: {{section.settings.middlebar_color}}">{{ section.settings.middle_bar_content }}</p>
+    </div>
+    <div class="header__search-bar" style="background: {{section.settings.bottombar_background}}">
+        <div class="header__container">
+            <div class="header__predictive-search --desktop">
+                <predictive-search>
+                    <form class="header__search-form" action="{{ routes.search_url }}" method="get" role="search">
+                        <img src="{{ "search-icon-nav.svg" | asset_url}}" alt="question icon" />
+                        <input type="hidden" name="type" value="product,page,article" />
+                        <input type="hidden" name="options[prefix]" value="last">
+                        <input type="hidden" name="sort_by" value="price-ascending" />
+                        <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" role="combobox"
+                            aria-expanded="false" aria-owns="predictive-search-results-list"
+                            aria-controls="predictive-search-results-list" aria-haspopup="listbox"
+                            aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off"
+                            spellcheck="true">
+                        <div id="shopify-section-predictive-search">
+                            <div id="predictive-search-results">
+                                {% render 'predective-search-desktop' %}
+                            </div>
+                        </div>
+                    </form> 
+                </predictive-search>
+            </div>
+            <div class="nav__hamburger --mobile">
+                <span></span>
+                <span></span> 
+                <span></span>
+            </div>
+            <div class="header__logo">
+                <a href="/">
+                    <img src="{{ " makesy-logo.svg" | asset_url}}" alt="Company Logo" />
+                </a>
+            </div>
+            <div class="header__icon-group">
+                <div class="header__support-icon --desktop">
+                    <img src="{{ " support-nav.svg" | asset_url}}" alt="support icon" />
+                    <span>expert support</span>
+                    {% include 'expert-support' %}
+                </div>
+                <a href="/pages/makesy-calculators-guides">
+                    <img class="--desktop" src="{{ " calculator-icon-nav.svg" | asset_url}}" alt="calculator icon" />
+                </a>
+                <a class="--desktop" href="/account">
+                    <img src="{{ " profile-icon-nav.svg" | asset_url}}" alt="account icon" />
+                </a>
+                <a href="#swym-wishlist">
+                    <img class="--desktop swym-button" src="{{ " heart-icon-nav.svg" | asset_url}}" alt="heart icon" />
+                </a>
+                <img class="--mobile" id="search-mobile" src="{{ " search-icon-nav.svg" | asset_url}}"
+                    alt="question icon" />
+                <a class="--desktop" href="/pages/makesy-perks">
+                    <img class="loyalty-star"
+                        src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/loyalty_star.svg"
+                        alt="Makesy Perks">
+                </a>
+                <a href="/cart" data-action="open-drawer" data-drawer-id="sidebar-cart" aria-label="Open cart">
+                    <svg x="0px" y="0px" width="22" viewBox="0 0 19 19" xml:space="preserve">
+                        <style type="text/css">
+                            .cart-path {
+                                fill: none;
+                                stroke: #222222;
+                            }
+                        </style>
+                        <g>
+                            <polygon class="cart-path" points="16.25,5.13 2.74,5.13 0.84,18.5 18.16,18.5 	" />
+                            <path class="cart-path"
+                                d="M9.5,0.5c-2.27,0-4.11,1.84-4.11,4.11h8.23C13.61,2.34,11.77,0.5,9.5,0.5z" />
+                        </g>
+                    </svg>
+                    <span class="small {% if cart.item_count > 99 %}small-many{% endif %}">{{ cart.item_count }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="header__navigation">
+        <div class="header__icon-group --mobile">
+            <a href="/account"><img src="{{ " profile-icon-nav.svg" | asset_url}}" alt="profile icon" loading="lazy" />
+                account</a>
+            <a href="/cart"><img src="{{ " cart-icon-nav.svg" | asset_url}}" alt="cart icon" loading="lazy" /> cart</a>
+            <a href="/pages/makesy-perks">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/loyalty_star.svg" alt="Makesy Perks">
+                rewards
+            </a>
+            <a href="#swym-wishlist">
+                <img class="wish-list-icon-mobile" src="{{ " heart-icon-nav.svg" | asset_url}}" alt="heart icon" />
+                wish list
+            </a>
+            <a href="/account" class="header__icon-group-btn">sign in or join now</a>
+        </div>
+        <div class="header__navItems-layout">
+            <div class="header__container">
+                {% render 'search-filter-mobile' %}
+                <div class="header__predictive-search --Mobile">
+                    <predictive-search>
+                        <form class="header__search-form" action="{{ routes.search_url }}" method="get" role="search">
+                            <img src="{{ "search-icon-nav.svg" | asset_url}}" alt="question icon" />
+                            <input type="hidden" name="type" value="product,page,article" />
+                        <input type="hidden" name="options[prefix]" value="last">
+                        <input type="hidden" name="sort_by" value="price-ascending" />
+                        <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" role="combobox"
+                            aria-expanded="false" aria-owns="predictive-search-results-list"
+                            aria-controls="predictive-search-results-list" aria-haspopup="listbox"
+                            aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off"
+                            spellcheck="true">
+                            <div id="shopify-section-predictive-search">
+                                <div id="predictive-search-results">
+                                    {% render 'predective-search-mobile' %}
+                                </div>
+                            </div>
+                        </form>
+                    </predictive-search>
+                </div>
+                <ul data-step='0' class="header__list" style="color: {{section.settings.navigationbar_color}}">
+                    {% for menus in linklists.top-bar-nav.links %}
+                        {% assign menu_title = menus.title | handleize | downcase | strip  %}
+                        {% if linklists[menu_title].links.size != 0%}
+                            <li id="{{ menu_title }}" data-url-desk="{{menus.url}}">
+                                {{ menus.title }}
+                                <svg viewBox="0 0 700 700" xml:space="preserve">
+                                    <path d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
+                                                c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                                                l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                                </svg>
+                            </li>
+                        {% else %}
+                            <li id="{{ menu_title }}" data-url="{{menus.url}}">
+                                {{ menus.title }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="header__mega-nav">
+            <span class="nav_arrow"></span>
+            <div id="clipPath" class="header__nav-transform">
+                <div class="mobile__menu-back --mobile">
+                    <button class="mobile__menu-back-btn">
+                        <svg viewBox="0 0 700 700" xml:space="preserve">
+                            <path d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
+                              c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                              l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                        </svg>
+                        <span class="--menu-back-items">all</span>
+                    </button>
+                    <h1 class="mobile__menu-title">
+                        <span class="--menu-titles">{{menu.url}}</span>
+                    </h1>
+                </div>
+                {% for menus in linklists.top-bar-nav.links %}
+                    {% assign menu_title = menus.title | handleize | downcase | strip %}
+                    
+                    {% if linklists[menu_title].links.size > 0 %}
+                        {% if linklists[menu_title].links.size < 16 %} 
+                            <div class="header__menus">
+                                <ul data-step='1' class="{{menu_title}}">
+                                    {% for parent in linklists[menu_title].links %}
+                                        {% assign parent_id = parent.title | handleize | downcase | strip %}
+                                        {% if parent.links.size > 0%}
+                                            <li id="{{parent_id}}" data-url-desk="{{parent.url}}">
+                                                {{- parent.title | strip -}}
+                                                <svg class="--mobile" viewBox="0 0 700 700" xml:space="preserve">
+                                                    <path fill="{{section.settings.navigationbar_color}}" d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
+                                                        c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                                                        l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                                                </svg>
+                                                <ul data-step='2' class="{{parent_id}}">
+                                                    {%- for child in parent.links -%}
+                                                    {%- assign child_id = child.title | handleize | downcase | strip -%}
+                                                    {% if child.links.size > 0 %}
+                                                    <li id="{{child_id}}-{{parent_id}}" data-url-desk="{{child.url}}">
+                                                        {{- child.title | strip -}}
+                                                        <svg class="--mobile" viewBox="0 0 700 700" xml:space="preserve">
+                                                            <path fill="{{section.settings.navigationbar_color}}" d="M83.93,245.63c0-14.56,5.6-28.56,16.24-39.76c21.84-21.84,57.68-21.84,79.52,0l170.24,169.68l170.24-170.24
+                                                                c21.84-21.84,57.68-21.84,79.52,0s21.84,57.68,0,79.52l-210,210c-10.64,10.64-24.64,16.24-39.76,16.24s-29.12-6.16-39.76-16.24
+                                                                l-210-209.44C89.53,274.19,83.93,259.63,83.93,245.63L83.93,245.63z" />
+                                                        </svg>
+                                                        <ul data-step='3' class="{{child_id}}-{{parent_id}}">
+                                                            {% if child.links.size > 15 %}
+                                                                <!-- Menus that extend too long break into columns -->
+                                                                <div class="menus-extended-third-column">
+                                                                    {% assign size = child.links.size %}
+                                                                    <div class="grid-column-two">
+                                                                        {% for i in (0..size) %}
+                                                                        <li id="{{ child.links[i].title | handleize | downcase | strip }}"
+                                                                            data-url="{{child.links[i].url}}">
+                                                                            {{child.links[i].title}}
+                                                                        </li>
+                                                                        {% endfor %}
+                                                                    </div>
+
+                                                                </div>
+                                                            {% else %}
+                                                                {% for grandChild in child.links %}
+                                                                    {% assign grandChild_id = grandChild.title | handleize | downcase | strip %}
+                                                                    <li id="{{grandChild_id}}" data-url="{{grandChild.url}}">
+                                                                        {{- grandChild.title | strip -}}
+                                                                    </li>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </ul>
+                                                    </li>
+                                                    {% else %}
+                                                        <li id="{{child_id}}-{{parent_id}}" data-url="{{child.url}}">
+                                                            {{- child.title | strip -}}
+                                                        </li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% else %}
+                                            <li id="{{parent_id}}" data-url="{{parent.url}}">
+                                                {{- parent.title | strip -}}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% else %}
+                            <!-- Menus that extend too long break into columns -->
+                            <div class="header__menus menus-extended-length">
+                                <ul data-step='1' class="{{menu_title}}">
+                                    {% assign size = linklists[menu_title].links.size %}
+                                    <div class="grid-column-four">
+                                        {% for j in (0..size) %}
+                                        <li id="just-trying-to-be-unique-{{ linklists[menu_title].links[j].title | handleize | downcase | strip }}"
+                                            data-url="{{linklists[menu_title].links[j].url}}">
+                                            {{linklists[menu_title].links[j].title}}
+                                        </li>
+                                        {% endfor %}
+                                    </div>
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    <!-- Closes Nav when hovered outside of navigation -->
+    <div class="nav-underlay"></div>
+    <div class="search-underlay"></div>
+</header>
+
+{% schema %}
+{
+    "name": "Header",
+    "class": "shopify-section--header",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Top Announcement Bar"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_top_bar",
+            "label": "Show Announcement Bar",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "topbar_background",
+            "label": "Background",
+            "default": "#ebccbe"
+        },
+        {
+            "type": "color",
+            "id": "topbar_color",
+            "label": "Text",
+            "default": "#222222"
+        },
+        {
+            "type": "text",
+            "id": "anouncement_text",
+            "label": "Anouncement Bar Text",
+            "default": "We Have a Sale"
+        },
+        {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link Text",
+            "default": "Click Now"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_anouncement_link",
+            "label": "Show Announcement Link",
+            "default": true
+        },
+        {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link"
+        },
+        {
+            "type": "header",
+            "content": "Adjust time for countdown"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_countdown",
+            "label": "Show Countdown",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_homepage",
+            "label": "Only show on home page",
+            "default": true
+        },
+        {
+            "info": "Adjust time",
+            "type": "range",
+            "id": "end_year",
+            "label": "End Year",
+            "min": 2022,
+            "max": 2025,
+            "step": 1,
+            "default": 2022
+        },
+        {
+            "info": "Adjust time",
+            "type": "range",
+            "id": "end_month",
+            "label": "End Month",
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "default": 1
+        },
+        {
+            "info": "Adjust time",
+            "type": "range",
+            "id": "end_day",
+            "label": "End Day",
+            "min": 1,
+            "max": 31,
+            "step": 1,
+            "default": 1
+        },
+        {
+            "info": "Adjust time",
+            "type": "range",
+            "id": "end_hours",
+            "label": "End Hours",
+            "min": 0,
+            "max": 24,
+            "step": 1,
+            "default": 24
+        },
+        {
+            "type": "range",
+            "id": "end_minutes",
+            "label": "End Minutes",
+            "min": 0,
+            "max": 60,
+            "step": 1,
+            "default": 60
+        },
+        {
+            "type": "header",
+            "content": "Middle Bar"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_middle_bar",
+            "label": "Show Middle Bar",
+            "default": true
+        },
+        {
+            "type": "color",
+            "id": "middlebar_background",
+            "label": "Background",
+            "default": "#b8695b"
+        },
+        {
+            "type": "color",
+            "id": "middlebar_color",
+            "label": "Text",
+            "default": "#fff"
+        },
+        {
+            "type": "text",
+            "id": "middle_bar_content",
+            "label": "Text",
+            "default": "free domestic shipping on all orders over $99"
+        },
+        {
+            "type": "header",
+            "content": "Bottom Bar"
+        },
+        {
+            "type": "color",
+            "id": "bottombar_background",
+            "label": "Background",
+            "default": "#F9F7F2"
+        },
+        {
+            "type": "text",
+            "id": "search_input_label",
+            "label": "Text",
+            "default": "how can we help you?"
+        },
+        {
+            "type": "image_picker",
+            "id": "first_icon",
+            "label": "First left icon"
+        },
+        {
+            "type": "header",
+            "content": "Navigation Bar"
+        },
+        {
+            "type": "color",
+            "id": "navigationbar_background",
+            "label": "Background",
+            "default": "#F9F7F2"
+        },
+        {
+            "type": "color",
+            "id": "navigationbar_color",
+            "label": "Text",
+            "default": "#9E9999"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "trending-category",
+            "name": "Trending Category Search",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "trending_categories",
+                    "label": "Text for the collection link",
+                    "default": "candles"
+                },
+                {
+                    "type": "url",
+                    "id": "trending_category_url",
+                    "label": "Link for collection"
+                }
+            ]
+        },
+        {
+            "type": "trending-terms",
+            "name": "Trending Terms Search",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "trending_terms",
+                    "label": "Text for trending term",
+                    "default": "bug repellent"
+                }
+            ]
+        },
+        {
+            "type": "trending-products",
+            "name": "Trending Product Search",
+            "settings": [
+                {
+                    "type": "collection",
+                    "id": "trending_products",
+                    "label": "Collection of product"
+                }
+            ]
+        },
+        {
+            "type": "trending-article",
+            "name": "Trending Article Search",
+            "settings": [
+                {
+                    "type": "article",
+                    "id": "trending_article",
+                    "label": "Featured blog 1"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

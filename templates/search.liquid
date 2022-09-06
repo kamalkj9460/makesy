@@ -1,0 +1,83 @@
+<section data-section-id="search" data-section-type="search">
+    {%- if search.performed == false or search.results_count == 0 -%}
+        <div class="EmptyState">
+            <div class="Container">
+                <h1 class="EmptyState__Title Heading u-h5">{{ 'search.general.title' | t }}</h1>
+                {%- if search.performed -%}
+                    {%- assign filtered_terms = search.terms | replace: '*', '' -%}
+                    <p>{{ 'search.general.no_results_with_terms' | t: terms: filtered_terms }}</p>
+                {%- else -%}
+                    <p>{{ 'search.general.content' | t }}</p>
+                {%- endif -%}
+                <div class="EmptyState__Action">
+                    <form method="GET" action="{{ routes.search_url }}" class="Form">
+                        <input class="Form__Input" type="text" name="q" autocomplete="off" autocorrect="off"
+                            aria-label="{{ 'search.general.input_placeholder' | t }}"
+                            placeholder="{{ 'search.general.input_placeholder' | t }}">
+                        <input type="hidden" name="type" value="product">
+                    </form>
+                </div>
+            </div>
+        </div>  
+    {%- else -%}
+        <script>console.log("search.results_count", {{ search.results_count | json}})</script>
+        {%- assign articleCount = 0 -%}
+        {%- assign productCount = 0 -%}
+        {%- assign pageCount = 0 -%}
+        {%- paginate search.results by 1200 -%}
+            {%- for result in search.results -%}
+                {%- assign type = result.object_type -%}
+                {% if type == 'article' %}{%- assign articleCount = articleCount | plus: 1 -%}{% endif %}
+                {% if type == 'product' %}{%- assign productCount = productCount | plus: 1 -%}{% endif %}
+                {% if type == 'page' %}{%- assign pageCount = pageCount | plus: 1 -%}{% endif %}
+            {%- endfor -%}
+        {%- endpaginate -%}
+        {%- paginate search.results by 36 -%}
+            <header class="SearchPageHeader">
+                <span id="search-mobile-filter">filter</span>
+                <div class="Search__container">
+                    <div class="Search__header">
+                        {%- assign filtered_terms = search.terms | replace: '*', '' -%}
+                        <h1 class="Search__header-heading">Results for <span>{{ filtered_terms }}.</span></h1>
+                        <p class="Search__header-description">Displaying 1 - {{search.results_count | divided_by: 36}} of {{search.results_count}} results</p>
+                    </div>
+                </div>
+            </header>
+            <div class="Search__container">
+                <div class="Search__flex">
+                    {% render 'search-filter-desktop', articleCount: articleCount, productCount: productCount, pageCount: pageCount %}
+                    <div class="Search__flex-items">
+                        {% assign sorted_results = search.results | sort: "value" %}
+                        {%- for result in sorted_results limit:35 -%}
+                            {% if result.object_type == 'product' %}
+                                {% comment %}
+                                'result' is a product.
+                                All product object properties can be accessed.
+                                {% endcomment %}
+                                    {% unless result.tags contains "hide" %}
+                                        {%- render 'product-item', product: result, show_labels: true, show_product_info: true, show_vendor: false -%}
+                                    {% endunless %}
+                            {%- endif -%}
+                            {% if result.object_type == 'article' or  result.object_type == 'page' %}
+                                {%- render 'article-search-results', article: result -%}
+                            {%- endif -%}
+                        {%- endfor -%}
+                        {% if paginate.current_page == 1 %}
+                                <div class="article_item _static">
+                                    <a href="/blogs/{{article.handle}}">
+                                        <div class="article_item-image">
+                                            <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/helpful-guide-title.png?v=1661821902">
+                                        </div>
+                                        <div class="article-content">
+                                            <p class="article_item_title">helpful guide</p>
+                                        </div>
+                                    </a>
+                                </div>
+                        {%- endif -%}
+                    </div>
+                </div>
+            </div>
+            {%- render 'pagination', paginate: paginate -%}
+        {%- endpaginate -%}
+    {%- endif -%}
+</section>

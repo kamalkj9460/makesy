@@ -1,0 +1,239 @@
+{% assign handle_collection = shop.metafields.global.wicks_collections  %}
+{% assign clip_product = collections['wick-clips'].products[0] %}
+
+
+<!-- clips_val array of both variant #'s' per wick type -->
+{% assign clips_val = ""  %}
+{% assign type = product.type | downcase  %}  
+
+{% if type contains "custom-wicks" %}
+    {% assign hasInsertedClips = true %}
+    {% if product.handle contains 'x-wick' %}
+        {% assign hasInsertedClips = false %}
+    {% endif %}
+{% endif %}
+
+<!-- Wick Clips Logic -->
+{% if type contains "custom" and hasInsertedClips%}
+    {% assign clips_val = "40711737475226,41290185670810" %}
+{% comment %} X Wick Clips {% endcomment %}
+{% elsif type contains "x" or hasInsertedClips == false%}
+    {% assign clips_val = "41292246876314,41292246909082" %}
+{% comment %} Flat Wick Clips {% endcomment %}
+{% elsif product.handle == "the-tube-wick-01" %}
+    {% assign clips_val = "41047750049946,41290176528538" %}
+{% comment %} Spiral Wick Clips that uses type of Round {% endcomment %}
+{% elsif type contains "round" %}
+    {% assign clips_val = "41047752999066,41290195435674" %}
+{% comment %} Flat Wick Clips {% endcomment %}
+{% elsif type contains "word" or type contains "crackling" or type contains "whisper" or type contains "color wicks"  %} 
+    {% assign clips_val = "41047750049946,41290176528538" %}
+{% else %}
+    {% assign clips_val = "41047750049946,41290176528538" %}
+{% endif %} 
+
+{% assign is_type = false %}
+{%for item in handle_collection  %}
+    {% if item.type == product.type %}
+        {% assign is_type = true  %}
+    {% endif %}
+{% endfor %}
+
+<!-- Make the handle_collection array with just one item if is_type is true so it only loops once -->
+{% if is_type %}{% assign handle_collection = '*' | split: ' '  %} {% endif %}
+
+{% for item in handle_collection %}
+    {% if item.virtual_type == product.type or is_type %}
+        {% assign handle_collection_choose = item.collection %}
+        <!-- Wicks have top option for wick collection -->
+        {% if item.many-collections %}
+            <div class="m-dropdown product-form-collection">
+                <button type="button" class="handle-select btn-dropdown PDP-dropdown-toggle radios" type="button"
+                aria-haspopup="true" aria-expanded="false">
+                    
+                    {% assign list-collections-handles = item.many-collections | split: '|'%}
+                    {% assign handle_collection_choose = list-collections-handles[0]  %}
+                    {% assign title = item.many-collections-label | split: '|'%}
+
+                    {% for collection-handle in list-collections-handles %} 
+                        {% assign collectionID = collections[collection-handle].id %}
+                        
+                        {% if forloop.index == 1 %}
+                            <input 
+                                class="m-variant-handle"
+                                id="default"
+                                type="radio" 
+                                name="collection"
+                                title="{{item.many-collections-option-name}}"
+                                value="{{- collectionID -}}"
+                                data-bulk-discounts="{}"
+                                checked
+                            > 
+                        {% endif %} 
+                        <input 
+                            type="radio"
+                            id="{{- collectionID -}}"
+                            name="collection"
+                            title="{{- title[forloop.index0] -}}"
+                            value="{{- collectionID -}}"
+                            data-bulk-discounts="{}"
+                        > 
+                    {% endfor %}
+                    <span class="btn-carrot">
+                        <svg role="presentation" viewBox="0 0 19 12">
+                            <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                        </svg>
+                    </span>
+                </button>
+                <div class="dropdown-menu-items" aria-labelledby="dropdownMenuButton">
+                    <ul class="menu-list">
+                        {% for collection-handle in list-collections-handles %} 
+                            {% assign collectionID = collections[collection-handle].id %}
+                            <li>
+                                <!-- for value has to match input id value above -->
+                                <label for="{{- collectionID  -}}">{{- title[forloop.index0] -}}</label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if is_type %}
+            {% assign size = 1 %}
+            {%- assign firstProduct = product  -%}
+            {% assign products = product %}
+        {% else %}
+            {% assign products = collections[handle_collection_choose].products %}
+            {% assign collectionID = collections[handle_collection_choose].id %}
+            {% assign size = products.size %}
+            {%- assign firstProduct = products[0] -%}
+        {% endif %}
+            {% render 'wicks-flyout', products: products, size: size, type: type %}
+            <!-- First Dropdown Wick Products if no parent collection -->
+            <div class="product-form-size">
+                <button type="button" class="wick-variant-select btn-dropdown radios">
+                    <input 
+                        data-collection-id="{{collectionID}}"
+                        data-products-id="{{product.id}}"
+                        class="m-variant-select Dialog_input"
+                        id="default"
+                        type="radio" 
+                        name="product"
+                        title="Select a wick type"
+                        value="{{firstProduct.variants[0].id}}"
+                        data-variant-price="{{product.price | money_without_currency }}"
+                        checked
+                    > 
+                    <label class="Dialog_label" for="default">Select A Wick Type</label>
+                    <span class="btn-carrot">
+                        <svg role="presentation" viewBox="0 0 19 12">
+                            <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <!-- Option Dropdowns (WIDTH, HEIGHT, PACK SIZE) 
+                 Inputs added with product-pdp.js
+            -->
+            {% if firstProduct.options.size > 1 %}
+                {%- for option in firstProduct.options -%}
+                    <div class="m-dropdown PDP-options">
+                        <button type="button" class="options-select btn-dropdown PDP-dropdown-toggle radios" id="select-{{ option | handleize }}">
+                            <input 
+                                class="m-options-option"
+                                id="default"
+                                type="radio" 
+                                name="{{- option -}}"
+                                title="{{- option -}}"
+                                data-index="{{- forloop.index0 -}}"
+                                value='{{firstProduct.variants[0].options[forloop.index0]}}'
+                                checked
+                            > 
+                            <span class="btn-carrot">
+                                <svg role="presentation" viewBox="0 0 19 12">
+                                    <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu-items" aria-labelledby="dropdownMenuButton" id="dropdown-select-{{ option | handleize }}">
+                            <ul class="menu-list">
+                                <li>
+                                    <!-- for value has to match input id value above -->
+                                    <label for="default">{{- option -}}</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <!-- Wick Clips Dropdown -->
+                <div class="m-dropdown PDP-clips">
+                    <button type="button" class="btn-dropdown PDP-dropdown-toggle radios">
+                        <input 
+                            id=""
+                            type="radio" 
+                            name="clips"
+                            title="Clips"
+                            value=""
+                            data-variant-price="{{0}}"
+                            data-index="3"
+                            checked
+                        > 
+                        <input 
+                            id=false
+                            type="radio" 
+                            name="clips"
+                            title="None"
+                            value=""
+                            data-variant-price="{{0}}"
+                            data-index="3"
+                        > 
+                        <input 
+                            id=true
+                            type="radio" 
+                            name="clips"
+                            title="Separate"
+                            value="{% if hasInsertedClips %}41047750049946,41290176528538{% else %}{{- clips_val -}}{% endif %}"
+                            data-variant-price="7,60"
+                            data-index="3"
+                        > 
+                        {% if type contains "custom-wicks" %}
+                            <input 
+                                {% if product.handle contains 'x-wick' %}style="display: none;"{% endif %}
+                                id="Pre-Inserted"
+                                type="radio" 
+                                name="clips"
+                                title="Pre-Inserted"
+                                value="40711737475226,41290185670810"
+                                data-variant-price="15,150"
+                            > 
+                        {% endif %}
+                        <span class="btn-carrot">
+                            <svg role="presentation" viewBox="0 0 19 12">
+                                <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                            </svg>
+                        </span>
+                    </button>
+                    <div class="dropdown-menu-items" aria-labelledby="dropdownMenuButton">
+                        <ul class="menu-list">
+                            <li data-index="3">
+                                <!-- for value has to match input id value above -->
+                                <label for="false">None</label>
+                                <label for=true>Separate</label>
+                            </li>
+                            {% if type contains "custom-wicks" %}
+                                <li data-index="3" class="Pre-Inserted"
+                                    {% if product.handle contains 'x-wick' %}style="display: none;"{% endif %}
+                                >
+                                    <!-- for value has to match input id value above -->
+                                    <label for="Pre-Inserted">Pre-Inserted</label>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+{% endfor %}
+

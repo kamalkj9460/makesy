@@ -1,0 +1,461 @@
+{% assign bulk_discounts = product.metafields.bulk_discount | json %}
+{% assign has_bulk_discounts = product.metafields.bulk_discount.has_bulk_discounts %}
+{% assign largest_bulk_quantity = 250 %}
+{%- assign bulk_discounts_titles = product.metafields.bulk_discount.has_bulk_discounts | split: ','-%}
+
+
+<div class="ProductItem {% if use_horizontal %}ProductItem--horizontal{% endif %}">
+    <div class="ProductItem__Wrapper">
+        {%- comment -%}
+        We are using LazySizes to efficiently choose the most appropriate image in the set. However, because internally LazySizes uses srcset, we need to make
+        sure that the image sizes we offer is not larger than the max size uploaded by the merchants.
+        {%- endcomment -%}
+        <!-- show inventory for quickview only -->
+        {%- if collection.handle == 'vessels' or collection.handle == 'lids' or collection.handle == 'packaging' or collection.handle == 'bottles'-%}
+            {%- assign is_inventory_collection = true -%}
+        {%- else -%}
+            {%- assign is_inventory_collection = false -%}
+        {%- endif -%}
+
+        {%- if settings.product_image_size == 'natural' or use_horizontal -%}
+            {%- assign use_natural_size = true -%}
+        {%- else -%}
+            {%- assign use_natural_size = false -%}
+        {%- endif -%}
+
+        {%- if settings.product_show_secondary_image and product.media[1] != blank and use_horizontal != true -%}
+            {%- assign has_alternate_image = true -%}
+        {%- else -%}
+            {%- assign has_alternate_image = false -%}
+        {%- endif -%}
+
+        {% assign types = shop.metafields.global.wicks_collections %} 
+        {% assign is_not_virtual_type = true %}
+        {% for item in types %}
+            {% if item.virtual_type == product.type %}
+                {% assign is_not_virtual_type= false %}
+            {%endif%}
+        {% endfor %}
+
+        {%- comment -%} assign conditional values used for if product has tag "disable-link" {%- endcomment -%}
+        {% assign productImgHref = product.url | within: collection %}
+        {% if product.tags contains 'disable-link' and product.id == 7326119198874 %}
+            {% assign productImgHref = '/pages/fragrances-discovery-kit' %}
+        {% endif %}
+        
+        {% if template != "search.ajax" and template !="search" and product.type != 'wick-clips' and is_not_virtual_type %}
+            {% comment %} Quickview {% endcomment %}
+            {% if dont_show_quickview == null %}
+                <div class="ProductItem__Quickview {% if collection.handle contains 'enhancers' %}ProductItem__Quickview--alt{% endif %} {% if product.type == 'virtual-wicks' or product.type == 'virtual-custom-wicks' %}ProductItem__Quickview--wicks{% endif %}">
+                    <div class="ProductItem__Quickview-modal __desktop">
+                        <span class="ProductItem__close-modal"></span>
+                        <div class="ProductItem__Quickview-content">
+                            <div class="ProductItem__Quickview-grid">
+                                
+                                <div class="Quickview-grid-left">
+                                    {%- if product.featured_image.aspect_ratio < 2 -%}
+                                        {{ product.featured_image | img_url: '400x', crop: 'left' | img_tag: product.featured_media.alt, 'ProductItem__Image Image--lazyLoad Image--fadeIn' }}
+                                    {%- else -%}
+                                        {{ product.media[0] | img_url: '750x', crop: 'left' | img_tag: product.media[0].alt, 'ProductItem__Image Image--lazyLoad Image--fadeIn' }}
+                                    {%- endif -%}
+                                    {% for tag in product.tags %}
+                                        {% if tag contains 'makes' %}
+                                            <img class="makes-icon" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/kits-{{tag}}.png"> 
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="Quickview-grid-right">
+                                    <div class="ProductItem__Quickview--column">
+                                        <div class="ProductMeta__TitleContainer--right wishl-quickview">
+                                            
+                                            {% render 'swym-product-view', product: product %}
+                              
+                                            <h2 class="ProductItem__Title Heading">{{ product.title }}</h2>
+                                                <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
+                                                <button 
+                                                    data-with-epi="true" 
+                                                    class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                                                    data-swaction="addToWishlist" 
+                                                    data-product-id="{{product.id | json}}" 
+                                                    data-variant-id="{{product.variants[0].id}}" 
+                                                    data-product-url="{{ shop.url }}{{ product.url }}">
+                                                </button>
+                                            
+                                        </div> 
+                                        <div class="Product__price-stock">
+
+                                                <p class="ProductItem__retail_price">{{ product.price | money_without_trailing_zeros }} +</p>
+                                            {% assign stock = product.variants[0].inventory_quantity %}
+                                            {% if stock > 0 and is_inventory_collection %}
+                                                {% comment %} <p class="ProductItem__quantity">{% if stock < 100 %}less than 100 {% else %} {{stock}} {% endif %}in stock</p> {% endcomment %}
+                                                {% comment %} COMENTED OUT INVENTORY PRIOR TO TESTING {% endcomment %}
+                                                {% comment %} <p class="ProductItem__quantity">{{stock}}</p> {% endcomment %}
+                                            {%endif%}
+                                        </div>
+                                        <div class="ProductMeta__Description {% if collection.handle contains 'shop-all-wicks' and product.title contains 'Wicks' %}ProductItem__Quickview--wicks-description{% endif %}">
+                                            {{ product.description | strip_html | truncate: 100 }}
+                                        </div> 
+                                        {%- if product.template_suffix != 'coming-soon'  -%}
+                                            <div class="Product__content"> 
+                                                {% assign x = 0 %}
+                                                {% assign option_count = product.options_with_values.size %}
+                                                {% assign variant_count = product.variants.size %}
+                                                {% for option in product.options_with_values  %}
+                                                    {% assign x = x | plus:1 %}
+                                                    <div class="m-dropdown">
+                                                        <button class="btn-wrapper btn-dropdown m-dropdown-toggle radios">
+                                                            <input type="radio" 
+                                                                name="{{product.id}}{{x}}" 
+                                                                data-productID="{{product.variants[0].id}}" 
+                                                                data-quantity="{{product.variants[0].inventory_quantity}}" 
+                                                                data-policy="{{product.variants[0].inventory_policy}}"
+                                                                id="default"
+                                                                title="{% if variant_count > 1 %}{{ option.name }}{% else %}{{ product.title | replace: '"', ""}}"{% endif %}"
+                                                                value="{{product.variants[0].id}}"
+                                                                data-price="{{product.variants[0].price | money_without_currency}}" 
+                                                                {% if option_count > 1 %}data-options="{{option.name}}:{{option.values[0]}}"{% endif %}
+                                                                checked
+                                                            >  
+                                                            <!-- More than one product Option -->
+                                                            {% if option_count > 1 %}
+                                                                {% assign i = 0 %}
+                                                                {% for value in option.values %}
+                                                                    {% assign i = i | plus:1 %}
+                                                                    <input type="radio" 
+                                                                        name="{{product.id}}{{x}}" 
+                                                                        data-productID="{{product.variants[0].id}}" 
+                                                                        id="{{ product.id }}{{i}}{{x}}"
+                                                                        title="{{value}}" 
+                                                                        data-quantity="{{product.variants[i].inventory_quantity}}" 
+                                                                        data-policy="{{product.variants[i].inventory_policy}}"
+                                                                        data-price="{{product.variants[0].price | money_without_currency}}" 
+                                                                        data-options="{{option.name}}:{{value}}"
+                                                                        value="{{product.variants[0].id}}"
+                                                                    > 
+                                                                {% endfor %}
+                                                            <!-- Single product Option -->
+                                                            {% else %}
+                                                                {% assign j = 0 %}
+                                                                {% for variant in product.variants %}
+                                                                    {% assign j = j | plus:1 %}
+                                                                    {% assign string = 'option' | append: x  %}
+                                                                    {% assign variant_option = variant[string] %}
+
+                                                                    {% if variant_option == "Default Title" %} 
+                                                                        {% assign title = product.title %}
+                                                                    {% else %}
+                                                                        {% assign title = variant_option %}
+                                                                    {% endif %}
+                                                                    <input type="radio" 
+                                                                        name="{{product.id}}{{x}}" 
+                                                                        data-productID="{{variant.id}}" 
+                                                                        id="{{ product.id }}{{j}}{{x}}"
+                                                                        title="{{title}}" 
+                                                                        data-quantity="{{variant.inventory_quantity}}" 
+                                                                        data-policy="{{variant.inventory_policy}}"
+                                                                        data-price="{{variant.price | money_without_currency}}" 
+                                                                        value="{{variant.id}}"
+                                                                    >  
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            <span class="btn-carrot">
+                                                                <svg role="presentation" viewBox="0 0 19 12">
+                                                                    <polyline fill="none" stroke="currentColor" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="square"></polyline>
+                                                                </svg>
+                                                            </span>
+                                                        </button> 
+                                                
+                                                        <div class="dropdown-menu-items" aria-labelledby="dropdownMenuButton">
+                                                            <ul class="menu-list">
+                                                                <!-- More than one option dropdown -->
+                                                                {% if option_count > 1 %}
+                                                                    {% assign k = 0 %} 
+                                                                    {% for value in option.values %} 
+                                                                        {% assign k = k | plus:1 %} 
+                                                                        
+                                                                        <li>
+                                                                            <label 
+                                                                                class="m-item-product"
+                                                                                for="{{ product.id }}{{k}}{{x}}"
+                                                                                data-price="{{product.variants[0].price | money}}" 
+                                                                                data-policy="{{product.variants[k].inventory_policy}}"
+                                                                                value="{{product.variants[0].id}}">
+                                                                                {{value}}
+                                                                            </label>  
+                                                                        </li> 
+                                                                    {% endfor %}
+                                                    
+                                                                {% else %}
+                                                                    {% assign l = 0 %}
+                                                                    {% for variant in product.variants %}
+                                                                        {% assign string = 'option' | append: x  %}
+                                                                        {% assign variant_option = variant[string] %}
+                                                                        {% assign l = l | plus:1 %}
+                                                                        {% if variant_option == "Default Title" %} 
+                                                                            {% assign title = product.title %}
+                                                                        {% else %}
+                                                                            {% assign title = variant_option %}
+                                                                        {% endif %}
+                                                                        <li>
+                                                                            <label 
+                                                                                class="m-item-product"
+                                                                                for="{{ product.id }}{{l}}{{x}}" 
+                                                                                data-inventory="{{variant.inventory_quantity}}" 
+                                                                                data-price="{{variant.price | money}}" 
+                                                                                value="{{variant.id}}">
+                                                                                {{title}}
+                                                                            </label>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </ul>
+                                                        </div>
+                                                    </div> 
+                                                {% endfor %}
+                                                <!-- Quantity Drop Downs -->
+                                                <div class="m-dropdown m-dropdown-quantity">
+                                                    <button class="btn-dropdown m-dropdown-toggle radios" type="button"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        <input type="radio" 
+                                                            class="m-quantity-select"
+                                                            name="quantity-{{product.id}}" 
+                                                            id="default"
+                                                            data-price="{{product.price | money}}" 
+                                                            title="quantity"
+                                                            value="1"
+                                                            checked
+                                                        >
+                                                        {% for q in (1..10) %}
+                                                            <input type="radio" 
+                                                                class="m-quantity-select"
+                                                                name="quantity-{{product.id}}" 
+                                                                id="quantity-{{ product.id }}{{q}}"
+                                                                title="{{q}}" 
+                                                                value="{{q}}"
+                                                            >
+                                                        {% endfor %}
+                                                        <span class="btn-carrot">
+                                                            <svg role="presentation" viewBox="0 0 19 12">
+                                                                <polyline fill="none" stroke="#222222" points="17 2 9.5 10 2 2" fill-rule="evenodd" stroke-width="2" stroke-linecap="round"></polyline>
+                                                              </svg>
+                                                        </span>
+                                                    </button>
+                                                    <div class="dropdown-menu-items" aria-labelledby="dropdownMenuButton">
+                                                        <ul class="menu-list">
+                                                            {% for r in (1..10) %}
+                                                                <li>
+                                                                    <label for="quantity-{{ product.id }}{{r}}">{{r}}</label>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- End Quantity Drop Downs -->
+                                                {% if product.available and stock > 0 or product.variants[0].inventory_policy == 'continue' %}
+                                                    <button 
+                                                        {% if customer.tags contains "maker_pro" %}data-vip="true"{% endif %}
+                                                        data-productID="{{product.variants[0].id}}" 
+                                                        data-variant-id="{{product.variants[0].id}}" 
+                                                        data-price="{{product.variants[0].price | money_without_currency}}"  
+                                                        class="Product__cart-submit">ADD TO BAG - {{product.variants[0].price | money}}
+                                                    </button>
+                                                {% else %}
+                                                    <button class="Product__no-stock">OUT OF STOCK</button>
+                                                {%endif%}
+                                            </div> 
+
+                                            <div class="PDP__and_Quickview-bottom-content">
+                                                {% comment %} <p class="Quickview-bottom-content-discounts">Bulk discounts available</p>
+                                                <p class="Quickview-bottom-content-points">Earn 60 Perks Points for this product</p> {% endcomment %}
+                                                <a class="ProductItem__ViewProduct" href="{{ product.url | within: collection }}"><span>full details</span></a>
+                                            </div>
+                                        {%- endif -%}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <button class="Product__quick-view-lg-btn quick-view-submit{% if product.tags contains 'disable-link'%} disableTag-hide{% endif %}"> quick view</button> -->
+                    {% comment %} {% if product.available %}
+                        
+                    {% else %}
+                        <button class="Product__quickview-nostock"> OUT OF STOCK</button>
+                    {%endif%} {% endcomment %}
+                </div> 
+                
+            {% endif %}
+            {%endif%}
+            <span class="quckview-button-relative">
+                <a href="{{ productImgHref }}" class="ProductItem__ImageWrapper {% if has_alternate_image %}ProductItem__ImageWrapper--withAlternateImage{% endif %}">
+                    {%- if use_horizontal -%}
+                        {%- assign max_width = 125 -%}
+                    {%- else -%}
+                        {%- assign max_width = product.featured_media.preview_image.width -%}
+                    {%- endif -%}
+
+                    {%- assign media_aspect_ratio = product.featured_media.aspect_ratio | default: product.featured_media.preview_image.aspect_ratio -%}
+
+                    <div class="AspectRatio AspectRatio--{% if use_natural_size %}withFallback{% else %}{{ settings.product_image_size }}{% endif %}" style="max-width: {{ max_width }}px; {% if use_natural_size %}padding-bottom: {{ 100.0 | divided_by: media_aspect_ratio }}%;{% endif %} --aspect-ratio: {{ media_aspect_ratio }}">
+                        {%- comment -%}
+                        IMPLEMENTATION NOTE: The alternate image (not visible by default) should be the first in the DOM, as the spinner (Image__Loader element) is
+                        displayed based on the immediately previously shown image.
+                        {%- endcomment -%} 
+
+                        {%- if has_alternate_image -%}
+                            {{ product.featured_image | img_url: '300x', crop: 'left' | img_tag: product.featured_media.alt, 'ProductItem__Image ProductItem__Image--alternate Image--lazyLoad Image--fadeIn' }}
+                        {%- endif -%}
+
+                        {%- if product.featured_image.aspect_ratio < 2 -%}
+                            {{ product.featured_image | img_url: '400x', crop: 'left' | img_tag: product.featured_media.alt, 'ProductItem__Image Image--lazyLoad Image--fadeIn' }}
+                        {%- else -%}
+                            {{ product.media[0] | img_url: '750x', crop: 'left' | img_tag: product.media[0].alt, 'ProductItem__Image Image--lazyLoad Image--fadeIn' }}
+                        {%- endif -%}
+                        <span class="Image__Loader"></span>
+                    </div>
+                    {% for tag in product.tags %}
+                        {%- if tag == "functional-fragrance" -%}
+                                <img class="functional-fragrance-icon" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png" 
+                                alt="Functional Fragrance Icon">
+                        {%- endif -%}
+                        {% if tag contains 'makes' %}
+                        <img class="makes-icon" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/kits-{{tag}}.png"> 
+                    {% endif %}
+                    {% endfor %}
+
+                </a>
+                
+                {% unless product.handle contains "wick" or product.tags contains 'disable-link' %}<button class="Product__quick-view-lg-btn quick-view-submit"> quick view</button>{% endunless %}
+             </span>
+            {%- if show_labels -%}
+                {%- capture product_labels -%}
+                    {%assign is_preorder = "true" %}
+                    {%- for tag in product.tags -%}
+                        {%- if tag =='pre-order' -%}
+                            <span class="ProductItem__Label Heading Text--subdued">{{tag}}</span>
+                            {%assign is_preorder = "false" %}
+                            {%- break -%}
+                        {%- endif -%}
+                    {%- endfor -%} 
+                    {% if is_preorder == "true" %}
+                        {%- if product.available -%}
+                            {%- if product.compare_at_price > product.price -%}
+                                <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued BadgeOnSale">{{ 'product.labels.on_sale' | t }}</span>
+                            {%else%}
+                                {% assign dateStart = product.published_at | date: '%s' %}
+                                {% assign nowTimestamp = 'now' | date: '%s' %}
+                                {% assign diffSeconds = nowTimestamp | minus: dateStart %}
+                                {% assign diffDays = diffSeconds | divided_by: 3600 | divided_by: 24 %}
+                                {%- if diffDays<30 -%}
+                                    <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued">NEW</span>
+                                {%- endif -%}
+                            {%- endif -%}
+                        {%- else -%}
+                            <span class="ProductItem__Label ProductItem__Label--soldOut Heading Text--subdued">{{ 'product.labels.sold_out' | t }}</span>
+                        {%- endif -%}
+                    {%endif%}
+                {%- endcapture -%}
+
+                {%- if product_labels != blank -%}
+                    <div class="ProductItem__LabelList">
+                        {{ product_labels }}
+                    </div>
+                {%- endif -%}
+            {%- endif -%}
+        
+            {%- if show_product_info -%}
+                <div class="ProductItem__Info {% unless use_horizontal %}ProductItem__Info--{{ settings.product_info_alignment }}{% endunless %}">
+                    {%- if show_first_tag -%}
+                        <p class="ProductItem__FirstTag Heading">{{ product.tags[0] }}</p>
+                    {%- endif -%}
+                
+                    {%- if show_vendor -%}
+                        <p class="ProductItem__Vendor Heading">{{ product.vendor }}</p>
+                    {%- endif -%}
+
+                    <div style="display: flex; justify-content: space-between;">
+                        <h2 class="ProductItem__Title Heading">
+                            {% if product.id == 7326119198874 %}
+                                <a href="/pages/fragrances-discovery-kit">{{ product.title }}</a>
+                            {% else %}
+                                <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                            {% endif %}
+                        </h2>
+                        <div class="wishl-grid" data-id="{{product.id}}">
+                            {% render 'swym-product-view', product: product %}
+                            <!-- <button class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}"></button> -->
+                            <button 
+                                data-with-epi="true" 
+                                class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                                data-swaction="addToWishlist" 
+                                data-product-id="{{product.id | json}}" 
+                                data-variant-id="{{product.variants[0].id}}" 
+                                data-product-url="{{ shop.url }}{{ product.url }}">
+                            </button>
+                        </div>
+                    </div>
+                    
+
+                    {%- if show_price_on_hover == nil -%}
+                        {%- assign show_price_on_hover = settings.product_show_price_on_hover -%}
+                    {%- endif -%}
+
+                    {%- if show_price_on_hover and color_swatch_list != blank -%}
+                        {{- color_swatch_list -}}
+                    {%- endif -%}
+
+                    {% assign types= shop.metafields.global.wicks_collections  %}
+                    {% assign is_not_virtual_type= true  %}
+        
+                    {%for item in types  %}
+                        {% if item.virtual_type == product.type %}
+                            {% assign is_not_virtual_type= false  %}
+                        {%endif%}
+                    {%endfor%}
+                    {%- if product.template_suffix != 'coming-soon' and is_not_virtual_type -%}
+                        {% unless product.type == "virtual-wicks" or product.type == "virtual-custom-wicks" %}
+                            <div class="ProductItem__PriceList {% if show_price_on_hover %}ProductItem__PriceList--showOnHover{% endif %} Heading">
+                                {%- if product.compare_at_price > product.price -%}
+                                    <span class="ProductItem__Price Price Price--highlight Text--subdued">{{ product.price | money_without_trailing_zeros }}</span>
+                                    <span class="ProductItem__Price Price Price--compareAt Text--subdued">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                                {%- elsif product.price_varies -%}
+                                    {%- capture formatted_min_price -%}{{ product.price_min | money_without_trailing_zeros }}{%- endcapture -%}
+                                    {%- capture formatted_max_price -%}{{ product.price_max | money_without_trailing_zeros }}{%- endcapture -%}
+                                        <span class="ProductItem__Price Price Text--subdued">{{ 'collection.product.from_price_html' | t: min_price: formatted_min_price, max_price: formatted_max_price }}</span>
+                                {%- else -%}
+                                        <span class="ProductItem__Price Price Text--subdued">{{ product.price | money_without_trailing_zeros }}</span>
+                                {%- endif -%}
+                            </div>
+                        {%- endunless -%}
+
+                        {%- if product.selected_or_first_available_variant.unit_price_measurement -%}
+                            <div class="ProductItem__UnitPriceMeasurement">
+                                <div class="UnitPriceMeasurement Heading Text--subdued">
+                                    <span class="UnitPriceMeasurement__Price">{{ product.selected_or_first_available_variant.unit_price | money_without_trailing_zeros }}</span>
+                                    <span class="UnitPriceMeasurement__Separator">/ </span>
+
+                                    {%- if product.selected_or_first_available_variant.unit_price_measurement.reference_value != 1 -%}
+                                        <span class="UnitPriceMeasurement__ReferenceValue">{{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}</span>
+                                    {%- endif -%}
+                                    <span class="UnitPriceMeasurement__ReferenceUnit">{{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}</span>
+                                </div>
+                            </div>
+                        {%- endif -%}
+                    {%- endif -%}
+
+                    {%- if show_price_on_hover == false and color_swatch_list != blank -%}
+                        {{- color_swatch_list -}}
+                    {%- endif -%}
+                </div>
+            {%- endif -%}
+        </div>
+
+        
+        <!-- Quivkview mobile button -->
+        {% if template != "search.ajax" and template !="search" and product.type != 'wick-clips' and is_not_virtual_type and template contains 'collection' %}
+        {%- if use_horizontal -%}
+            {% comment %} <a href="{{ product.url }}" class="ProductItem__ViewButton Button Button--secondary hidden-pocket">{{ 'collection.product.view_product' | t }}</a> {% endcomment %}
+        {%- endif -%} 
+        
+    {%- endif -%}
+
+</div>

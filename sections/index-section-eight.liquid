@@ -1,0 +1,44 @@
+<section class="index__section-eight" id="index__section-{{section.id}}">
+    <div class="section-eight-content">
+        {{section.settings.background_img | img_url: '1440x' | img_tag}}
+        <h1 class="rotating-sentence header__heading">{{section.settings.sentence}}</h1>
+        <a href="{{section.settings.link_url}}" class="bordered-cta gradient-hover-bordered">{{section.settings.link_text}}</a>
+    </div>
+    
+</section>
+{% schema %}
+{   
+  "name": "Index Section eight",
+  "class": "section-eight",
+  "settings": [
+  	{
+		"type": "image_picker",
+		"id": "background_img",
+		"label": "Background image"
+	},
+    {
+		"type": "text",
+		"id": "sentence",
+		"label": "Moving Text",
+		"default": "Add the text for this rotating sentence"
+	},
+    {
+		"type": "text",
+		"id": "link_text",
+		"label": "Link Text",
+		"default": "Add the text for this collections's link..."
+	  },
+	  {
+		"type": "url",
+		"id": "link_url",
+		"label": "Link"
+	  }
+  ],
+  "presets": [
+		{
+			"category": "background",
+			"name": "index section eight"
+		}
+	]
+}
+{% endschema %}

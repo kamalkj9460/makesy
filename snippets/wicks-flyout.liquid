@@ -1,0 +1,39 @@
+
+
+{% if type == "virtual wick sample kits" %}
+    {% assign isSampleKit = true %}
+{% endif %}
+
+<div class="Dialog">
+    <div class="Dialog__inner">  
+        <div class="Dialog__layout">
+        {% unless isSampleKit %}
+            <div class="Dialog__values"></div>
+        {% endunless %}
+            <div class="Dialog__inputs">
+                <button class="Dialog_list wick-variant-select">
+                    {%- for i in (1..size) -%}
+                        {% if size > 1 %} {% assign product = products[forloop.index0] %} {% endif %}
+                        <li>
+                            <input 
+                                id="{{product.id}}"
+                                class="Dialog_input{% if isSampleKit %} kit{% endif %}" 
+                                type="radio" 
+                                name="product"
+                                index="{{forloop.index0}}"
+                                title="{{- product.title -}}"
+                                value="{{product.variants[0].id}}"
+                                data-variant-price="{{product.price | money_without_currency }}"
+                            >  
+                            <label class="Dialog_label" for="{{product.id}}">{{- product.title -}}</label>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='6' height='11' fill='none' viewBox='0 0 6 11'>
+                                <path fill='#9E9999' d='M0 5.524a.763.763 0 0 0 .206.504l4.501 4.74a.747.747 0 0 0 1.263-.317.767.767 0 0 0-.179-.738L1.788 5.5l4.003-4.214a.767.767 0 0 0 .18-.737.747.747 0 0 0-1.263-.317L.205 4.972A.763.763 0 0 0 0 5.524Z'/>
+                            </svg>
+                        </li>
+                    {%- endfor -%}
+                </button>
+            </div>
+        </div>
+        <span class="Dialog__arrow"></span>
+    </div>
+</div> 

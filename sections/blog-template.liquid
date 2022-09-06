@@ -1,0 +1,202 @@
+<style>
+  
+.js .ArticleItem {
+    visibility: inherit !important;
+}  
+</style>
+
+<div id="section-{{ section.id }}" class="Section" data-section-id="{{ section.id }}" data-section-type="article-list">
+  {%- if blog.articles_count == 0 -%}
+    <div class="EmptyState">
+      <div class="Container">
+        <h1 class="EmptyState__Title Heading u-h5">{{ 'blog.general.no_articles' | t: blog_title: blog.title }}</h1>
+        <a href="{{ routes.root_url }}" class="EmptyState__Action Button Button--primary">{{ 'blog.general.empty_button' | t }}</a>
+      </div>
+    </div>
+  {%- else -%}
+
+    <div class="Blog">
+      <div class="Container">
+        <header class="PageHeader">
+          <div class="SectionHeader SectionHeader--center">
+            <h1 class="Heading BlogMakeEsyTitle">
+              {{- blog.title -}}
+              {%- if section.settings.show_rss -%} 
+                <a href="{{ blog.url }}.atom" target="_blank" class="Blog__RssLink Link Link--secondary">{% render 'icon' with 'rss' %}</a>
+              {%- endif -%}
+            </h1>
+
+            {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
+                      <ul class="Blog__TagList HorizontalList HorizontalList--spacingExtraLoose">
+                <li class="HorizontalList__Item">
+                  <a href="/blogs/{{ blog.handle }}" class="Heading Link Link--primary Text--subdued u-h8 BlogFilterItem {% if current_tags == blank %}is-active{% endif %}">{{ 'blog.general.all_tag' | t }}</a>
+                </li>
+                <li class="HorizontalList__Item">
+                  <a href="/blogs/{{ blog.handle }}/tagged/how-to" class="Heading Link Link--primary Text--subdued u-h8 BlogFilterItem {% if current_tags contains 'How To'  %}is-active{% endif %}">HOW TO</a>
+                </li>
+                <li class="HorizontalList__Item">
+                  <a href="/blogs/{{ blog.handle }}/tagged/inspiration" class="Heading Link Link--primary Text--subdued u-h8 BlogFilterItem {% if current_tags contains 'Inspiration'  %}is-active{% endif %}">INSPIRATION</a>
+                </li>
+                 <li class="HorizontalList__Item">
+                  <a href="/blogs/{{ blog.handle }}/tagged/projects" class="Heading Link Link--primary Text--subdued u-h8 BlogFilterItem {% if current_tags contains 'PROJECTS'  %}is-active{% endif %}">PROJECTS</a>
+                </li>
+                <li class="HorizontalList__Item">
+                  <a href="/blogs/{{ blog.handle }}/tagged/spotlights" class="Heading Link Link--primary Text--subdued u-h8 BlogFilterItem {% if current_tags contains 'SPOTLIGHTS'  %}is-active{% endif %}">SPOTLIGHTS</a>
+                </li>
+                 <li class="HorizontalList__Item">
+                  <a href="/blogs/{{ blog.handle }}/tagged/business-101" class="Heading Link Link--primary Text--subdued u-h8 BlogFilterItem {% if current_tags contains 'BUSINESS 101'  %}is-active{% endif %}">BUSINESS 101</a>
+                </li>
+
+
+ 
+                {%comment%}
+                {%- for tag in blog.all_tags -%}
+                  <li class="HorizontalList__Item">
+                    <a href="/blogs/{{ blog.handle }}/tagged/{{ tag | handle }}" class="Heading Link Link--primary Text--subdued u-h8 {% if current_tags contains tag %}is-active{% endif %}">{{ tag }}</a>
+                  </li>
+                {%- endfor -%}
+                {%endcomment%}
+              </ul>
+            {%- endif -%}
+          </div>
+        </header>
+
+        {%- if section.settings.show_featured_article and current_tags == blank -%}
+          {%- assign articles_per_page = 13 -%}
+        {%- else -%}
+          {%- assign articles_per_page = 12 -%}
+        {%- endif -%}
+
+        {%- paginate blog.articles by articles_per_page -%}
+          {% assign is_first_article_featured = false %}
+          {%- if section.settings.show_featured_article and current_tags == blank and blog.articles.first.image -%}
+            {%- assign is_first_article_featured = true -%}
+          {%- endif -%}
+
+          {%- if section.settings.show_featured_article and current_tags == blank -%}
+
+          <div class="ArticleListWrapper">
+            <div class="SectionHeaderTitle">
+              featured posts.
+            </div>
+            <div class="ArticleList {% if is_first_article_featured %}ArticleList--withFeatured{% endif %} Grid Grid--m">
+              {%if section.settings.blog1 != blank%}
+                <div class="Grid__Cell 1/2--tablet 1/3--lap-and-up %}">
+                  {%- render 'article-item', article: section.settings.blog1 -%}
+                </div>
+              {%- endif -%}  
+
+              {%if section.settings.blog2 != blank%}
+                <div class="Grid__Cell 1/2--tablet 1/3--lap-and-up">
+                  {%- render 'article-item', article: section.settings.blog2 -%}
+                </div>
+              {%- endif -%}
+
+              {%if section.settings.blog3 != blank%} 
+                <div class="Grid__Cell 1/2--tablet 1/3--lap-and-up">
+                  {%- render 'article-item', article: section.settings.blog3 -%}
+                </div>
+              {%- endif -%}
+
+            </div>
+          </div>
+         {%- endif -%}
+
+
+          <div class="ArticleListWrapper">
+            <div class="SectionHeaderTitle">
+              recent posts.
+            </div>
+            <div class="ArticleList {% if is_first_article_featured %}ArticleList--withFeatured{% endif %} Grid Grid--m">
+              {%- for article in blog.articles -%}
+                {%- comment -%}
+                    <div class="Grid__Cell {% if is_first_article_featured and forloop.first %}hidden-tablet-and-up{% else %}1/2--tablet 1/3--lap-and-up{% endif %}">
+                {%- endcomment -%}
+                <div class="Grid__Cell 1/2--tablet 1/3--lap-and-up">
+                  {%- render 'article-item', article: article -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+
+
+
+          {%- render 'pagination', paginate: paginate -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  #section-{{ section.id }} .ImageHero,
+  #section-{{ section.id }} .ImageHero .Heading {
+    color: #ffffff;
+  }
+
+  #section-{{ section.id }} .ImageHero .Button {
+    color: #1c1c1c;
+    border-color: #ffffff;
+  }
+
+  #section-{{ section.id }} .ImageHero .Button::before {
+    background-color: #ffffff;
+  }
+
+  {%- if settings.show_button_transition -%}
+    @media (-moz-touch-enabled: 0), (hover: hover) {
+      #section-{{ section.id }} .ImageHero .Button:hover {
+        color: #ffffff;
+      }
+    }
+  {%- endif -%}
+</style>
+
+{% schema %}
+{
+  "name": "Blog page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_rss",
+      "label": "Show RSS",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show filters",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_featured_article",
+      "label": "Show featured article",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "label": "Show article category",
+      "info": "The first article's tag is used as the main category.",
+      "default": false
+    },
+    {
+      "type": "article",
+      "id": "blog1",
+      "label": "Featured blog 1"
+    },
+    {
+      "type": "article",
+      "id": "blog2",
+      "label": "Featured blog 2"
+    },
+    {
+      "type": "article",
+      "id": "blog3",
+      "label": "Featured blog 3"
+    }
+    
+  ]
+}
+{% endschema %}

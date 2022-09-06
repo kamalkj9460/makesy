@@ -1,0 +1,534 @@
+
+<main class="explore">
+    <header class="explore__header">
+        <div class="explore__container">
+            <div class="explore__grid">
+                <div class="explore__grid-item-left __desktop">
+                    <div class="item-left-img">
+                        <a class="item-left-img-aWrap" href="/pages/makesy-communities">
+                            <img src="{{ section.blocks[0].settings.header_image_lft | image_url: width: 460}}" alt="business 101">
+                            <span class="explore__link explore__link-bottom">maker communities</span>
+                        </a>
+                    </div>
+                    <!-- <a class="explore__link explore__link-bottom" href="https://makesy.com/pages/makesy-communities">maker communities</a> -->
+                </div>
+                <div class="explore__grid-item-right">
+                    <div class="item-right-top">
+                        <div class="item-top-img">
+                            <a href="/blogs/news">
+                                <img class="__mobile" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-hero-mobile.jpg?v=1649179370" alt="upcoming event">
+                                <img class="__desktop" src="{{ section.blocks[0].settings.header_image_middle | image_url: width: 340 }}" alt="upcoming event">
+                                <span class="__desktop explore__link explore__link-bottom">articles - get info & inspo</span>
+                            </a>
+                            <!-- <a class="__desktop explore__link explore__link-bottom" href="https://makesy.com/blogs/news">the blog - projects & inspo</a> -->
+                        </div>
+                        <div class="item-top-content">
+                            <p class="header__subheading __mobile">All your maker resources in one place.</p>
+                            <h1 class="header__heading">{{section.settings.hero_header}}</h1>
+                            <p class="header__subheading">{{section.settings.hero_subheading}}</p>
+                        </div>
+                    </div>
+                    <div class="item-right-bottom __desktop">
+                        <div class="item-bottom-img">
+                            <a href="/blogs/videos">
+                                <img src="{{ section.blocks[0].settings.header_image_right | image_url: width: 730 }}" alt="how-to videos">
+                                <span class="explore__link explore__link-bottom">videos - how to's & business 101</span>
+                            </a>
+                            <!-- <a class="explore__link explore__link-bottom" href="https://makesy.com/blogs/videos">videos - how to's & business 101</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </header>
+    <div class="explore__caorusel-container">
+        <div class="c-carousel" data-override="6" data-scroll="600">
+            <div class="c-carousel-wrap explore__carousel-wrap">
+                <div class="carousel-item-array">
+                    <div class="c-carousel-item">
+                        <!-- <a class="explore__link explore__link-top" href="{{ block.settings.collection_link_url }}">host an event</a> -->
+                        <a class="explore__link explore__link-top" href="https://www.instagram.com/makesyofficial/?hl=en">upcoming events</a>
+                        <a href="https://www.instagram.com/makesyofficial/?hl=en">
+                            <img class="m-carousel-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-carousel-01c.jpg?v=1658429350" alt="collection item">
+                        </a>
+                    </div>
+                    <div class="c-carousel-item">
+                        <a class="explore__link explore__link-top" href="https://makesy.com/pages/makesy-events">host an event</a>
+                        <a href="https://makesy.com/pages/makesy-events">
+                            <img class="m-carousel-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-carousel-02c.jpg?v=1658429350" alt="collection item">
+                        </a>
+                    </div>
+                    <div class="c-carousel-item">
+                        <a class="explore__link explore__link-top" href="https://makesy.com/collections/projects">projects</a>
+                        <a href="https://makesy.com/collections/projects">
+                            <img class="m-carousel-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-carousel-03c.jpg?v=1658429351" alt="collection item">
+                        </a>
+                    </div>
+                    <div class="c-carousel-item">
+                        <a class="explore__link explore__link-top" href="https://makesy.com/collections/diy-kits">diy kits</a>
+                        <a href="https://makesy.com/collections/diy-kits">
+                            <img class="m-carousel-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-carousel-04c.jpg?v=1658429350" alt="collection item">
+                        </a>
+                    </div>
+                    <div class="c-carousel-item">
+                        <a class="explore__link explore__link-top" href="https://makesy.com/pages/makesy-calculators-guides">calculators & guides</a>
+                        <a href="https://makesy.com/pages/makesy-calculators-guides">
+                            <img class="m-carousel-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-carousel-05c.jpg?v=1658429350" alt="collection item">
+                        </a>
+                    </div>
+                    <div class="c-carousel-item">
+                        <a class="explore__link explore__link-top" href="https://makesy.com/pages/makesy-made-better">our mission</a>
+                        <a href="https://makesy.com/pages/makesy-made-better">
+                            <img class="m-carousel-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-carousel-06c.jpg?v=1658429350" alt="collection item">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="c-left-btn">
+                <svg x="0px" y="0px"  viewBox="0 0 16 16" xml:space="preserve">
+                    <path class="top-arm" d="M4.65,7.65l6-6c0,0,0,0,0,0c0.2-0.19,0.51-0.19,0.71,0c0,0,0,0,0,0c0.19,0.2,0.19,0.51,0,0.71
+                        L5.71,8L4.5,8C4.5,7.87,4.55,7.74,4.65,7.65z" />
+                    <path class="bottom-arm" d="M5.71,8l5.65,5.65c0.2,0.2,0.2,0.51,0,0.71c-0.2,0.2-0.51,0.2-0.71,0l-6-6c0,0,0,0,0,0
+                        C4.55,8.25,4.5,8.13,4.5,8L5.71,8z" />
+                        <circle cx="5.11" cy="8" r="0.57"/>
+                </svg>
+            </div>
+            <div class="c-right-btn">
+                <svg x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve">
+                    <path class="top-arm" d="M11.35,7.65l-6-6c0,0,0,0,0,0c-0.2-0.2-0.51-0.19-0.71,0c0,0,0,0,0,0c-0.2,0.2-0.19,0.51,0,0.71
+                        L10.29,8h1.21C11.5,7.87,11.45,7.74,11.35,7.65z" />
+                    <path class="bottom-arm" d="M10.29,8l-5.65,5.65c-0.2,0.2-0.2,0.51,0,0.71s0.51,0.2,0.71,0l6-6c0,0,0,0,0,0
+                        c0.1-0.1,0.15-0.23,0.15-0.35H10.29z" />
+                        <circle cx="10.87" cy="8" r="0.59"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="explore_section-one" id="go-fbCommunity">
+        <div class="explore__container">
+            <header class="explore__section-one-header">
+                <h3 class="header__subheading">
+                    A place to learn, grow, create, explore & collaborate.
+                </h3>
+                <h1 class="header__heading">
+                    join our community.
+                </h1>
+            </header>
+            <div class="explore_one-grid">
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_one-img __desktop" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-04.jpg?v=1649268584" alt="business image">
+                        <img class="section_one-img __mobile" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-01m.jpg?v=1649271273" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">Makers Circle Candle Making</h2>
+                    <p class="grid-item-para">Learn more about how to make anything. </p>
+                    <a href="https://www.facebook.com/groups/makerscirclecandles">join now</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_one-img __desktop" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-02b.gif?v=1658429904" alt="business image">
+                        <img class="section_one-img __mobile" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-02m.jpg?v=1649271273" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">Makers Circle Soap Making</h2>
+                    <p class="grid-item-para">Learn more about how to make anything. </p>
+                    <a href="https://www.facebook.com/groups/makerscirclesoap">join now</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_one-img __desktop" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-03.jpg?v=1649268584" alt="business image">
+                        <img class="section_one-img __mobile" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-03m.jpg?v=1649271273" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">Makers Circle Perfume, Sprays + Body Care</h2>
+                    <p class="grid-item-para">Learn more about how to make anything. </p>
+                    <a href="https://www.facebook.com/groups/makerscirclebodycare/">join now</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_one-img __desktop" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-04b.jpg?v=1658431340" alt="business image">
+                        <img class="section_one-img __mobile" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec1-04m.jpg?v=1649271273" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">Makers Circle Business 101</h2>
+                    <p class="grid-item-para">Learn more about how to make anything. </p>
+                    <a href="https://www.facebook.com/groups/makerscirclebusiness">join now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="explore_section-two" id="go-upcomingEvent"> -->
+    <div class="explore_section-two" id="go-hostEvent">
+        <div class="explore__container">
+            <header class="explore__section-two-header">
+                <h3 class="header__subheading">
+                    Life's a party!
+                </h3>
+                <h1 class="header__heading">
+                    host a virtual making event!
+                </h1>
+                <p>Get your group’s creative juices flowing and build community in a whole new way - experiences never smelled so good! Virtual Making classes and group events can be curated to fit your theme or celebration. We provide all the supplies you need plus a 30 minute virtual tutorial led by one of our Maker Experts.</p>
+                <!-- <a class="section-cta gradient-hover-btn" href="https://makesy.com/pages/makesy-events#booknow">have some fun</a> -->
+                <a class="section-cta gradient-hover-btn" href="/pages/makesy-events">have some fun</a>
+            </header>
+        </div>
+    </div>
+    <div class="explore_section-three" id="go-howTo">
+        <div class="explore__container">
+            <header class="explore__section-three-header">
+                <h3 class="header__subheading">
+                    Learn how to make cool sh*t.
+                </h3>
+                <h1 class="header__heading">
+                    how-to videos.
+                </h1>
+            </header>
+            <div class="explore_section-videos">
+                <div class="explore_section-video">
+                    <div class="explore_section-video-container">
+                        <iframe src="{{section.settings.h-blog1.excerpt}}" frameborder="0" class="section_three-video"></iframe>
+                    </div>
+                    <h3 class="explore_video-title">{{section.settings.h-blog1.title}}</h3>
+                </div>
+                <div class="explore_section-video">
+                    <div class="explore_section-video-container">
+                        <iframe src="{{section.settings.h-blog2.excerpt}}" frameborder="0" class="section_three-video"></iframe>
+                    </div>
+                    <h3 class="explore_video-title">{{section.settings.h-blog2.title}}</h3>
+                </div>
+                <!-- <div class="explore_section-video">
+                    <div class="explore_section-video-img">
+                        <img class="section_one-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-right-video.jpg?v=1647030821" alt="business image">
+                    </div>
+                    <h3 class="explore_video-title">Video Title</h3>
+                </div> -->
+            </div>
+            <a class="section-cta gradient-hover-btn" href="/blogs/videos">watch & learn</a>
+        </div>
+    </div>
+    <!-- <div class="explore_section-four" id="go-hostEvent">
+        <div class="explore__container">
+            <header class="explore__section-four-header">
+                <h3 class="header__subheading">
+                    Life’s a party!
+                </h3>
+                <h1 class="header__heading">
+                    host a virtual making event!
+                </h1>
+                <h3 class="header__subheading">
+                    Get your group’s creative juices flowing and build community in a whole new way - 
+                    experiences never smelled so good! Virtual Making classes and group events can be 
+                    curated to fit your theme or celebration. We provide all the supplies you need 
+                    plus a 30 minute virtual tutorial led by one of our Maker Experts.
+                </h3>
+                <a class="section-cta gradient-hover-btn" href="/pages/makesy-events">learn more</a>
+            </header>
+        </div>
+    </div> -->
+    <div class="explore_section-five" id="go-business101">
+        <div class="explore__container">
+            <header class="explore__section-five-header">
+                <h3 class="header__subheading">
+                    Build your biz with makesy.
+                </h3>
+                <h1 class="header__heading">
+                    magic in the making.
+                </h1>
+            </header>
+            <div class="explore_five-grid">
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_five-img" src="https:{{section.settings.b-blog1.image.src | image_url: width: 1000}}" alt="blog image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.b-blog1.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.b-blog1.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.b-blog1.url}}">read more</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_five-img" src="https:{{section.settings.b-blog2.image.src | image_url: width: 1000}}" alt="blog image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.b-blog2.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.b-blog2.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.b-blog2.url}}">read more</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_five-img" src="https:{{section.settings.b-blog3.image.src | image_url: width: 1000}}" alt="blog image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.b-blog3.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.b-blog3.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.b-blog3.url}}">read more</a>
+                </div>
+            </div>
+            <a class="section-cta gradient-hover-btn" href="/blogs/news">see all</a>
+        </div>
+    </div>
+    <div class="explore_section-six" id="go-makerSpotlight">
+        <div class="explore__container">
+            <header class="explore__section-six-header">
+                <h3 class="header__subheading">
+                    Each month we highlight makers from our community.
+                </h3>
+                <h1 class="header__heading">
+                    meet our makers. 
+                </h1>
+            </header>
+            <div class="explore_six-grid">
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_six-img" src="https:{{section.settings.m-blog1.image.src | image_url: width: 1000}}" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.m-blog1.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.m-blog1.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.m-blog1.url}}">read more</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_six-img" src="https:{{section.settings.m-blog2.image.src | image_url: width: 1000}}" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.m-blog2.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.m-blog2.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.m-blog2.url}}">read more</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_six-img" src="https:{{section.settings.m-blog3.image.src | image_url: width: 1000}}" alt="business image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.m-blog3.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.m-blog3.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.m-blog3.url}}">read more</a>
+                </div>
+            </div>
+            <a class="section-cta gradient-hover-btn" href="/blogs/news/tagged/spotlights">see all</a>
+        </div>
+    </div>
+    
+    <!-- <div class="explore_section-seven" id="go-inspiration">
+        <div class="explore__container">
+            <header class="explore__section-five-header">
+                <h3 class="header__subheading">
+                    Let your imagination run wildddd & free!
+                </h3>
+                <h1 class="header__heading">
+                    inspiration.
+                </h1>
+            </header>
+            <div class="explore_seven-grid">
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_five-img" src="https:{{section.settings.i-blog1.image.src | image_url: width: 1000}}" alt="blog image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.i-blog1.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.i-blog1.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.i-blog1.url}}">read more</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_five-img" src="https:{{section.settings.i-blog2.image.src | image_url: width: 1000}}" alt="blog image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.i-blog2.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.i-blog2.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.i-blog2.url}}">read more</a>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-item-img">
+                        <img class="section_five-img" src="https:{{section.settings.i-blog3.image.src | image_url: width: 1000}}" alt="blog image">
+                    </div>
+                    <h2 class="grid-item-title">{{section.settings.i-blog3.title}}</h2>
+                    <p class="grid-item-para">{{section.settings.i-blog3.excerpt | truncate: 150}}</p>
+                    <a href="{{section.settings.i-blog3.url}}">read more</a>
+                </div>
+            </div>
+            <a class="section-cta gradient-hover-btn" href="/blogs/news/tagged/inspiration">see all</a>
+        </div>
+    </div> -->
+    <div class="explore_section-eight" id="go-calcsGuides">
+        <div class="explore_eight-grid">
+            <div class="grid-item">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-charts-fragrance.jpg?v=1658707500" alt="chart">
+                <div class="content">
+                    <h2>fragrance<br>percentage<br>chart.</h2>
+                    <a class="section-cta gradient-hover-btn" href="/pages/fragrance-percentage-chart">formulate with fragrance</a>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-charts-wax.jpg?v=1658707500" alt="chart">
+                <div class="content">
+                    <h2>wax<br>comparison<br>chart.</h2>
+                    <a class="section-cta gradient-hover-btn" href="/pages/makesy-wax-comparison-chart">weigh your options</a>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-guides-wax.jpg?v=1658707500" alt="guide">
+                <div class="content">
+                    <h2>wax<br>buying<br>guide.</h2>
+                    <a class="section-cta gradient-hover-btn" href="/pages/wax-guide">find your love</a>
+                </div>
+            </div>
+            <div class="grid-item">
+                <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-guides-wick.jpg?v=1658707500" alt="guide">
+                <div class="content">
+                    <h2>wick<br>selection<br>guide.</h2>
+                    <a class="section-cta gradient-hover-btn" href="/pages/makesy-wick-selection-guide">pick your wick</a>
+                </div>
+            </div>
+        </div>
+        <div class="explore_eight-mobile">
+            <div class="swiper mobile-chartsGuides">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                    <div class="grid-item">
+                        <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec8-01.jpg?v=1648802733" alt="chart">
+                        <div class="content">
+                            <h2>fragrance<br>percentage<br>chart.</h2>
+                            <a class="section-cta gradient-hover-btn" href="https://makesy.com/pages/fragrance-percentage-chart?_pos=1&_sid=d6a0d376a&_ss=r">discover now</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="swiper-slide">
+                    <div class="grid-item">
+                        <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec8-01.jpg?v=1648802733" alt="chart">
+                        <div class="content">
+                            <h2>wick<br>selection<br>guide.</h2>
+                            <a class="section-cta gradient-hover-btn" href="https://makesy.com/pages/makesy-wick-selection-guide?_pos=2&_sid=88675c06b&_ss=r">discover now</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="swiper-slide">
+                    <div class="grid-item">
+                        <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec8-01.jpg?v=1648802733" alt="chart">
+                        <div class="content">
+                            <h2>wax<br>buying<br>guide.</h2>
+                            <a class="section-cta gradient-hover-btn" href="https://makesy.com/pages/wax-guide?_pos=1&_sid=fb75369f6&_ss=r">discover now</a>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="swiper-slide">
+                    <div class="grid-item">
+                        <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec8-01.jpg?v=1648802733" alt="chart">
+                        <div class="content">
+                            <h2>wax<br>comparison<br>chart.</h2>
+                            <a class="section-cta gradient-hover-btn" href="https://makesy.com/pages/makesy-wax-comparison-chart?_pos=1&_sid=3a35cc353&_ss=r">discover now</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <div class="explore_section-nine" id="go-story">
+        <div class="explore__container">
+            <div class="explore_nine-grid">
+                <div class="grid-item">
+                    <div class="explore__section-nine-header">
+                        <h3 class="header__subheading">Inspiring</h3>
+                        <h1 class="header__heading">our brand story.</h1>
+                        <h3 class="header__subheading">
+                            Makesy was built for creators like you, by creators like you. We exist with a mindful mission: To elevate, educate, and inspire by providing unique, innovative products and resources to help you succeed.
+                        </h3>
+                        <a class="section-cta gradient-hover-btn" href="/pages/makesy-about-us">meet makesy</a>
+                    </div>
+                </div>
+                <div class="grid-item">
+                    <img class="explore_nine-img" src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec9-01b.jpg?v=1658743741" alt="brand story">
+                </div>
+                <div class="explore_nine-mobile">
+                    <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/explore-sec9-m.jpg?v=1649113463" alt="background">
+                    <div class="explore__section-nine-mobileHeader">
+                        <h3 class="header__subheading">Inspiring</h3>
+                        <h1 class="header__heading">our brand story.</h1>
+                        <h3 class="header__subheading">
+                            Makesy was built for creators like you, by creators like you. We exist with a mindful mission: To elevate, educate, and inspire by providing unique, innovative products and resources to help you succeed.
+                        </h3>
+                        <a class="section-cta gradient-hover-btn" href="/pages/makesy-about-us">meet makesy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% schema %}
+{
+    "name": "Page Explorer Template",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Hero Group Settings"
+        },
+        {
+            "type": "text",
+            "id": "hero_header",
+            "label": "heading",
+            "default": "learn. discover. create. inspire."
+        },
+        {
+            "type": "text",
+            "id": "hero_subheading",
+            "label": "Sub-heading",
+            "default": "Explore wax & wick guides, discover inspiring new projects, learn business tips & tricks, and keep up with exciting Maker news."
+        },
+        {
+            "type": "article",
+            "id": "h-blog1",
+            "label": "How-To video 1"
+        },
+        {
+            "type": "article",
+            "id": "h-blog2",
+            "label": "How-To video 2"
+        },
+        {
+            "type": "article",
+            "id": "b-blog1",
+            "label": "magic blog 1"
+        },
+        {
+            "type": "article",
+            "id": "b-blog2",
+            "label": "magic blog 2"
+        },
+        {
+            "type": "article",
+            "id": "b-blog3",
+            "label": "magic blog 3"
+        },
+        {
+            "type": "article",
+            "id": "m-blog1",
+            "label": "meet maker blog 1"
+        },
+        {
+            "type": "article",
+            "id": "m-blog2",
+            "label": "meet maker blog 2"
+        },
+        {
+            "type": "article",
+            "id": "m-blog3",
+            "label": "meet maker blog 3"
+        }
+    ],
+    "blocks": [
+        {
+            "name": "header", 
+            "type": "image",
+            "settings": [ 
+                {
+                    "type": "image_picker",
+                    "id": "header_image_lft",
+                    "label": "Left Header Image"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "header_image_middle",
+                    "label": "Middle Top Header Image"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "header_image_right",
+                    "label": "Right Bottom Header Image" 
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

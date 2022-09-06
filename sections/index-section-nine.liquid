@@ -1,0 +1,155 @@
+<section class="index__section-nine" id="index__section-nine-{{section.id}}">
+    <div class="index__container">
+        <header class="index__section-nine-header">    
+            <h3 class="header__subheading">{{ section.settings.subheading | escape }}</h3>
+            <h1 class="header__heading">{{ section.settings.title | escape }}</h1>
+        </header>
+        <article class="index__section-nine-article">
+            <div class="index__section-nine-grid">
+                {%- assign block = section.blocks.first -%}
+                {%- case block.type -%}
+                    <!-- Article Not Used Yet -->
+                    {%- when 'article' -%}
+                        {%- for i in (1..3) -%}
+                        {%- assign article_option = 'article_' | append: i -%}
+                        {%- assign article = articles[block.settings[article_option]] -%}
+                            <div class="m-article__item">
+                                <div class="article__img-wrap">
+                                    <img class="m-article__image" src="{{ article.image | img_url: '600x' }}" alt="{{ article.image.alt | escape }}">
+                                </div>
+                                <div class="m-article__content">
+                                    {%- if section.settings.show_category -%}
+                                        <!-- <span class="m-article__tag">{{ article.tags.first }}</span> -->
+                                    {%- endif -%}
+                                    <h2 class="m-article__header">
+                                        <a href="{{ article.url }}">{{ article.title }}</a>
+                                    </h2>
+                                    {%- unless template.name == 'article' -%}
+                                        <p class="m-article__excertp">{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+                                        <a href="{{ article.url }}" class="ArticleItem__Link Link Link--underline">{{ 'article.article.read_more' | t }}</a>
+                                    {%- endunless -%}
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                    {%- when 'blog' -%}
+                        {%- assign blog = blogs[block.settings.blog] -%}
+                        {%- for article in blog.articles limit: 3 -%}
+                            <div class="m-blog__item">
+                                <div class="blog__img-wrap">
+                                    {% if article.image %}
+                                        <img class="m-blog__image" src="{{ article.image | img_url: '600x' }}" alt="{{ article.image.alt | escape }}">
+                                    {% else %}
+                                        <img class="m-blog__image" src="{{ 'makesy-logomark.svg' | asset_url }}" alt="default missing photo">
+                                    {% endif %}
+                                </div>
+                                <div class="m-blog__content">
+                                    {%- if section.settings.show_category -%}
+                                        <!-- <span class="m-blog__tag">{{ article.tags.first }}</span> -->
+                                    {%- endif -%}
+                                    <h2 class="m-blog__header">
+                                        <a href="{{ article.url }}">{{ article.title }}</a>
+                                    </h2>
+                                    
+                                    {%- unless template.name == 'article' -%}
+                                        <p class="m-blog__excertp">{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+                                        <a href="{{ article.url }}" class="blog__link">{{ 'blog.article.read_more' | t }}</a>
+                                    {%- endunless -%}
+                                </div>
+                            </div>
+                        {%- endfor -%}
+                {%- endcase -%}
+            </div>
+            <a href="{{ section.settings.button_link }}" class="section-cta gradient-hover-btn">{{ section.settings.button_text | escape }}</a>
+        </article>
+    </div>
+</section>
+
+
+
+{% schema %}
+{
+  "name": "Index Section Nine",
+  "class": "section-nine",
+  "max_blocks": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "label": "Show article category",
+      "info": "The first article's tag is used as the main category.",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View all articles"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article_1",
+          "label": "Article 1"
+        },
+        {
+          "type": "article",
+          "id": "article_2",
+          "label": "Article 2"
+        },
+        {
+          "type": "article",
+          "id": "article_3",
+          "label": "Article 3"
+        }
+      ]
+    },
+    {
+      "type": "blog",
+      "name": "Blog",
+      "settings": [
+        {
+          "type": "blog",
+          "id": "blog",
+          "label": "Blog"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Blog",
+      "name": "Index Section Nine",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "blog",
+          "settings": {
+            "blog": "news"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

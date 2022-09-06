@@ -1,0 +1,83 @@
+<section id="section-{{ section.id }}" data-section-id="{{ section.id }}" >
+
+    {%- capture text_content -%}
+      <div class="CollectionHero__TextBox Slideshow__Content Slideshow__Content--bottomLeft">
+      {%- if collection.title != blank -%}
+        <h2 class="SectionHeader__Heading SectionHeader__Heading--emphasize Heading u-h1">{{ collection.title | escape }}</h2>
+      {%- endif -%}
+      
+      {%- if collection.description != blank -%}
+        <div class="textblock">{{ collection.description }}</div>
+      {%- endif -%}
+      </div>
+    {%- endcapture -%}
+
+    {%- if collection.image -%}
+      <div class="CollectionHero__ImageContainer" style="background-image: url({{ collection.image | img_url: '1000x' }})">
+          {{- text_content -}}
+      </div>
+    {%- else -%}
+      <div class="CollectionHero__ImageContainer" style="background-image: url({{ 'collection-hero-default-background.jpg' | asset_img_url: '1000x' }})">
+        {{- text_content -}}
+      </div>
+    {%- endif -%}
+
+  <span id="section-{{ section.id }}-end" class="Anchor"></span>
+</section>
+
+<style>
+  #section-{{ section.id }} .Heading,
+   #section-{{ section.id }} .flickity-page-dots {
+    color: {{ section.settings.text_color }};
+  }
+
+  .CollectionHero__ImageContainer {
+    height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .Slideshow__Content--bottomLeft {
+    min-height: auto;
+  }
+  
+  #section-{{ section.id }} .Slideshow__Content {
+    background-color: {{ section.settings.text_box_background_color }};
+  }
+  
+  #section-{{ section.id }} .textblock p {
+    color: {{ section.settings.text_color }};
+  }
+
+  #section-{{ section.id }} .Button {
+    color: {{ section.settings.button_color }};
+  }
+
+</style>
+
+{% schema %}
+{
+  "name": "Collection Hero",
+  "class": "shopify-section--slideshow",
+  "settings": [
+    {
+      "type": "color",
+      "id": "text_box_background_color",
+      "label": "Text / Link Background Color",
+      "default": "#FBC59D"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Link Text",
+      "default": "#111111"
+    }
+  ]
+}
+{% endschema %}

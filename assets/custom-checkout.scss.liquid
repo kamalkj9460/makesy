@@ -1,0 +1,867 @@
+// @DO: custom styles for checkout.liquid
+$breakpoint-xs: 0px;
+$breakpoint-sm: 600px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1440px;
+
+@mixin breakpointMax($size) {
+    @media (max-width: $size) {
+        @content;
+    }
+}
+
+@mixin breakpointMin($size) {
+    @media (min-width: $size) {
+        @content;
+    }
+}
+
+@include breakpointMin($breakpoint-md) {
+    .__mobile {
+        display: none;
+    }
+}
+
+@include breakpointMax(767px) {
+    .__desktop {
+        display: none;
+    }
+}
+
+@font-face {
+    font-family: "GT-Eesti";
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: 0.05em;
+    font-display: fallback;
+    src: url("{{ 'GT-Eesti-Display-Bold-2.otf' | asset_url }}");
+}
+
+@font-face {
+    font-family: "Futura-PT-Light";
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: 0.05em;
+    font-display: fallback;
+    src: url("{{ 'Futura-PT_Light.otf' | asset_url }}");
+}
+
+@font-face {
+    font-family: "Futura-PT-Medium";
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: 0.05em;
+    font-display: fallback;
+    src: url("{{ 'Futura-PT_Medium.otf' | asset_url }}");
+}
+
+
+button.btn {
+    position: relative;
+    display: inline-block;
+    padding: 0px 30px;
+    line-height: normal;
+    border: none;
+    color: #222222;
+    border-radius: 22px;
+    text-transform: lowercase;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: .05em;
+    font-family: 'Futura-PT-Medium';
+    height: 40px;
+    background-color: #EBBAA3;
+    //transition: color .45s cubic-bezier(.785,.135,.15,.86),border .45s cubic-bezier(.785,.135,.15,.86);
+    z-index: 1;
+    -webkit-tap-highlight-color: initial;
+
+    &::before {
+        position: absolute;
+        content: '';
+        display: block;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        transform: scale(0, 1);
+        transform-origin: right center;
+        z-index: -1;
+    }
+
+    &:hover {
+        background: #D58778;
+        color: #ffffff;
+    }
+}
+
+a.step__footer__continue-btn.btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 30px;
+    line-height: normal;
+    border: none;
+    color: #222222;
+    border-radius: 22px;
+    text-transform: lowercase;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: .05em;
+    font-family: 'Futura-PT-Medium';
+    height: 40px;
+    background-color: #EBBAA3;
+}
+
+.floating-labels .field--show-floating-label .field__input {
+    padding-left: 20px;
+    border-radius: 30px;
+    font-size: 14px;
+}
+
+.wrap {
+    min-width: 72%;
+}
+
+.main {
+    font-family: "Futura-PT-Light", sans-serif;
+    letter-spacing: 0.05em;
+    width: 50% !important;
+
+    .breadcrumb {
+
+        .breadcrumb__text {
+            font-size: 14px !important;
+            color: #222222 !important;
+            font-family: 'Futura-PT-Medium';
+        }
+
+        .breadcrumb__item--completed,
+        .breadcrumb__item--current,
+        .breadcrumb__link {
+            font-size: 14px !important;
+        }
+
+        .breadcrumb__item--completed,
+        .breadcrumb__item--current {
+            font-family: "Futura-PT-Light";
+        }
+
+    }
+
+    .logo img {
+        max-width: 75%;
+    }
+
+    label,
+    .step__footer__previous-link-content {
+        font-size: 14px;
+        letter-spacing: .05em;
+    }
+
+    p.layout-flex__item {
+        font-size: 12px;
+        // padding: 0;
+    }
+
+    h2.section__title {
+        font-family: GT-Eesti, sans-serif;
+        font-size: 20px;
+        text-transform: lowercase;
+        color: #222222;
+        letter-spacing: .05em;
+    }
+
+    .field__input {
+        letter-spacing: 0.05em;
+        font-size: 11px;
+        border-radius: 30px;
+        padding-top: 1em;
+        padding-left: 20px;
+
+        ::placeholder {
+            color: #777 !important;
+            margin-top: 25px;
+        }
+    }
+
+    .field__caret {
+        border: 0 !important;
+        display: block;
+        width: 10px;
+        height: 43%;
+        pointer-events: none;
+        position: absolute;
+        top: 65%;
+        right: 9px;
+        background-image: url('https://cdn.shopify.com/s/files/1/0411/8246/2106/files/down-arrow.svg?v=1609804276');
+        background-repeat: no-repeat;
+
+        .icon-svg {
+            display: none;
+        }
+    }
+
+    .content-box {
+        border-radius: 5px;
+    }
+
+    .review-block__label {
+        flex: 0 1 6em;
+        font-size: 14px;
+        letter-spacing: .05em;
+        color: #777777;
+    }
+
+}
+
+.sidebar {
+    font-family: "Futura-PT-Light", sans-serif;
+    letter-spacing: 0.05em;
+    width: 50% !important;
+
+    .product-thumbnail__quantity {
+        padding: 0.085em 0 0 0.1em;
+    }
+
+    .product__description__name {
+        font-family: 'GT-Eesti';
+        font-size: 14px;
+        text-transform: lowercase;
+    }
+
+    .product__description__variant {
+        color: #777;
+        font-size: 13px;
+        letter-spacing: 0.05em;
+    }
+
+    button[disabled] {
+        opacity: 1;
+    }
+
+    .field__input {
+        letter-spacing: 0.05em;
+        font-size: 12px;
+        border-radius: 0;
+        padding-top: 1em;
+
+        ::placeholder {
+            color: #777 !important;
+        }
+    }
+
+    .order-summary__small-text {
+        font-size: 14px;
+        color: #222222 !important;
+        text-transform: lowercase;
+    }
+
+    .payment-due__currency {
+        position: relative;
+        bottom: -2px;
+        margin-right: 4px;
+    }
+
+    .total-line__price,
+    .payment-due__price,
+    .payment-due-label__total {
+        font-family: 'Futura-PT-Medium';
+        letter-spacing: 0.05em;
+    }
+
+}
+
+@media (max-width: 1007px) {
+
+    .main,
+    .sidebar {
+        width: 100% !important;
+    }
+}
+
+
+
+/* WW - Alan Watson - 6/30/2021  */
+/* Lucida Font Update Overrides  */
+
+//Left align logo on desktop checkout
+@media (min-width: 641px) {
+    .main .logo img {
+        margin-left: -100px !important;
+    }
+}
+
+//Checkout breadcrumbs align left
+.breadcrumb--center {
+    justify-content: left !important;
+}
+
+//Contact Information, Email, Address
+.review-block__content {
+    font-size: 14px;
+    letter-spacing: .05em;
+    color: #222222 !important;
+}
+
+.link,
+a {
+    color: #222222;
+    font-size: 11px;
+    color: #777777;
+    letter-spacing: .05em;
+}
+
+//Logged in contact information message
+p.logged-in-customer-information__paragraph {
+    font-size: 11px;
+}
+
+//Shipping Method Error
+.notice__content {
+    font-size: 11px;
+    color: #777777;
+    letter-spacing: .05em;
+}
+
+//Billing Address instructions
+p.section__text {
+    font-size: 11px;
+    letter-spacing: .05em;
+}
+
+//Line Item Price
+span.order-summary__emphasis.skeleton-while-loading {
+    font-size: 14px;
+    color: #222222;
+}
+
+//Thumbnail quantity bubble, right side column
+span.product-thumbnail__quantity {
+    background-color: #EBCCBE;
+    color: #222;
+    font-family: 'Futura-PT-Medium';
+    font-size: 16px;
+}
+
+//Product title / description, add left padding so it's not so close to the thumbnail / quantity bubble
+th.product__description {
+    padding-left: 30px;
+}
+
+//Input box text
+.floating-labels .main .field__label {
+    font-size: 11px;
+    color: #777777;
+    padding-left: 20px;
+}
+
+//Gift cart / discount code label
+.floating-labels .sidebar .field__label {
+    color: #737373;
+    padding-left: 20px;
+}
+
+//Subtotal, Shipping, Taxes
+th.total-line__name {
+    font-size: 14px;
+    letter-spacing: .05em;
+    font-family: 'Futura-PT-Medium';
+    color: #222;
+}
+
+//Discount code input text
+input#checkout_reduction_code {
+    font-size: 11px;
+    border-radius: 30px;
+    padding-left: 20px;
+}
+
+//Discount code button
+.js .sidebar .btn--disabled {
+    /* cursor: default; */
+    background: transparent !important;
+    border: 1px solid #222222;
+    color: #222222 !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+//Footer copyright
+p.copyright-text {
+    font-size: 11px;
+    letter-spacing: .05em;
+    color: #777777;
+}
+
+//Trustpilot star rating
+a.trustpilot {
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    font-size: 14px;
+    margin-top: 20px;
+
+    &:after {
+        content: "\2605\2605\2605\2605\2605";
+        color: #ec9e85;
+        position: relative;
+        right: -6px;
+        width: 66px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+//Discount applies for bulk items
+span.reduction-code__text.skeleton-while-loading--left {
+    font-size: 11px;
+    color: #ff7065;
+}
+
+//Bulk quantity discount override
+.sidebar .icon-svg--color-adaptive-light {
+    color: #ff7065 !important;
+    fill: currentColor;
+}
+
+.no-touchevents .order-summary__section__content {
+    overflow: auto;
+    max-height: 360px;
+}
+
+//Checkout missing field warnings
+.field--error .field__message--error {
+    display: block;
+    font-size: 11px;
+}
+
+//Mobile checkout, hide the extra spce under the navigation links
+@media (max-width: 600px) {
+    .sidebar__content {
+        padding-bottom: 0px !important;
+    }
+}
+
+
+//Order summery divider border
+.order-summary__section.order-summary__section--discount {
+    border-top: .5px solid #EBCCBE !important;
+}
+
+.order-summary__section.order-summary__section--total-lines {
+    border-top: .5px solid #EBCCBE !important;
+}
+
+.order-summary__section--product-list::after {
+    background-color: #EBCCBE !important;
+    height: 0.5px !important;
+}
+
+th.total-line__name.payment-due-label::before {
+    background-color: #EBCCBE !important;
+    height: 0.5px !important;
+}
+
+td.total-line__price.payment-due::before {
+    background-color: #EBCCBE !important;
+    height: 0.5px !important;
+}
+
+//Grand total price
+span.payment-due__price.skeleton-while-loading--lg {
+    font-size: 14px;
+}
+
+//Right sidebar background color
+.sidebar::after {
+    background-color: #F9F7F2 !important;
+}
+
+//Radio checkout checked color
+.input-checkbox:checked,
+.input-radio:checked {
+    border-color: #EC9E85 !important;
+}
+
+
+// Attentive SMS
+// Attentive SMS
+
+.div_container_notice {
+    margin: 9px;
+    font-size: 12px;
+}
+
+.section__content.section__content__attentive {
+    font-family: "Futura-PT-Light";
+    border-radius: 0px;
+    background-color: #ffffff !important;
+    border: none !important;
+    /* padding: 12px; */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 0px !important;
+}
+
+.section__content.section__content__attentive .input-checkbox {
+    background: #fff;
+}
+
+.section__footer__attentive {
+    font-size: 12px !important;
+    font-family: Futura-PT-Light !important;
+    letter-spacing: .05em !important;
+    color: #222222 !important;
+    margin-top: 10px;
+}
+
+.section__footer__attentive a {
+    color: #222222;
+    text-decoration: underline;
+}
+
+.section__footer__attentive b {
+    font-weight: bold;
+}
+
+.checkbox__label.checkbox__label__attentive {
+    cursor: auto;
+    margin-left: 0.75em;
+}
+
+.checkbox__label__attentive__header {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: .05em;
+    text-align: left;
+    color: #333333;
+}
+
+.checkbox__label__attentive__subheader {
+    font-family: 'Futura-PT-Medium';
+    font-size: 14px !important;
+    letter-spacing: .05em !important;
+    color: #222 !important;
+}
+
+.checkbox-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: baseline;
+}
+
+
+
+//ReBuy Checkout Widget
+//Rebuy Checkout Widget
+
+//ReBuy Title Override 
+#rebuy-widget-2106 .super-title {
+    text-align: left !important;
+    margin-bottom: 20px;
+    color: #222 !important;
+    font-size: 20px !important;
+    font-family: GT-Eesti !important;
+    text-transform: lowercase !important;
+    letter-spacing: .05em !important;
+}
+
+//Product Title
+#rebuy-widget-2106 .rebuy-product-info .rebuy-product-title {
+    font-family: 'GT-Eesti' !important;
+    font-size: 14px !important;
+    text-transform: lowercase !important;
+    letter-spacing: .05em !important;
+}
+
+//Product Title
+a.rebuy-product-title {
+    text-transform: uppercase !important;
+    font-family: 'Futura-PT-Medium' !important;
+    font-size: 16px !important;
+    letter-spacing: .05em !important;
+}
+
+//Add to cart button
+#rebuy-widget-2106 .rebuy-button {
+    color: #222 !important;
+    background: #EBBAA3 !important;
+    font-size: 14px !important;
+    font-family: Futura-PT-Medium !important;
+    text-transform: lowercase !important;
+    letter-spacing: .05em !important;
+    border-radius: 22px !important;
+    height: 40px;
+    border: none;
+    padding: 0px 30px;
+}
+
+//Price
+span.rebuy-money {
+    font-size: 14px;
+    color: #222222 !important;
+}
+
+//Product divider line
+#rebuy-widget-2106 .checkout-promotion-product+.checkout-promotion-product,
+#rebuy-widget-2106 .rebuy-product-block+.rebuy-product-block {
+    border-color: #EBCCBE !important;
+    border-width: 0.5px 0 0 0 !important;
+}
+
+//Continue to shipping for afterpay checkout
+.alternative-payment-separator {
+    text-transform: none !important;
+}
+
+.checkout_shipping-times {
+    margin: 10px 0;
+    font-family: Futura-PT-Medium;
+}
+
+/* Priority Processing */
+
+.m-priorityProcessing {
+    margin-top: 32px;
+}
+
+.m-priorityProcessing h1 {
+    font-family: 'GT-Eesti';
+    margin-bottom: 24px;
+}
+
+.m-priorityContainer {
+    display: flex;
+    align-items: center;
+}
+
+.m-priorityContainer img {
+    max-width: 24px;
+}
+
+.m-priorityCopy {
+    margin-left: 28px;
+    width: 100%;
+}
+
+.e-priorityProcessing {
+    font-family: 'Futura-PT-Medium';
+}
+
+.e-priorityCondition a {
+    font-size: 14px;
+    color: #D58778;
+    text-decoration: underline;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.e-priority-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+
+    .e-freePriority {
+        margin-left: 8px;
+        text-decoration: line-through;
+    }
+}
+
+.e-priority-add {
+    border: none;
+    font-size: 14px;
+    color: #D58778;
+    font-family: 'Futura-PT-Medium';
+    white-space: nowrap;
+}
+
+.e-priority-add:before {
+    content: '+'
+}
+
+/* End Priority processing */
+
+/* Maker Pro Upsell */
+.Maker-pro__modal {
+    position: fixed;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: center;
+    top: 50%;
+    left: 50%;
+    justify-content: center;
+    bottom: 1px;
+    margin: 0 auto;
+
+    @include breakpointMax($breakpoint-md) {
+        width: 96%;
+    }
+
+    width: 70%;
+    max-width: 880px;
+    border: 0px solid #1c1b1b;
+    background-color: #fbf6f0;
+    border-radius: 30px;
+    background-color: #fff;
+    z-index: 100;
+    display: table;
+    transition: transform .35s ease-in-out,
+    opacity .25s ease-in-out;
+
+    .Maker-pro__close-modal {
+        display: flex;
+        justify-content: flex-end;
+        cursor: pointer;
+        width: calc(100% - 45px);
+        position: absolute;
+        top: 30px;
+        right: 30px;
+
+        @include breakpointMax($breakpoint-md) {
+            top: 15px;
+            right: 18px;
+        }
+
+        &::after {
+            content: "\2715";
+
+            @include breakpointMax($breakpoint-md) {
+                font-size: 21px;
+            }
+
+            font-size: 25px;
+            line-height: 18px;
+        }
+    }
+
+    .Maker-pro__content {
+        display: flex;
+        align-items: center;
+
+        @include breakpointMax($breakpoint-md) {
+            margin: 35px 16px;
+        }
+
+        margin: 81px 60px;
+    }
+
+    .content-layout {
+        @include breakpointMin(400px) {
+            display: flex;
+        }
+
+        align-items: center;
+        gap: 1rem;
+
+        .content-layout-left {
+            width: 100%;
+            max-width: 340px;
+            border-radius: 30px;
+            overflow: hidden;
+            flex-basis: 85%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            img {
+                @include breakpointMax($breakpoint-sm) {
+                    max-width: 150px;
+                }
+            }
+        }
+
+        .content-layout-right {
+            flex-basis: 100%;
+        }
+
+        h2 {
+            display: block;
+            margin-bottom: 4px;
+            font-family: GT-Eesti;
+            text-transform: lowercase !important;
+            letter-spacing: .05em;
+            font-size: 25px;
+            color: #222;
+            line-height: 23px;
+            padding-bottom: 27px;
+            margin-bottom: 15px;
+            border-bottom: 0.5px solid grey;
+
+            @include breakpointMax($breakpoint-sm) {
+                padding-bottom: 14px;
+            }
+
+        }
+
+        p.Maker-pro__price {
+            font-family: Futura-PT-Medium, sans-serif;
+            font-size: 18px;
+        }
+
+        p.Maker-pro__description {
+            font-family: Futura-PT-Light, sans-serif;
+            color: #777;
+            margin: 24px 0;
+            text-align: left;
+
+            @include breakpointMax($breakpoint-sm) {
+                font-size: 14px;
+                line-height: 21px;
+            }
+
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    .Maker-pro-submit {
+        width: 100%;
+        color: #222;
+        font-size: 16px;
+        text-transform: lowercase;
+        background: #ebbaa3;
+        border-radius: 30px;
+        height: 40px;
+        font-family: Futura-PT-Medium, sans-serif;
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        text-align: center;
+        display: block;
+        cursor: pointer;
+    }
+
+    .Maker-pro__viewProduct {
+        font-family: Futura-PT-Light;
+        display: block;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: underline;
+        text-transform: lowercase;
+        color: #b8695b;
+    }
+}
+
+.Maker-pro__underlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    transform: scale(0);
+    background: linear-gradient(180deg, rgba(184, 105, 91, .8) 0%, rgba(236, 158, 133, .8) 100%);
+    opacity: 0;
+    transition: transform .5s ease-in-out, opacity .6s ease-in-out;
+}
+
+/* End Maker Pro Upsell */

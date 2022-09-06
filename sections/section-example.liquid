@@ -1,0 +1,70 @@
+{% comment %}
+Example of a static section that, when included in a collection page, could display custom content per collection handle.
+There can be as many different block types as needed.
+The condition doesn't necessarily have to be the collection handle,
+but it needs to compare a block setting with an element accesible from on the current page.
+ {% endcomment %}
+
+{% for block in section.blocks %}
+    {% case block.type %}
+        {% when 'element-type-a'%}
+            {% if block.settings.collection == collection.handle %}
+                <span> {{ block.settings.type-a-text}}</span>
+            {% endif %}
+        {% when 'element-type-b'%}
+            {% if block.settings.collection == collection.handle %}
+                <span> {{ block.settings.type-b-text}}</span>
+            {% endif %}
+    {% endcase %}
+{% endfor %}
+
+
+{% schema %}
+{
+	"name": "Campaign Banners Desktop",
+	"settings": [
+        {
+            "id": "general-text",
+            "type": "text",
+            "label": "General Text",
+            "default": "Example Section"
+        }
+  	],
+	"blocks":[
+		{
+			"type": "element-type-a",
+			"name": "Type A Element",
+			"settings": [
+                {
+					"type": "collection",
+					"id": "collection",
+					"label": "Collection"
+				},
+				{
+					"id": "type-a-text",
+					"type": "text",
+					"label": "Custom Text",
+					"default": "Custom Text"
+				}
+            ]
+        },
+        {
+			"type": "element-type-b",
+			"name": "Type B Element",
+			"settings": [
+                {
+					"type": "collection",
+					"id": "collection",
+					"label": "Collection"
+				},
+				{
+					"id": "type-b-text",
+					"type": "text",
+					"label": "Custom Text",
+					"default": "Custom Text"
+				}
+            ]
+        }
+    ]
+}
+{% endschema %}

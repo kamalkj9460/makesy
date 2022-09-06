@@ -1,0 +1,129 @@
+<div class="ProductMeta" data-product-type="{{product.type}}" data-product-tags="{{product.tags}}" data-product-collection-bulk-discount="" >
+  {%- if section.settings.show_vendor and product.vendor != blank -%}
+    <h2 class="ProductMeta__Vendor Heading u-h6">
+      {%- assign vendor_handle = product.vendor | handle -%}
+      {%- assign collection_for_vendor = collections[vendor_handle] -%}
+
+      {%- unless collection_for_vendor.empty? -%}
+        <a href="{{ collection_for_vendor.url }}">{{ product.vendor }}</a>
+      {%- else -%}
+        {{- product.vendor -}}
+      {%- endunless -%}
+    </h2>
+  {%- endif -%}
+
+  <div id="ProductMeta__TitleContainer">
+	  <div class="ProductMeta__TitleContainer--left">
+      <h1 class="ProductMeta__Title Heading u-h2">
+      {%- if template.name == 'product' -%}
+        {{- product.title -}}
+        <img src="" alt="" class="src">
+      {%- else -%}
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      {%- endif -%}
+      </h1>
+    </div>
+    {% for tag in product.tags %}
+        {%- if tag == "functional-fragrance" -%}
+        <a href="/pages/fragrance-and-essential-oil-benefits" target="_blank" style="margin-right: 25px;">
+            <img src="https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png" alt="" style="width: 100%; max-width: 50px; margin-right: 25px;">
+        </a>
+        {%- endif -%}
+    {% endfor %}
+
+    <div class="ProductMeta__TitleContainer--right"> 
+      {%- unless product.type contains '-wicks' -%}
+        <div class="ProductMeta__WishlistBtn">
+            {% render 'swym-product-view', product: product %}
+            <!-- <button 
+                class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                data-swaction="addToWishlist" 
+                data-product-id="{{product.id | json}}">
+            </button> -->
+            <button 
+                data-with-epi="true" 
+                class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" 
+                data-swaction="addToWishlist" 
+                data-product-id="{{product.id | json}}" 
+                data-variant-id="{{product.variants[0].id}}" 
+                data-product-url="{{ shop.url }}{{ product.url }}">
+            </button>
+        </div>
+      {%- endunless -%}
+
+      {%- if section.settings.show_share_buttons -%}
+        <div class="ProductMeta__ShareButtons" {%- if product.type contains '-wicks' -%}style="margin-top: 0"{%- endif -%}>
+
+          {%- assign share_url = shop.url | append: product.url -%}
+          {%- assign pinterest_description = product.description | strip_html | truncatewords: 15 | url_param_escape -%}
+          {%- assign pinterest_image = product.featured_image | img_url: 'large' | prepend: 'https:' -%}
+
+          <div class="ProductMeta__ShareList Text--subdued">
+            <a class="ProductMeta__ShareItem" href="https://pinterest.com/pin/create/button/?url={{ share_url }}{% if pinterest_image != blank %}&media={{ pinterest_image }}{% endif %}&description={{ pinterest_description }}" target="_blank" rel="noopener" aria-label="Pinterest"><img class="ProductMetaTitle__PinItIcon" src="{{ 'pin-it-button.svg' | asset_url }}" /></a>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+
+  {%- if section.settings.show_sku and product.selected_or_first_available_variant.sku != blank -%}
+    <p class="ProductMeta__Sku Heading Text--subdued u-h6">{{ 'product.form.sku' | t }}: <span class="ProductMeta__SkuNumber">{{ product.selected_or_first_available_variant.sku }}</span></p>
+  {%- endif -%}
+
+  {%- if product.template_suffix != 'coming-soon' -%}
+    <div class="ProductMeta__PriceList Heading">
+      {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+        <span class="ProductMeta__Price Price Price--highlight Text--subdued u-h4">{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+        <span class="ProductMeta__Price Price Price--compareAt Text--subdued u-h4">{{ product.selected_or_first_available_variant.compare_at_price | money_without_trailing_zeros }}</span>
+      {%- elsif product.type == "virtual-wicks" or product.type == "virtual-custom-wicks" -%}
+      {%- else -%}
+        <span class="ProductMeta__Price Price Text--subdued u-h4">{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+      {%- endif -%}
+
+	</div>
+
+    <div class="ProductMeta__UnitPriceMeasurement" style="display: {%- if product.selected_or_first_available_variant.unit_price_measurement -%}block{% else %}none{% endif %}">
+      <div class="UnitPriceMeasurement Heading u-h6 Text--subdued">
+        <span class="UnitPriceMeasurement__Price">{{ product.selected_or_first_available_variant.unit_price | money_without_trailing_zeros }}</span>
+        <span class="UnitPriceMeasurement__Separator">/ </span>
+
+        {%- if product.selected_or_first_available_variant.unit_price_measurement.reference_value != 1 -%}
+          <span class="UnitPriceMeasurement__ReferenceValue">{{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}</span>
+        {%- endif -%}
+
+        <span class="UnitPriceMeasurement__ReferenceUnit">{{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_taxes_included -%}
+    {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
+      <p class="ProductMeta__TaxNotice Rte">
+        {%- if shop.taxes_included -%}
+          {{ 'product.general.include_taxes' | t }}
+        {%- endif -%}
+
+        {%- if shop.shipping_policy.body != blank -%}
+          {{ 'product.general.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if show_description and section.settings.description_below_add_to_cart == false -%}
+
+    <div class="ProductMeta__Description">
+      <div class="Rte">
+        {%- comment -%}
+        We have figured out that some merchants were copy-pasting huge chunk of code into the product description,
+        which can make the theme crashes if it contains some special attributes used by the theme. We therefore make sure to process this
+        {%- endcomment -%}
+
+        {{ product.description | replace: 'data-section-type', 'data-section-type-placeholder' | replace: 'ProductMeta__Description', 'ProductMeta__Descriptio' }}
+      </div>
+
+    </div>
+  {%- endif -%}
+  
+</div>

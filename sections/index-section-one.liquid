@@ -1,0 +1,80 @@
+<div class="index__section-one">
+    <div class="index__container">
+        <div class="index__section-one-layout">
+            <p class="index__section-one-para">
+                {% comment %} {{section.settings.top_para}} {% endcomment %}
+            </p>
+            <div class="index__section-one-cards">
+                {% for block in section.blocks %}
+                    <div class="cards__flex">
+                        <img src="{{ block.settings.index_icons | img_url: '97px' }}" alt="icon">
+                        <p>{{block.settings.text-box-title}}</p>
+                        {% if block.settings.show_link %}
+                            <a href="{{block.settings.link}}">learn more</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}    
+            </div> 
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Index Section One",
+    "max_blocks": 6,
+    "settings": [
+        {
+            "id": "top_para",
+            "type": "text",
+            "label": "Heading",
+            "default": "Title",
+            "label": "Icon bar top title paragraph"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "image",
+            "name": "Home Page Icons",
+            "settings": [
+                {
+                    "id": "index_icons",
+                    "type": "image_picker",
+                    "label": "Icon bar below hero"
+                },
+                {
+                    "id": "text-box-title",
+                    "type": "text",
+                    "label": "Heading",
+                    "default": "Title"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "show_link",
+                    "label": "Provide a link",
+                    "default": true
+                  },
+                {
+                    "id": "link",
+                    "type": "url",
+                    "label": "block link"
+                }
+            ]
+        }
+    ],
+    "presets": [
+		{
+			"category": "icons",
+			"name": "index section one",
+            "settings": {
+                "top_para": "Home Page Icons"
+            },
+            "blocks": [
+                {
+                    "type": "image"
+                }
+            ]
+		}
+	]
+}
+{% endschema %}

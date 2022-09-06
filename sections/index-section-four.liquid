@@ -1,0 +1,118 @@
+<section class="index__section-four" id="index__section-{{section.id}}">
+    <div class="index__container">
+        <div class="index__section-four-layout">
+            <header class="index__section-four-header">
+                <h3 class="header__subheading">
+                    {{section.settings.subheading}}
+                </h3>
+                <h1 class="header__heading">
+                    {{section.settings.heading}}
+                </h1>
+            </header>
+            
+            <div class="index__section-four-cards">
+                <div class="cards__grid">
+                    {% for block in section.blocks %}
+                        <div class="cards__grid-item">
+                            <a href="{{block.settings.collection_link_url}}">
+                                <p>{{block.settings.collection_title}}</p>
+                                <div class="grid-item-img">
+                                    {{block.settings.collection_image | img_url: '400x' | img_tag}}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %} 
+                    <div class="cards__grid-item rouge-item">
+                        <h1 class="header__heading">not sure what to make?</h1>
+                        <a href="/pages/explore" class="section-cta gradient-hover-btn">explore</a>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Index Section Four",
+    "class": "section-four",
+    "max_blocks": 15,
+    "settings": [
+    {
+	    "type": "header",
+	    "content": "Collection Group Settings"
+	},
+	{
+	    "type": "text",
+	    "id": "subheading",
+	    "label": "Sub-heading",
+	    "default": "Sub-heading"
+	},
+	{
+	  "type": "text",
+	  "id": "heading",
+	  "label": "Heading",
+	  "default": "Heading"
+	},
+	{
+	  "type": "text",
+	  "id": "link_text",
+	  "label": "Link Text",
+	  "default": "Add the text for this collections's link..."
+	},
+	{
+	  "type": "url",
+	  "id": "link_url",
+	  "label": "Link"
+	}
+  ],
+  "blocks": [
+    {
+      "type": "collection_group",
+      "name": "Collection",
+      "settings": [
+		{
+		  "type": "collection",
+		  "id": "collection",
+		  "label": "Collection"
+		},
+		{
+		  "type": "image_picker",
+		  "id": "collection_image",
+		  "label": "Image",
+		  "info": "290px x 350px .jpg recommended"
+		},
+		{
+		  "type": "text",
+		  "id": "collection_subtitle",
+		  "label": "Sub-Title"
+		},
+		{
+		  "type": "text",
+		  "id": "collection_title",
+		  "label": "Title",
+		  "default": "Title"
+		},
+		{
+		  "type": "url",
+		  "id": "collection_link_url",
+		  "label": "Link"
+		} 
+      ]
+    }
+  ],
+  "presets": [
+    {
+    "name": "index section four",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "collection_group",
+          "settings": {}
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

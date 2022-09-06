@@ -1,0 +1,229 @@
+{%- assign tabs = shop.metafields.collection_tabs -%}
+
+    {%- assign bulk_key = product.type  | handleize | append: '_discount' -%}
+    {%- assign resources_key = product.type | append: '_resources' -%}
+    {% if product.handle contains 'wick' %} 
+        {%- assign bulk_key = 'wicks_discount' -%}
+        {%- assign resources_key = 'wick-kits_resources' -%}
+    {% endif %}
+
+{% assign list_tags_text = "diacetyl-free,Organic,All-Natural,Gluten-Free,Cruelty-Free,Allergen-Free,Sustainably-Made,Biodegradable,Recyclable,Vegan,Carcinogen-Free,Toxin-Free,Mutagen-Free,Phthalate-Free,Paraben-Free, " | split: ',' %} 
+
+
+{% assign made_better_icon = "
+https://cdn.shopify.com/s/files/1/0411/8246/2106/files/organic-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/allergen-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/gluten-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/cruelty-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/allergen-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/sustainably-made-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/biodegradable-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/recyclable-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/vegan-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/diacetyl-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/toxin-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/phthalate-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/mutagen-free-mbi.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/carcinogen-free-mbi.png
+  ,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/paraben-free-mbi.png
+" | split: ',' %}
+
+
+{% assign made_better_desc = "
+<b>organic.</b> Free from pesticides, dyes, chemical fertilizers (ew) & other synthetic additives. Guaranteed.
+<b>all-natural.</b> No synthetic additives, only ingredients from nature. We like it natural :)
+<b>gluten-free.</b> This one's easy ;) Products marked gluten-free do not contain gluten.
+<b>cruelty-free.</b> We do not & will not participate in harming animals. All of our makesy products are cruelty-free, always.
+<b>allergen-free.</b> Sayin' no to common allergens with products free of wheat, gluten, fish or shellfish, egg, soy, peanut or tree nut ingredients or traces.
+<b>sustainably-made.</b> Manufactured using renewable ingredients & practices, like our wooden wicks, which come from FSC Certified mills!
+<b>biodegradable.</b> Can be decomposed naturally by bacteria or other living organisms! How cool?!
+<b>recyclable.</b> Simple. 100% recyclable & eager to be converted into new things ;) In fact, all of our packaging materials are recyclable (at minimum)!
+<b>vegan.</b> Vegan products contain no animal products or animal-derived ingredients. Nada. None. Zero.
+<b>diacetyl-free.</b> Associated with damaging lung function, diacetyl is a flavoring agent. Flavors sold by makesy absolutely, 100% do not contain diacetyl.
+<b>toxin-free.</b> Various categories of toxins can pose adverse health effects from exposure. We're proud to say that our products do not contain reproductive, acute or organ toxins. No way!
+<b>phthalate-free.</b> Phthalates are lil scent carriers that help scents linger longer. Some types of phthalates have affected the reproductive system of laboratory animals. We ain't about that, so none of our fragrances contain phthalates.
+<b>mutagen-free.</b> Chemicals or physical agents that can change our genetic makeup in a harmful way? Nope. Not about it. Exposure to mutagens can produce DNA mutations that contribute to disease, that's why none of our products contain them.
+<b>carcinogen-free.</b> Ingredients on the California Prop 65 list are are known to cause cancer, birth defects or other reproductive harm - no thanks. None of our fragrances require Prop 65 labeling.
+<b>paraben-free.</b> Parabens are a family of related (icky) chemicals that are commonly used as preservatives in cosmetic products. See ya never! Our makesy products are always specially formulated without parabens.  
+" | strip | newline_to_br | strip_newlines | split: "<br />" %}
+
+
+{% assign function_fragrances = "
+https://cdn.shopify.com/s/files/1/0411/8246/2106/files/functional-fragrance.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/emoti.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/clear.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/sani.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/boost.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/linger.png
+,https://cdn.shopify.com/s/files/1/0411/8246/2106/files/repel.png
+"  | split: ','%}
+
+
+{% assign function_fragrances_description = "
+<b>what are functional fragrances?</b> fragrance+ means that the fragrance you're lookin' at was specifically formulated with a function (or multiple) to take it from amazing to out. of. this. world.
+<b>emoti+</b> *Inhale.* *Exhale.* Makesy's emoti+ fragrances have natural fragrance technology known to enhance your mood, energy, and overall sense of well-being
+<b>clear+</b> Say buh-bye to the bad stuff. Fragrance oils with clear+ have been formulated with technology to neutralize odor. Good smells (& good vibes) only.
+<b>sani+</b> Anti-bacterial and anti-viral, when you see sani+, you'll know that it's more than just a fragrance…it's a superstar germ-fighter, too!
+<b>boost+</b> Formulated for a stronger scent throw, boost+ fragrances add that extra *oomph* to carry your fragrance a lil further & make it smell a lil stronger.
+<b>linger+</b> Makesy fragrances that have linger+ technology allow your fragrance oil to have a scent that lasts longer than a standard fragrance (& we mean days longer).
+<b>repel+</b> Fragrance that doens't attract insects, but instead repels them? Sign us up! Keep a look out for our fragrance oils with repel+ technology to keep the bugs at bay!
+" | strip | newline_to_br | strip_newlines | split: "<br />" %}
+
+<!-- Probably remove.. don't think we need -->
+{%- if tabs[bulk_key] -%}
+    {% assign hide = 'style="display:block;"' %}
+{%- endif -%}
+
+
+<!-- Image Links & description for Made Better -->
+{% assign imgs = '' | split: ',' %}
+{% assign content = '' | split: ',' %}
+{% assign k = 0 %}
+{% for src in made_better_icon %}
+    {% for tag in product.tags %}
+        {% assign tag_downcase = tag | downcase %}
+        {% if src contains tag_downcase  %}
+            {% assign desc = made_better_desc[k] | split: "<br />" %}
+            {% assign content = content | concat: desc %}
+            {% assign cdn = src | split: ' ' %}
+            {% assign imgs = imgs | concat: cdn %}
+        {% endif %}
+    {% endfor %} 
+    {% assign k = k | plus:1 %}
+{% endfor %} 
+
+<!-- Bulk Discounts percent and quantiy Arrays -->
+{% assign quantityArr = product.metafields.bulk_discount.quantity | split: ',' %}
+{% assign percentArr = product.metafields.bulk_discount.percent | split: ',' %}
+
+
+<!-- Right Column of PDP product page shows bulk discounts menu only -->
+{% if itemFor == "right_column" and hasBulkDiscounts %}
+    <accordian-nav class="c-accordian__menu PDP__desktop">
+        <div class="accordian__menu_items">
+            <h3 class="menu_item">bulk discounts</h3>
+            <div>
+                {% if product.handle contains 'wick' %}
+                    <p>Buy 10, Receive 10% off for 10 Packs of 1000</p>
+                    <p>Buy 50, Receive 15% off for 50 Packs of 1000</p>
+                {% else %}
+                    {% for quantity in quantityArr %}
+                        {% assign percent = percentArr[forloop.index0] %}
+                        <p>Buy {{quantity}}, Save {{percent}}%</p>
+                    {% endfor %}
+                {% endif %}
+                <p>Discount will automatically apply to qualifying quantities at checkout.</p>
+            </div>
+            <span class="nav_state">
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+    </accordian-nav>
+{% endif %}
+<!-- Left Column of PDP product page shows bulk discounts menu -->
+{% if itemFor != "right_column" %}
+    <accordian-nav class="c-accordian__menu"> 
+        {%- if product.metafields.product.details -%}
+            <div class="accordian__menu_items">
+                <h3 class="menu_item --open">more information</h3>
+                <div class="PDP-more-information">
+                    {{ product.metafields.product.details | newline_to_br }}
+                </div>
+                <span class="nav_state">
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+        {% endif %}
+        <!-- Bulk Discounts -->
+        {% if hasBulkDiscounts %}
+            <div class="accordian__menu_items  PDP__mobile">
+                <h3 class="menu_item">bulk discounts</h3>
+                <div>
+                    <p>
+                        {% if product.handle contains 'wick' %}
+                            <p>Buy 10, Receive 10% off for 10 Packs of 1000</p>
+                            <p>Buy 50, Receive 15% off for 50 Packs of 1000</p> 
+                        {% else %}
+                            {% for quantity in quantityArr %}
+                                {% assign percent = percentArr[forloop.index0] %}
+                                <p>Buy {{quantity}}, Save {{percent}}%</p>
+                            {% endfor %}
+                        {% endif %}
+                        <p>Discount will automatically apply to qualifying quantities at checkout.</p>
+                    </p>
+                </div>
+                <span class="nav_state">
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+        {% endif %}
+        <!-- Helpful rescources -->
+        {%- if tabs[resources_key] -%}
+            <div class="accordian__menu_items">
+                <h3 class="menu_item">helpful resources</h3>
+                <div class="PDP-helpful_resources">
+                    {{ tabs[resources_key] | newline_to_br }}
+                </div>
+                <span class="nav_state">
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+        {%- endif -%}
+        <!-- Functional Fragrance -->
+        {% if product.tags contains "functional-fragrance" %}
+            {% assign index = 0 %}
+            <div class="accordian__menu_items">
+                <h3 class="menu_item">functional fragrance</h3>
+                <div>
+                    {% for src in function_fragrances %}
+                        {% for tag in product.tags %}
+                            {% if src contains tag %}
+                                <div class="PDP-icon-content">
+                                    <a href="/pages/fragrance-and-essential-oil-benefits" target="_blank">
+                                        <img src="{{function_fragrances[index]}}"> 
+                                    </a>
+                                    <p>{{function_fragrances_description[index]}}</p>
+                                </div>
+                                {% assign index = index | plus: 1 %}
+                                {%break%}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <span class="nav_state">
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+        {% endif %}
+        <!-- Made Better -->
+        {% if imgs.size > 0 %}
+            <div class="accordian__menu_items">
+                <h3 class="menu_item">made better</h3>
+                <div class="PDP-made-better">
+                    {% for link in imgs %}
+                        <div class="PDP-icon-content">
+                            <a href="/pages/makesy-made-better" target="_blank">
+                                <img  src="{{link}}"> 
+                            </a>
+                            <p>{{content[forloop.index0]}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <span class="nav_state">
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+        {% endif %}
+    </accordian-nav>
+{% endif %}
+
+<script>
+    var made_better_desc = {{made_better_desc | json}}
+    var made_better_icon = {{made_better_icon | json}}
+</script>

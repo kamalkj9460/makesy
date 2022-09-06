@@ -1,0 +1,19 @@
+<!-- This is used in the top right of the navigation bar "expert support" -->
+<div class="expert-support__menu">
+    <div class="expert-support-wrapper">
+        <ul class="expert-support__list">
+            {% for menus in linklists.expert-support.links %}
+                {% assign menu_title = menus.title | handleize | downcase | strip %}
+                {% if linklists[menu_title].links.size != 0%}
+                    <li id="{{ menu_title }}">
+                        {{ menus.title }}
+                    </li>
+                {% else %}
+                    <li id="{{ menu_title }}" data-url-desk="{{menus.url}}">
+                        {{ menus.title }} 
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>

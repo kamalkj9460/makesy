@@ -1,0 +1,89 @@
+<div class="predictive_container --Mobile">
+    <span class="predictive_btn-back">main menu</span>
+    <accordian-nav class="c-accordian__menu"> 
+        <div class="m-trending_terms accordian__menu_items" {{ block.shopify_attributes }}>
+            <h3 class="menu_item --open">trending terms</h3>
+            <ul>
+                {% for i in (1..16) -%}
+                    {% assign block = section.blocks[i] %}
+                    {% if block.type == 'trending-terms'%}
+                        <li>{{block.settings.trending_terms}}</li>
+                    {% else %}
+                        <li></li>
+                    {% endif %}
+                {%- endfor %}
+            </ul>
+            <span class="nav_state">
+                <span></span>
+                <span></span>
+            </span>  
+        </div>
+        <div class="m-trending_categories accordian__menu_items" {{ block.shopify_attributes }}>
+            <h3 class="menu_item">trending categories</h3>
+            <ul>
+                {% for block in section.blocks %}
+                    {% if block.type == 'trending-category'%}
+                        <a href="{{block.settings.trending_categories_url}}" class="trending_terms_link"><li>{{block.settings.trending_categories}}</li></a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <span class="nav_state">
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div class="m-trending_products accordian__menu_items" {{ block.shopify_attributes }}>
+            <h3 class="menu_item">trending products</h3>
+            <div class="trending_products_wrapper">
+                {% for block in section.blocks %}
+                    {% if block.type == 'trending-products'%}
+                        {% for product in collections['trending-products-for-predictive-search'].products %}
+                            <div class="product_item">
+                                <a href="{{product.url}}">
+                                    <div class="product_item-image">
+                                        <img src={{product.images[0] | img_url: '50x' }} />
+                                    </div>
+                                </a>
+                                <a href="{{product.url}}">
+                                    <p class="product_item_title">{{product.title }}</p>
+                                    <p class="product_item_price">{{product.price | money }}</p>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <span class="nav_state">
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div class="m-trending_articles accordian__menu_items" {{ block.shopify_attributes }}>
+            <h3 class="menu_item">trending articles, videos & guides</h3>
+            <div class="trending_article_wrapper">
+                 <!-- Static Item Went Here-->
+
+                {% for block in section.blocks %}
+                    {% if block.type == 'trending-article'%}
+                        {% assign article = articles[block.settings.trending_article] %}
+                        {% assign content = block.settings.trending_article.content | strip_html | truncate: 65, "..." %}
+    
+                        <div class="article_item">
+                            <a href="/blogs/{{article.handle}}">
+                                <div class="article-content">
+                                    <p class="article_item_title">{{article.title }}</p>
+                                    <p class="article_desc">{{ content }}</p>
+                                    <p class="article_see_more">read more</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        <span class="nav_state">
+            <span></span>
+            <span></span>
+        </span>
+        </div> 
+    </accordian-nav>
+</div>

@@ -1,0 +1,46 @@
+<article class="ArticleItem" {% if block %}{{ block.shopify_attributes }}{% endif %}>
+    {%- if article.excerpt != blank -%}
+        <!-- {%- capture supported_sizes -%}{%- render 'image-size', sizes: '200,400,600,700,800,900,1000,1200', image: article.image -%}{%- endcapture -%}
+        {%- assign image_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%} -->
+
+        <!-- <a class="ArticleItem__ImageWrapper AspectRatio AspectRatio--withFallback" style="padding-bottom: 58%; --aspect-ratio: 1.7" href="{{ article.url }}"> -->
+            <!-- <img class="ArticleItem__Image Image--lazyLoad Image--fadeIn"
+                data-src="{{ image_url }}"
+                data-widths="[{{ supported_sizes }}]"
+                data-sizes="auto"
+                alt="{{ article.image.alt | escape }}"
+            >
+            <noscript>
+                <img class="ArticleItem__Image" src="{{ article.image | img_url: '600x' }}" alt="{{ article.image.alt | escape }}">
+            </noscript> -->
+            <!-- <iframe class="ArticleItem__Image Image--lazyLoad Image--fadeIn" src="{{ article.excerpt }}" title="video" frameborder="0" loading="lazy"></iframe> -->
+        <!-- </a> -->
+        <div class="e-videos-vidContainer">
+            <iframe class="e-videos-vid" src="{{ article.excerpt }}" title="video" frameborder="0" loading="lazy"></iframe>
+        </div>
+    {% else %}
+        <a class="ArticleItem__ImageWrapper AspectRatio AspectRatio--withFallback" style="padding-bottom: 58%; --aspect-ratio: 1.7" href="{{ article.url }}">
+            <img class="ArticleItem__Image Image--lazyLoad Image--fadeIn" 
+                src="{{ 'makesy-logomark.svg' | asset_url }}" 
+                alt="default missing photo"
+                data-widths="[{{ supported_sizes }}]"
+                data-sizes="auto"
+            >
+        </a>
+  {%- endif -%}
+
+  <div class="ArticleItem__Content">
+    {%- if section.settings.show_category -%}
+      <span class="ArticleItem__Category Heading u-h6 Text--subdued">{{ article.tags.first }}</span>
+    {%- endif -%}
+
+    <h2 class="ArticleItem__Title Heading u-h2 FuturaMedium">
+      <a href="{{ article.url }}">{{ article.title }}</a>
+    </h2>
+
+    {%- unless template.name == 'article' -%}
+      <p class="ArticleItem__Excerpt FuturaLight">{{ article.content | strip_html | truncate: 150 }}</p>
+      <a href="{{ article.url }}" class="ArticleItem__Link Link Link--underline FuturaMedium ToLowerCase">see more</a>
+    {%- endunless -%}
+  </div>
+</article>
